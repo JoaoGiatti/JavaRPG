@@ -1,5 +1,7 @@
 package com.rpg.personagem;
 
+import com.rpg.inventario.Inventario;
+
 public class Guerreiro extends Personagem{
 
     public void Guerreiro(String nome) throws Exception {

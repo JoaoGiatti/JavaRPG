@@ -1,5 +1,7 @@
 package com.rpg.personagem;
 
+import com.rpg.inventario.Inventario;
+
 public class Mago extends Personagem{
     public void Mago(String nome) throws Exception {
         this.setNome(nome);

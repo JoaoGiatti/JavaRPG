@@ -1,5 +1,7 @@
 package com.rpg.personagem;
 
+import com.rpg.inventario.Inventario;
+
 public class Personagem {
     private String nome;
     private int pontosVida;
