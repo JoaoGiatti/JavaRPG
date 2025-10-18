@@ -3,38 +3,44 @@ package com.rpg.inventario;
 public class Inventario {
 
     private Item item;
-    private int quantidade;
 
-    public Inventario(Item item, int quantidade) {
+    public Inventario(Item item) {
         this.item = item;
-        this.quantidade = quantidade;
     }
+
     public Item getItem() { return this.item; }
-    public int getQuantidade() { return this.quantidade; }
 
-    public void adicionarItem(Item item, int quantidade) {
+    public void adicionarItem(Item novoItem) throws Exception {
+        if (this.item == null) this.item = novoItem;
+        int novaQtd = this.item.getQuantidade() + novoItem.getQuantidade();
+        this.item.setQuantidade(novaQtd);
+    }
+
+    public void removeItem(int qtd) throws Exception {
+        if (this.item == null) throw new Exception("Inventário vazio");
+
+        int qtdAtual = this.item.getQuantidade();
+
+        if (qtd > qtdAtual)  throw new Exception("Quantidade a remover é maior que a existente");
+
+        this.item.setQuantidade(qtdAtual - qtd);
+
+        if (this.item.getQuantidade() == 0)
+            this.item = null;
+    }
+
+    public void listarInventario() {
         if (this.item == null) {
-            this.item = item;
-            this.quantidade = 1;
+            System.out.println("Inventário vazio");
+        } else {
+            System.out.println(this.item.getNome() + " (" + this.item.getQuantidade() + ")");
         }
-        this.quantidade += 1;
     }
 
-    public void removeItem(Item item, int quantidade) throws Exception {
-        if(this.quantidade == 0) throw new Exception("Item não encontrado");
-        this.quantidade -= 1;
-    }
-
-    public void listarInventario(Item item, int quantidade) {
-        item = this.item;
-        quantidade = this.quantidade;
-        System.out.println(item + " (" + quantidade + ")");
-    }
-
-    @Override
     public String toString() {
-        return "Item: " + this.item.toString() +
-                "\nQuantidade: " + this.quantidade;
+        return (this.item == null)
+                ? "Inventário vazio"
+                : this.item.toString();
     }
 
     @Override
@@ -50,7 +56,6 @@ public class Inventario {
     public int hashCode() {
         int ret = 1;
         ret = ret * 2 + this.item.hashCode();
-        ret = ret * 2 + ((Integer)this.quantidade).hashCode();
         if(ret < 0) ret = -ret;
         return ret;
     }
@@ -58,8 +63,13 @@ public class Inventario {
     //contrutor de cópia
     public Inventario (Inventario modelo) throws Exception {
         if (modelo == null) throw new Exception("Modelo ausente");
-        this.item = modelo.item;
-        this.quantidade = modelo.quantidade;
+        if (modelo.item != null)
+            this.item = new Item(
+                    modelo.item.getNome(),
+                    modelo.item.getDescricao(),
+                    modelo.item.getEfeito(),
+                    modelo.item.getQuantidade()
+            );
     }
 
     @Override
