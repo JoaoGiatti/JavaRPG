@@ -9,7 +9,8 @@ public abstract class Personagem implements Cloneable {
     protected int ataque;
     protected int defesa;
     protected int nivel;
-    public Inventario inventario;
+    protected Inventario inventario;
+    RolagemDeDados rolagem;
 
     public Personagem(String nome, int pontosVida, int ataque, int defesa) {
         this.nome = nome;
@@ -19,7 +20,6 @@ public abstract class Personagem implements Cloneable {
         this.nivel = 1;
         this.inventario = new Inventario();
     }
-
 
     public boolean estaVivo() { return pontosVida > 0; }
 
@@ -39,6 +39,42 @@ public abstract class Personagem implements Cloneable {
             System.out.println(this.nome + " não penetrou a defesa de " + alvo.nome + " (rolou " + rolagem + ").");
         }
     }
+
+    public void defender(Inimigo inimigo) {
+        int resultado = rolagem.rolar();
+        int danoRecebido = 0;
+        int dano = inimigo.ataque;
+
+        if (resultado >= 18) {
+            int defesa = (int) (this.defesa * 1.5);
+            danoRecebido = dano - defesa;
+            System.out.println(this.nome + " conseguiu se defender! Sofreu " + danoRecebido + " de dano.");
+        }
+        else if (resultado >= 14) {
+            int defesa = (int) (this.defesa * 1.2);
+            danoRecebido = dano - defesa;
+            System.out.println(this.nome + " defendeu parcialmente. Sofreu " + danoRecebido + " de dano.");
+        }
+        else if (resultado >= 10) {
+            int defesa = (int) (this.defesa * 0.5);
+            danoRecebido = dano - defesa;
+            System.out.println(this.nome + " se defendeu, mas ainda levou um bom dano! Dano: " + danoRecebido);
+        }
+        else if (resultado >= 5) {
+            int defesa = (int) (this.defesa * 0.2);
+            danoRecebido = dano - defesa;
+            System.out.println(this.nome + " falhou na defesa! Sofreu dano total de " + danoRecebido);
+        }
+        else {
+            danoRecebido = inimigo.ataque + 5;
+            System.out.println(this.nome + " falhou completamente na defesa e foi atingido em cheio! Dano: " + danoRecebido);
+        }
+
+        this.pontosVida -= danoRecebido;
+
+        if (this.pontosVida < 0) this.pontosVida = 0;
+    }
+
 
     public String getNome() { return nome; }
 
