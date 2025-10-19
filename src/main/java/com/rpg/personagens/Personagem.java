@@ -1,76 +1,48 @@
 package com.rpg.personagens;
 
 import com.rpg.inventario.Inventario;
+import com.rpg.dados.RolagemDeDados;
 
-public class Personagem {
-    private String nome;
-    private int pontosVida;
-    private int ataque;
-    private int defesa;
-    private int nivel;
-    private Inventario inventario;
+public abstract class Personagem implements Cloneable {
+    protected String nome;
+    protected int pontosVida;
+    protected int ataque;
+    protected int defesa;
+    protected int nivel;
+    protected Inventario inventario;
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
+    public Personagem(String nome, int pontosVida, int ataque, int defesa) {
         this.nome = nome;
+        this.pontosVida = pontosVida;
+        this.ataque = ataque;
+        this.defesa = defesa;
+        this.nivel = 1;
+        this.inventario = new Inventario();
     }
 
-    public int getPontosVida() {
-        return pontosVida;
+    public boolean estaVivo() { return pontosVida > 0; }
+
+    public void sofrerDano(int dano) {
+        this.pontosVida -= dano;
+        if (this.pontosVida < 0) this.pontosVida = 0;
     }
 
-    public void setPontosVida(int pontosVida) throws Exception {
-        if(pontosVida <= 100 && pontosVida > 0){
-            this.pontosVida = pontosVida;
-        } else{
-            throw new Exception("Valor de PV inválido");
+    public void atacar(Personagem alvo) {
+        RolagemDeDados dado = new RolagemDeDados();
+        int rolagem = dado.rolar();
+        int dano = this.ataque + rolagem - alvo.defesa;
+        if (dano > 0) {
+            alvo.sofrerDano(dano);
+            System.out.println(this.nome + " causou " + dano + " em " + alvo.nome + " (rolou " + rolagem + ").");
+        } else {
+            System.out.println(this.nome + " não penetrou a defesa de " + alvo.nome + " (rolou " + rolagem + ").");
         }
     }
 
-    public int getAtaque() {
-        return ataque;
-    }
+    public String getNome() { return nome; }
 
-    public void setAtaque(int ataque) throws Exception {
-        if(ataque >= 0){
-            this.ataque = ataque;
-        } else{
-            throw new Exception("Valor de ATK negativo");
-        }
-    }
-
-    public int getDefesa() {
-        return defesa;
-    }
-
-    public void setDefesa(int defesa) throws Exception{
-        if(defesa >= 0){
-            this.defesa = defesa;
-        } else{
-            throw new Exception("Valor de DEF negativo");
-        }
-    }
-
-    public int getNivel() {
-        return nivel;
-    }
-
-    public void setNivel(int nivel) throws Exception {
-        if(nivel >= 0){
-            this.nivel = nivel;
-        } else{
-            throw new Exception("Valor de NVL negativo");
-        }
-    }
-
-    public Inventario getInventario() {
-        return inventario;
-    }
-
-    public void setInventario(Inventario inventario) {
-        this.inventario = inventario;
+    @Override
+    public String toString() {
+        return nome + " (HP: " + pontosVida + ", Atk: " + ataque + ", Def: " + defesa + ")";
     }
 }

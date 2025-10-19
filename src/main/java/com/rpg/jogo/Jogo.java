@@ -8,6 +8,6 @@ public class Jogo {
     RolagemDeDados dado = new RolagemDeDados();
 
     public void iniciarJogo() {
-        
+
     }
 }
