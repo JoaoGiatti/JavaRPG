@@ -8,7 +8,7 @@ public class Main {
 
         System.out.println("\nVAMOS COMEÇAR!");
         try{
-            jogar.iniciarJogo();
+            jogar.iniciar();
         } catch (Exception e){}
     }
 }

@@ -96,5 +96,4 @@ public class Inventario implements Cloneable {
     public int hashCode() {
         return (this.item == null) ? 0 : this.item.hashCode();
     }
-
 }

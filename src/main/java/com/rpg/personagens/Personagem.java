@@ -9,7 +9,7 @@ public abstract class Personagem implements Cloneable {
     protected int ataque;
     protected int defesa;
     protected int nivel;
-    protected Inventario inventario;
+    public Inventario inventario;
 
     public Personagem(String nome, int pontosVida, int ataque, int defesa) {
         this.nome = nome;
@@ -19,6 +19,7 @@ public abstract class Personagem implements Cloneable {
         this.nivel = 1;
         this.inventario = new Inventario();
     }
+
 
     public boolean estaVivo() { return pontosVida > 0; }
 
