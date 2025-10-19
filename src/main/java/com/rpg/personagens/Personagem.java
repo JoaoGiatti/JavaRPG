@@ -1,4 +1,4 @@
-package com.rpg.personagem;
+package com.rpg.personagens;
 
 import com.rpg.inventario.Inventario;
 
