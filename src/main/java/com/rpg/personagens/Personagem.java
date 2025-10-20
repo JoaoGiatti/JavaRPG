@@ -4,12 +4,12 @@ import com.rpg.inventario.Inventario;
 import com.rpg.dados.RolagemDeDados;
 
 public abstract class Personagem implements Cloneable {
-    protected String nome;
-    protected int pontosVida;
-    protected int ataque;
-    protected int defesa;
-    protected int nivel;
-    protected Inventario inventario;
+    public String nome;
+    public int pontosVida;
+    public int ataque;
+    public int defesa;
+    public int nivel;
+    public Inventario inventario;
     RolagemDeDados rolagem;
 
     public Personagem(String nome, int pontosVida, int ataque, int defesa) {

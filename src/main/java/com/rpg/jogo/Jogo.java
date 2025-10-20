@@ -2,6 +2,7 @@ package com.rpg.jogo;
 
 import com.rpg.dados.RolagemDeDados;
 import com.rpg.inventario.Inventario;
+import com.rpg.inventario.Item;
 import com.rpg.personagens.Arqueiro;
 import com.rpg.personagens.Guerreiro;
 import com.rpg.personagens.Mago;
@@ -12,6 +13,7 @@ public class Jogo {
     private Scanner sc = new Scanner(System.in);
     private Personagem jogador;
     private int progressao = 0;
+    public int opcao = 0;
 
     public void iniciar() {
         System.out.println("Bem-vindo ao RPG de Texto!");
@@ -20,7 +22,7 @@ public class Jogo {
 
         System.out.println("Escolha sua classe:");
         System.out.println("1. Guerreiro\n2. Mago\n3. Arqueiro");
-        int opcao = sc.nextInt();
+        opcao = sc.nextInt(); // adicionar exception para opções que não sejam 1, 2 e 3
         sc.nextLine();
 
         switch (opcao) {
@@ -47,20 +49,35 @@ public class Jogo {
             switch (escolha) {
                 case 1 -> explorar(progressao);
                 case 2 -> usarItem();
-                case 3 -> jogador.inventario.listarItens();
+                case 3 -> jogador.inventario.listarItens(); // criar metodo do inventario
                 case 4 -> { System.out.println("Saindo..."); return; }
             }
 
             progressao++;
+            // subir nivel do usuario
         }
         System.out.println("Você morreu... Fim de jogo.");
     }
 
-    private void explorar(int progressao) {
+    private void explorar(int progressao) throws Exception {
 
         switch (progressao) {
             case 0 -> {
-                System.out.print(jogador.getNome() + " ");
+                System.out.print(jogador.getNome() +
+                        " abre os olhos... Não se lembra de nada. \n" +
+                        "Ao olhar ao redor, tudo está escuro, mas por sorte acha uma tocha e uma pederneira.\n" +
+                        "Acende a tocha e sua luz lhe trás memórias, algo urge em sua mente...\n" +
+                        "Gritos, sangue, seu propósito... Mas nada está claro ainda\n");
+                if(opcao == 1){
+                    System.out.print("Em seu lado, há uma espada, com seu nome cravado"+ jogador.getNome() + " à empunha.");
+                    Item espadaDeFerro = new Item("EspadaDeFerro", "Uma Espada esnferrujada e velha", "Causa 5 de dano físico", 1);
+                    jogador.inventario.adicionarItem(espadaDeFerro);
+                } else if (opcao == 2) {
+                    // fazer o resto ai :)
+                } else if (opcao == 3) {
+                    // fazer o resto ai :)
+                }
+
                 int evento = new Random().nextInt(3);
                 if (evento == 0) {
                     System.out.println("Você encontrou um inimigo!");
@@ -74,7 +91,7 @@ public class Jogo {
                 }
             }
             case 1 -> {
-
+                // progressão 1 - inimigos mais fortes, itens mais raros... AQUI É ONDE A PROGRESSÃO DA HISTORIA É FEITA
             }
         }
     }
