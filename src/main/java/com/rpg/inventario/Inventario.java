@@ -61,7 +61,7 @@ public class Inventario implements Cloneable {
             this.item = null;
     }
 
-    public void listarInventario() {
+    public void listarItens() {
         if (this.item == null)
             System.out.println("Inventário vazio");
         else

@@ -2,6 +2,9 @@ package com.rpg.personagens;
 
 import com.rpg.inventario.Inventario;
 import com.rpg.dados.RolagemDeDados;
+import com.rpg.jogo.Jogo;
+
+import java.util.Scanner;
 
 public abstract class Personagem implements Cloneable {
     public String nome;
@@ -11,6 +14,8 @@ public abstract class Personagem implements Cloneable {
     public int nivel;
     public Inventario inventario;
     RolagemDeDados rolagem;
+    Jogo jogo;
+    Scanner sc = new Scanner(System.in);
 
     public Personagem(String nome, int pontosVida, int ataque, int defesa) {
         this.nome = nome;
@@ -22,6 +27,21 @@ public abstract class Personagem implements Cloneable {
     }
 
     public boolean estaVivo() { return pontosVida > 0; }
+
+    public void estaMorto(Personagem jogador, Inimigo inimigo) {
+        System.out.println("========== VOCÊ MORREU ==========\n" +
+                "    [1] - Tentar novamente\n" +
+                "    [2] - Sair\n");
+        System.out.print("Escolha sua opção: ");
+        int resp = sc.nextInt();
+        sc.nextLine();
+        if(resp == 1) jogo.batalhar(jogador, inimigo);
+        else if(resp == 2) System.out.println("Saindo...");
+        else {
+            System.out.println("Número inválido! Digite novamente.");
+            estaMorto(jogador, inimigo);
+        }
+    }
 
     public void sofrerDano(int dano) {
         this.pontosVida -= dano;
