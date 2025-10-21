@@ -35,7 +35,11 @@ public abstract class Personagem implements Cloneable {
         System.out.print("Escolha sua opção: ");
         int resp = sc.nextInt();
         sc.nextLine();
-        if(resp == 1) jogo.batalhar(jogador, inimigo);
+        if(resp == 1) {
+            jogador.pontosVida = 100;
+            jogador.estaVivo();
+            jogo.batalhar(jogador, inimigo);
+        }
         else if(resp == 2) System.out.println("Saindo...");
         else {
             System.out.println("Número inválido! Digite novamente.");

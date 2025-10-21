@@ -30,7 +30,14 @@ public class Inventario implements Cloneable {
         }
     }
 
-    //public Item getItem() { return this.item; }
+    public Item getItem(String nome) {
+        for (Item item : itens) {
+            if (item.getNome().equalsIgnoreCase(nome)) {
+                return item;
+            }
+        }
+        return null;
+    }
 
     public void adicionarItem(Item novoItem) throws Exception {
         if (novoItem == null)

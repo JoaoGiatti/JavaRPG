@@ -64,7 +64,7 @@ public class Jogo {
                 e.printStackTrace();
             }
         }
-        System.out.println("Você morreu... Fim de jogo.");
+        jogador.estaMorto(jogador, inimigo);
     }
 
     private void explorar(int progressao) throws Exception {
@@ -93,7 +93,7 @@ public class Jogo {
                 }
 
                 System.out.println("Leva consigo, pois algo lhe diz que vai precisar.\n" +
-                        "Você continua andando, buscando uma saída, até que...\n");
+                        "Continua andando, buscando uma saída, até que...\n");
 
                 //  ----------- ROLAGEM DE DADO ----------
 
@@ -115,35 +115,52 @@ public class Jogo {
                 }
             }
             case 1 -> {
-                //  ----------- CONTEXTO DA PROGRESSÃO ----------
-                System.out.print(jogador.getNome() +
-                        " enxerga uma luz no final da caverna, e se aproxima dela\n" +
-                        "Esfrega os olhos, estica as pernas e ao fundo, ouve gritos de desespero.\n" +
-                        "Correr em direção ao barulho?\n");
+                boolean repetir = true;
+                while (repetir) {
+                    System.out.print("Segue seu caminho, e, de repente " +
+                            jogador.getNome() +
+                            " enxerga uma luz no final daquele lugar escuro em que estava, e se aproxima dela.\n" +
+                            "Esfrega os olhos, estica as pernas e finalmente sai daquela caverna.\n" +
+                            "Porém, ao sair, ouve um barulho diferente ao fundo.\n" +
+                            "Correr em direção ao barulho?\n" +
+                            "   [1] - Sim\n" +
+                            "   [2] - Não\n");
 
-                int escolha = sc.nextInt();
-                sc.nextLine();
+                    int escolha = sc.nextInt();
+                    sc.nextLine();
 
-                //  ----------- ROLAGEM DE DADO ----------
+                    if (escolha == 1) {
+                        System.out.print(jogador.getNome() + " corre em direção ao barulho.\n" +
+                                "Quando consegue alcançar, percebe que são gritos de socorro!\n" +
+                                "Uma pessoa está sendo atacada por um lobo-cinzento, o lobo mais forte entre os lobos.\n" +
+                                "Você sente que precisa ajudar ela... E você tenta...\n");
+                        rolagem.simulacao(jogador);
+                        int evento = rolagem.rolar();
+                        System.out.println("RESULTADO DO D20: " + evento);
 
-                rolagem.simulacao(jogador);
-                int evento = rolagem.rolar();
-                System.out.println("RESULTADO DO D20: " + evento);
-
-                // //  ----------- EVENTOS ----------
-
-                if (evento >= 15) {
-                    System.out.println("Você encontrou uma poção!");
-                    jogador.inventario.adicionarItem(new Item("Poção de Cura", "CURA", 10, 1));
-                } else if (evento >= 8) {
-                    System.out.println("Você encontrou um inimigo!");
-                    batalhar(jogador, new Inimigo("Goblin", 40, 8, 5));
-                } else {
-                    System.out.println("Você caiu numa armadilha! Perdeu 10 de HP!");
-                    jogador.sofrerDano(10);
+                        if (evento >= 15) {
+                            System.out.println("Você conseguiu espantar o lobo e salvou a pessoa em perigo!\n");
+                        } else if (evento >= 8) {
+                            System.out.println("O lobo percebeu que estava lá, mas continuou atacando a pessoa.");
+                            batalhar(jogador, new Inimigo("Lobo", 55, 16, 8));
+                        } else {
+                            System.out.println("Você destraiu o lobo... mas agora ele está indo em sua direção...");
+                            jogador.sofrerDano(10);
+                        }
+                        repetir = false;
+                    }
+                    else if (escolha == 2) {
+                        System.out.println("Você finge que não ouviu, pensa que era coisa da sua cabeça,\n" +
+                                "podia ser até mesmo o canto de um pássaro...\n" +
+                                "Então, você olha ao redor e...");
+                        repetir = false;
+                    }
+                    else {
+                        System.out.println("Número inválido! Retornando...\n");
+                    }
                 }
-
             }
+
             default -> {
                 System.err.println("Algo deu errado na progressão!");
             }
