@@ -1,78 +1,84 @@
 package com.rpg.inventario;
 
+import java.util.*;
+
 public class Inventario implements Cloneable {
 
-    private Item item;
+    private List<Item> itens;
 
     public Inventario() {
-        this.item = null;
+        this.itens = new ArrayList<>();
     }
 
-    public Inventario(Item item) {
-        this.item = item;
+    public Inventario(List<Item> itens) {
+        this.itens = itens;
     }
 
-    public Inventario(Inventario modelo) throws Exception {
-        if (modelo == null)
-            throw new Exception("Modelo ausente");
+    public Inventario (Inventario modelo) throws Exception {
+        if (modelo == null) throw new Exception("Modelo ausente");
 
-        if (modelo.item != null)
-            this.item = new Item(
-                    modelo.item.getNome(),
-                    modelo.item.getDescricao(),
-                    modelo.item.getEfeito(),
-                    modelo.item.getQuantidade()
-            );
+        this.itens = new ArrayList<>();
+        if (modelo.itens != null) {
+            for (Item item : modelo.itens) {
+                this.itens.add(new Item(
+                        item.getNome(),
+                        item.getTipo(),
+                        item.getValor(),
+                        item.getQuantidade()
+                ));
+            }
+        }
     }
 
-    public Item getItem() {
-        return this.item;
-    }
+    //public Item getItem() { return this.item; }
 
     public void adicionarItem(Item novoItem) throws Exception {
         if (novoItem == null)
             throw new Exception("Item inválido");
 
-        if (this.item == null) {
-            this.item = novoItem;
-            return;
+        // Se o item já existe no inventário, soma a quantidade
+        for (Item item : itens) {
+            if (item.getNome().equalsIgnoreCase(novoItem.getNome())) {
+                item.setQuantidade(item.getQuantidade() + novoItem.getQuantidade());
+                return;
+            }
         }
 
-        if (this.item.equals(novoItem)) {
-            int novaQtd = this.item.getQuantidade() + novoItem.getQuantidade();
-            this.item.setQuantidade(novaQtd);
-        } else {
-            throw new Exception("O inventário suporta apenas um tipo de item por enquanto");
-        }
+        // Caso contrário, adiciona como novo
+        itens.add(novoItem);
     }
 
-    public void removeItem(int qtd) throws Exception {
-        if (this.item == null)
+    public void removeItem(String nome, int qtd) throws Exception {
+        if (this.itens == null)
             throw new Exception("Inventário vazio");
 
-        int qtdAtual = this.item.getQuantidade();
-
-        if (qtd > qtdAtual)
-            throw new Exception("Quantidade a remover é maior que a existente");
-
-        this.item.setQuantidade(qtdAtual - qtd);
-
-        if (this.item.getQuantidade() == 0)
-            this.item = null;
+        for (Item item : itens) {
+            if (item.getNome().equalsIgnoreCase(nome)) {
+                if (qtd > item.getQuantidade()) throw new Exception("Quantidade a remover é maior que a existente");
+                item.setQuantidade(item.getQuantidade() - qtd);
+                if (item.getQuantidade() == 0) itens.remove(item);
+                return;
+            }
+        }
     }
 
     public void listarItens() {
-        if (this.item == null)
+        if (itens.isEmpty()) {
             System.out.println("Inventário vazio");
-        else
-            System.out.println(this.item.getNome() + " (" + this.item.getQuantidade() + ")");
+            return;
+        }
+
+        System.out.println("      Inventário:");
+        for (Item item : itens) {
+            System.out.println("        - " + item.getNome() + " (" + item.getQuantidade() + ")");
+        }
     }
 
     @Override
     public String toString() {
-        return (this.item == null)
+        return (this.itens == null)
                 ? "Inventário vazio"
-                : this.item.toString();
+                : this.itens.toString();
     }
 
     @Override
@@ -84,16 +90,16 @@ public class Inventario implements Cloneable {
 
         Inventario i = (Inventario) obj;
 
-        if (this.item == null && i.item == null)
+        if (this.itens == null && i.itens == null)
             return true;
-        if (this.item == null || i.item == null)
+        if (this.itens == null || i.itens == null)
             return false;
 
-        return this.item.equals(i.item);
+        return this.itens.equals(i.itens);
     }
 
     @Override
     public int hashCode() {
-        return (this.item == null) ? 0 : this.item.hashCode();
+        return (this.itens == null) ? 0 : this.itens.hashCode();
     }
 }

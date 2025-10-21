@@ -10,7 +10,7 @@ public class Jogo {
     private Scanner sc = new Scanner(System.in);
     private Personagem jogador;
     private Inimigo inimigo;
-    private RolagemDeDados rolagem;
+    private final RolagemDeDados rolagem = new RolagemDeDados();
     private int progressao = 0;
     public int opcao = 0;
 
@@ -36,36 +36,41 @@ public class Jogo {
 
     private void loopPrincipal() throws Exception {
         while (jogador.estaVivo()) {
-            System.out.println("\nO que deseja fazer?");
-            System.out.println("[1] - Explorar");
-            System.out.println("[2] - Usar item");
-            System.out.println("[3] - Ver inventário");
-            System.out.println("[4] - Sair do jogo");
+            try {
+                System.out.println("\nO que deseja fazer?");
+                System.out.println("[1] - Explorar");
+                System.out.println("[2] - Usar item");
+                System.out.println("[3] - Ver inventário");
+                System.out.println("[4] - Sair do jogo");
 
-            int escolha = sc.nextInt();
-            sc.nextLine();
+                int escolha = sc.nextInt();
+                sc.nextLine();
 
-            switch (escolha) {
-                case 1 -> explorar(progressao);
-                case 2 -> usarItem();
-                case 3 -> jogador.inventario.listarItens(); // criar metodo do inventario
-                case 4 -> { System.out.println("Saindo..."); return; }
-                default -> {
-                    System.out.println("Número inválido! Digite novamente.");
-                    loopPrincipal();
+                switch (escolha) {
+                    case 1 -> {
+                        explorar(progressao);
+                        progressao++;
+                        // subir nivel do usuario
+                    }
+                    case 2 -> usarItem();
+                    case 3 -> jogador.inventario.listarItens(); // criar metodo do inventario
+                    case 4 -> { System.out.println("Saindo..."); return; }
+                    default -> {
+                        System.out.println("Número inválido! Digite novamente.");
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro: " + e.getMessage());
+                e.printStackTrace();
             }
-
-            progressao++;
-            // subir nivel do usuario
         }
         System.out.println("Você morreu... Fim de jogo.");
     }
 
     private void explorar(int progressao) throws Exception {
-
         switch (progressao) {
             case 0 -> {
+                //  ----------- CONTEXTO DA PROGRESSÃO ----------
                 System.out.print(jogador.getNome() +
                         " abre os olhos... Não se lembra de nada. \n" +
                         "Ao olhar ao redor, tudo está escuro, mas por sorte acha uma tocha e uma pederneira.\n" +
@@ -73,35 +78,74 @@ public class Jogo {
                         "Gritos, sangue, seu propósito... Mas nada está claro ainda.\n");
                 if(opcao == 1){
                     System.out.print("Em seu lado, há uma espada, com seu nome cravado na empunhadura: " + jogador.getNome() + ".\n");
-                    Item espadaDeFerro = new Item("Espada de Ferro", "Uma Espada enferrujada e velha", "Causa 5 de dano físico", 1);
+                    Item espadaDeFerro = new Item("Espada de Ferro", "FISICO", 5, 1);
                     jogador.inventario.adicionarItem(espadaDeFerro);
                 } else if (opcao == 2) {
+                    System.out.print("Em seu lado, há um cajado, com seu nome cravado na empunhadura: " + jogador.getNome() + ".\n");
+                    Item cajado = new Item("Cajado", "CAJADO", 10, 1);
+                    jogador.inventario.adicionarItem(cajado);
+                } else if (opcao == 3) {
                     System.out.print("Em seu lado, há algumas flechas e um arco, com seu nome cravado na empunhadura: " + jogador.getNome() + ".\n");
-                    Item arco = new Item("Arco", "Arco de madeira envelhecida", "Causa 5 de dano físico", 1);
-                    Item flecha = new Item("Fecha", "Flecha de madeira com ponta de ferro", "Causa 5 de dano físico", 7);
+                    Item arco = new Item("Arco", "ARCO", 5, 1);
+                    Item flecha = new Item("Fecha", "FLECHA", 0, 7);
                     jogador.inventario.adicionarItem(arco);
                     jogador.inventario.adicionarItem(flecha);
-                } else if (opcao == 3) {
-                    System.out.print("Em seu lado, há um cajado, com seu nome cravado na empunhadura: " + jogador.getNome() + ".\n");
-                    Item cajado = new Item("Cajado", "Um cajado de madeira envelhecida", "Aumenta em 10% o dano de todas as magias", 1);
-                    jogador.inventario.adicionarItem(cajado);
                 }
 
+                System.out.println("Leva consigo, pois algo lhe diz que vai precisar.\n" +
+                        "Você continua andando, buscando uma saída, até que...\n");
+
+                //  ----------- ROLAGEM DE DADO ----------
+
+                rolagem.simulacao(jogador);
                 int evento = rolagem.rolar();
-                if (evento == 0) {
+                System.out.println("RESULTADO DO D20: " + evento);
+
+                // //  ----------- EVENTOS ----------
+
+                if (evento >= 15) {
+                    System.out.println("Você encontrou uma poção!");
+                    jogador.inventario.adicionarItem(new Item("Poção de Cura", "CURA", 10, 1));
+                } else if (evento >= 8) {
                     System.out.println("Você encontrou um inimigo!");
                     batalhar(jogador, new Inimigo("Goblin", 40, 8, 5));
-                } else if (evento == 1) {
-                    System.out.println("Você encontrou uma poção!");
-                    jogador.inventario.adicionarItem(new Item("Poção de Cura", "Recupera HP", "cura", 1));
                 } else {
                     System.out.println("Você caiu numa armadilha! Perdeu 10 de HP!");
                     jogador.sofrerDano(10);
                 }
-                loopPrincipal();
             }
             case 1 -> {
-                // progressão 1 - inimigos mais fortes, itens mais raros... AQUI É ONDE A PROGRESSÃO DA HISTORIA É FEITA
+                //  ----------- CONTEXTO DA PROGRESSÃO ----------
+                System.out.print(jogador.getNome() +
+                        " enxerga uma luz no final da caverna, e se aproxima dela\n" +
+                        "Esfrega os olhos, estica as pernas e ao fundo, ouve gritos de desespero.\n" +
+                        "Correr em direção ao barulho?\n");
+
+                int escolha = sc.nextInt();
+                sc.nextLine();
+
+                //  ----------- ROLAGEM DE DADO ----------
+
+                rolagem.simulacao(jogador);
+                int evento = rolagem.rolar();
+                System.out.println("RESULTADO DO D20: " + evento);
+
+                // //  ----------- EVENTOS ----------
+
+                if (evento >= 15) {
+                    System.out.println("Você encontrou uma poção!");
+                    jogador.inventario.adicionarItem(new Item("Poção de Cura", "CURA", 10, 1));
+                } else if (evento >= 8) {
+                    System.out.println("Você encontrou um inimigo!");
+                    batalhar(jogador, new Inimigo("Goblin", 40, 8, 5));
+                } else {
+                    System.out.println("Você caiu numa armadilha! Perdeu 10 de HP!");
+                    jogador.sofrerDano(10);
+                }
+
+            }
+            default -> {
+                System.err.println("Algo deu errado na progressão!");
             }
         }
     }

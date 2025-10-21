@@ -13,7 +13,7 @@ public abstract class Personagem implements Cloneable {
     public int defesa;
     public int nivel;
     public Inventario inventario;
-    RolagemDeDados rolagem;
+    RolagemDeDados rolagem = new RolagemDeDados();
     Jogo jogo;
     Scanner sc = new Scanner(System.in);
 
