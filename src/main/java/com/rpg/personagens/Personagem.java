@@ -99,6 +99,8 @@ public abstract class Personagem implements Cloneable {
         if (this.pontosVida < 0) this.pontosVida = 0;
     }
 
+    public boolean temAliado() { return true; }
+
 
     public String getNome() { return nome; }
 

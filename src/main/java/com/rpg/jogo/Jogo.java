@@ -146,7 +146,7 @@ public class Jogo {
                         System.out.println("RESULTADO DO D20: " + evento);
 
                         // //  ----------- EVENTOS ----------
-                        
+
                         if (opc == 1) {
                             if (evento >= 15) {
                                 System.out.println("Você encontra uma pedra relativamente grande no chão.\n" +
@@ -195,6 +195,7 @@ public class Jogo {
                         }
 
                         System.out.println("Você vai em direção a pessoa, ajuda ela a se levantar e vocês fogem daquele lugar.");
+                        jogador.temAliado();
 
                         repetir = false;
                     }
