@@ -115,6 +115,8 @@ public class Jogo {
                 }
             }
             case 1 -> {
+                //  ----------- CONTEXTO DA PROGRESSÃO ----------
+
                 boolean repetir = true;
                 while (repetir) {
                     System.out.print("Segue seu caminho, e, de repente " +
@@ -202,11 +204,103 @@ public class Jogo {
                     else if (escolha == 2) {
                         System.out.println("Você finge que não ouviu, pensa que era coisa da sua cabeça,\n" +
                                 "podia ser até mesmo o canto de um pássaro...\n" +
-                                "Então, você olha ao redor e...");
+                                "Então, você continua andando e...");
+
+                        //  ----------- ROLAGEM DE DADO ----------
+
+                        rolagem.simulacao(jogador);
+                        int evento = rolagem.rolar();
+                        System.out.println("RESULTADO DO D20: " + evento);
+
+                        // //  ----------- EVENTOS ----------
+
+                        if (evento >= 15) {
+                            System.out.println("Você encontrou uma poção!");
+                            jogador.inventario.adicionarItem(new Item("Poção de Força", "FORCA", 10, 1));
+                        } else if (evento >= 8) {
+                            System.out.println("Você encontrou um inimigo!");
+                            batalhar(jogador, new Inimigo("Lobo", 55, 15, 8));
+                        } else {
+                            System.out.println("Você caiu em um buraco! Perdeu 10 de HP!");
+                            jogador.sofrerDano(10);
+                        }
                         repetir = false;
                     }
                     else {
                         System.out.println("Número inválido! Retornando...\n");
+                    }
+                }
+            }
+
+            case 2 -> {
+                if(jogador.temAliado()) {
+                    System.out.println("Quando percebem que estão longe dos perigos, param para descansar.\n" +
+                            jogador.getNome() + " pergunta ao homem se ele estava bem.\n" +
+                            "Ele diz que estava com o braço ferido, mas que um torniquete o ajudaria.\n" +
+                            jogador.getNome() + " rasga um pedaço de sua roupa e o entrega.\n" +
+                            "O homem, com muita dificuldade, consegue fazer o torniquete e para o sangramento.\n" +
+                            jogador.getNome() + " pergunta ao homem como ele sabia fazer aquilo\n" +
+                            "e o homem responde que já tinha passado por essa situação antes.\n" +
+                            jogador.getNome() + " pergunta seu nome e o que faz ali.\n" +
+                            "O homem se chama André e estava ali a dois dias, mas que não sabia como chegou naquela ilha.\n" +
+                            "Você percebe que André está perdido igualmente a você.\n" +
+                            jogador.getNome() + " fala para seguirem juntos, serem aliados.\n" +
+                            "André concorda.\n" +
+                            "Está escurecendo, André fala para procurarem folhas e galhos secos e fazerem uma fogueira.\n" +
+                            "Vocês fazem a fogueira e se esquentam do frio da noite,\n" +
+                            "até que escutam um barulho vindo da floresta...");
+
+                    //  ----------- ROLAGEM DE DADO ----------
+
+                    rolagem.simulacao(jogador);
+                    int evento = rolagem.rolar();
+                    System.out.println("RESULTADO DO D20: " + evento);
+
+                    // //  ----------- EVENTOS ----------
+
+                    if (evento >= 15) {
+                        System.out.println("Era apenas um animal pequeno correndo entre as folhas dos arbustos.");
+                    } else if (evento >= 8) {
+                        System.out.println("Era uma rajada de vento forte que apagou o fogo. Perdeu 3 de HP pelo frio.");
+                        jogador.sofrerDano(3);
+                    } else {
+                        System.out.println("Você encontrou um inimigo!");
+                        batalhar(jogador, new Inimigo("Ogro", 60, 18, 10));
+                    }
+                }
+                else{
+                    System.out.println("Continua andando e encontra um lugar calmo.\n" +
+                            jogador.getNome() + " fica ali para descansar e percebe que está anoitecendo.\n" +
+                            "Começa a procurar folhas e galhos secos para fazer uma fogueira\n" +
+                            "para se esquentar do frio da noite.\n" +
+                            "Você faz a fogueira e depois de alguns minutos escuta\n" +
+                            "um som vindo da floresta...\n");
+
+                    //  ----------- ROLAGEM DE DADO ----------
+
+                    rolagem.simulacao(jogador);
+                    int evento = rolagem.rolar();
+                    System.out.println("RESULTADO DO D20: " + evento);
+
+                    // //  ----------- EVENTOS ----------
+
+                    if (evento >= 15) {
+                        System.out.println("Era apenas um animal pequeno correndo entre as folhas.");
+                    } else if (evento >= 8) {
+                        System.out.println("Era uma... pessoa! Um homem vindo em sua direção.\n" +
+                                jogador.getNome() + " se assusta, mas o homem chega o acalmando,\n" +
+                                "diz que seu nome é André, que viu a claridade do fogo\n" +
+                                "e sabia que era uma pessoa também.\n" +
+                                jogador.getNome() + " fica desconfiado e pergunta como ele chegou naquele lugar\n" +
+                                "e André responde que não sabia, simplesmente acordou naquela ilha\n" +
+                                "a dois dias atrás, sem se lembrar de nada.\n" +
+                                "Você percebe que André está perdido igualmente a você.\n" +
+                                jogador.getNome() + " fala para seguirem juntos, serem aliados.\n" +
+                                "André concorda e fica junto com " + jogador.getNome() + " naquela fogueira.\n");
+                        jogador.temAliado();
+                    } else {
+                        System.out.println("Era uma rajada de vento forte que apagou o fogo. Perdeu 5 de HP pelo frio.");
+                        jogador.sofrerDano(5);
                     }
                 }
             }
