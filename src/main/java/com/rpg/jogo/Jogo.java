@@ -7,7 +7,7 @@ import com.rpg.personagens.*;
 import java.util.*;
 
 public class Jogo {
-    private Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
     private Personagem jogador;
     private Inimigo inimigo;
     private final RolagemDeDados rolagem = new RolagemDeDados();
@@ -149,37 +149,42 @@ public class Jogo {
 
                         if (opc == 1) {
                             if (evento >= 15) {
-                                System.out.println("Você encontra uma pedra relativamente grande no chão.\n" +
-                                        "Atira ela para longe, o lobo escuta e vai em direção ao som.\n" +
-                                        "Você conseguiu destrair o lobo!");
+                                System.out.println("""
+                                        Você encontra uma pedra relativamente grande no chão.
+                                        Atira ela para longe, o lobo escuta e vai em direção ao som.
+                                        Você conseguiu destrair o lobo!""");
                             } else if (evento >= 8) {
-                                System.out.println("Você só encontra uma pequena pedra no chão.\n" +
-                                        "Atira ela para longe, o lobo olha, mas volta a atacar a pessoa.\n" +
-                                        "Você não conseguiu destrair o lobo.\n" +
-                                        "Sua única opção é atacar.");
+                                System.out.println("""
+                                        Você só encontra uma pequena pedra no chão.
+                                        Atira ela para longe, o lobo olha, mas volta a atacar a pessoa.
+                                        Você não conseguiu destrair o lobo.
+                                        Sua única opção é atacar.""");
                                 batalhar(jogador, new Inimigo("Lobo", 55, 16, 8));
                             } else {
-                                System.out.println("Você não encontra nada ao seu redor.\n" +
-                                        "Mas enquanto procurava, sem prestar atenção pisou em um galho seco.\n" +
-                                        "O lobo escutou... e agora está em sua direção...\n" +
-                                        "Sua única opção é atacar.");
+                                System.out.println("""
+                                        Você não encontra nada ao seu redor.
+                                        Mas enquanto procurava, sem prestar atenção pisou em um galho seco.
+                                        O lobo escutou... e agora está em sua direção...
+                                        Sua única opção é atacar.""");
                                 batalhar(jogador, new Inimigo("Lobo", 55, 16, 8));
                             }
                         }
                         else if (opc == 2) {
                             if (evento >= 15) {
-                                System.out.println("Você anda furtivamente para trás do lobo.\n" +
-                                        "Ele está muito destraído atacando a pessoa, então não sente sua presença ali.\n" +
-                                        "Você consegue chegar atrás do lobo.\n" +
-                                        "Sua única opção é atacar.");
+                                System.out.println("""
+                                        Você anda furtivamente para trás do lobo.
+                                        Ele está muito destraído atacando a pessoa, então não sente sua presença ali.
+                                        Você consegue chegar atrás do lobo.
+                                        Sua única opção é atacar.""");
                                 batalhar(jogador, new Inimigo("Lobo", 55, 16, 8));
 
                             } else if (evento >= 8) {
-                                System.out.println("Você tenta andar furtivamente para trás do lobo.\n" +
-                                        "Enquanto anda, sem querer, pisa em um galho seco.\n" +
-                                        "Mas o lobo está tão focado em atacar a pessoa, que não escuta.\n" +
-                                        "Você chega atrás do lobo.\n" +
-                                        "Sua única opção é atacar.");
+                                System.out.println("""
+                                        Você tenta andar furtivamente para trás do lobo.
+                                        Enquanto anda, sem querer, pisa em um galho seco.
+                                        Mas o lobo está tão focado em atacar a pessoa, que não escuta.
+                                        Você chega atrás do lobo.
+                                        Sua única opção é atacar.""");
                                 batalhar(jogador, new Inimigo("Lobo", 55, 16, 8));
 
                             } else {
@@ -200,9 +205,10 @@ public class Jogo {
                         repetir = false;
                     }
                     else if (escolha == 2) {
-                        System.out.println("Você finge que não ouviu, pensa que era coisa da sua cabeça,\n" +
-                                "podia ser até mesmo o canto de um pássaro...\n" +
-                                "Então, você continua andando e...");
+                        System.out.println("""
+                                Você finge que não ouviu, pensa que era coisa da sua cabeça,
+                                podia ser até mesmo o canto de um pássaro...
+                                Então, você continua andando e...""");
 
                         //  ----------- ROLAGEM DE DADO ----------
 
@@ -385,8 +391,6 @@ public class Jogo {
                 System.out.println("\n💀 " + inimigo.getNome() + " foi derrotado!");
                 return;
             }
-
-            // NOTA: SIMPLIFICAR OS PRINTS ⚠️
 
             // ======= TURNO DO INIMIGO =======
             System.out.println("\nTurno do inimigo...");

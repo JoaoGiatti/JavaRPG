@@ -11,7 +11,7 @@ public abstract class Personagem implements Cloneable {
     private final String nome;
     private int pontosVida;
     private int ataque;
-    private final int defesa;
+    private int defesa;
     private final int nivel;
     private final Inventario inventario;
     private Item armaFisica;
@@ -33,9 +33,11 @@ public abstract class Personagem implements Cloneable {
     public boolean estaVivo() { return pontosVida > 0; }
 
     public void tratarMorte(Personagem jogador, Inimigo inimigo) throws Exception{
-        System.out.println("========== VOCÊ MORREU ==========\n" +
-                "    [1] - Tentar novamente\n" +
-                "    [2] - Sair\n");
+        System.out.println("""
+                ========== VOCÊ MORREU ==========
+                    [1] - Tentar novamente
+                    [2] - Sair
+                """);
         System.out.print("Escolha sua opção: ");
         int resp = sc.nextInt();
         sc.nextLine();
@@ -122,6 +124,34 @@ public abstract class Personagem implements Cloneable {
             this.pontosVida = 100;
         } else {
             this.pontosVida += valor;
+        }
+    }
+
+    public void equipar(Item item) throws Exception {
+        switch (item.getTipo()) {
+            case FISICO:
+                if (this.armaFisica != null)
+                    throw new Exception("Você já tem uma arma física equipada!");
+                this.armaFisica = item;
+                this.ataque += (int) item.getValor();
+                break;
+
+            case DISTANCIA:
+                if (this.armaDistancia != null)
+                    throw new Exception("Você já tem uma arma de distância equipada!");
+                this.armaDistancia = item;
+                this.ataque += (int) item.getValor();
+                break;
+
+            case EQUIPAVEL:
+                if (this.armadura != null)
+                    throw new Exception("Você já está usando uma armadura!");
+                this.armadura = item;
+                this.defesa += (int) item.getValor();
+                break;
+
+            default:
+                throw new Exception("Esse item não é equipável!");
         }
     }
 
