@@ -2,6 +2,7 @@ package com.rpg.personagens;
 
 import com.rpg.inventario.Inventario;
 import com.rpg.dados.RolagemDeDados;
+import com.rpg.inventario.Item;
 import com.rpg.jogo.Jogo;
 
 import java.util.Scanner;
@@ -13,6 +14,9 @@ public abstract class Personagem implements Cloneable {
     private final int defesa;
     private final int nivel;
     private final Inventario inventario;
+    private Item armaFisica;
+    private Item armaDistancia;
+    private Item armadura;
     RolagemDeDados rolagem = new RolagemDeDados();
     Jogo jogo;
     Scanner sc = new Scanner(System.in);
@@ -103,19 +107,22 @@ public abstract class Personagem implements Cloneable {
 
 
     public String getNome() { return this.nome; }
-
     public int getPontosVida() { return this.pontosVida; }
-
     public int getAtaque() { return ataque; }
-
     public int getNivel() { return nivel; }
-
     public int getDefesa() { return defesa; }
-
     public Inventario getInventario() { return inventario; }
 
     public void setAtaque(int ataque) {
         this.ataque = ataque;
+    }
+
+    public void curar(int valor) {
+        if(this.pontosVida + valor > 100){
+            this.pontosVida = 100;
+        } else {
+            this.pontosVida += valor;
+        }
     }
 
     @Override

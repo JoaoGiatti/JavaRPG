@@ -78,18 +78,16 @@ public class Jogo {
                         "Gritos, sangue, seu propósito... Mas nada está claro ainda.\n");
                 if(opcao == 1){
                     System.out.print("Em seu lado, há uma espada, com seu nome cravado na empunhadura: " + jogador.getNome() + ".\n");
-                    Item espadaDeFerro = new Item("Espada de Ferro", "FISICO", 5, 1);
+                    Item espadaDeFerro = new Item("Espada de Ferro", Item.TipoItem.FISICO, 5, 1);
                     jogador.getInventario().adicionarItem(espadaDeFerro);
                 } else if (opcao == 2) {
                     System.out.print("Em seu lado, há um cajado, com seu nome cravado na empunhadura: " + jogador.getNome() + ".\n");
-                    Item cajado = new Item("Cajado", "CAJADO", 10, 1);
+                    Item cajado = new Item("Cajado", Item.TipoItem.DISTANCIA, 10, 1);
                     jogador.getInventario().adicionarItem(cajado);
                 } else if (opcao == 3) {
                     System.out.print("Em seu lado, há algumas flechas e um arco, com seu nome cravado na empunhadura: " + jogador.getNome() + ".\n");
-                    Item arco = new Item("Arco", "ARCO", 5, 1);
-                    Item flecha = new Item("Fecha", "FLECHA", 0, 7);
+                    Item arco = new Item("Arco", Item.TipoItem.DISTANCIA, 5, 1);
                     jogador.getInventario().adicionarItem(arco);
-                    jogador.getInventario().adicionarItem(flecha);
                 }
 
                 System.out.println("Leva consigo, pois algo lhe diz que vai precisar.\n" +
@@ -105,7 +103,7 @@ public class Jogo {
 
                 if (evento >= 15) {
                     System.out.println("Você encontrou uma poção!");
-                    jogador.getInventario().adicionarItem(new Item("Poção de Cura", "CURA", 10, 1));
+                    jogador.getInventario().adicionarItem(new Item("Poção de Cura", Item.TipoItem.CURA, 10, 1));
                 } else if (evento >= 8) {
                     System.out.println("Você encontrou um inimigo!");
                     batalhar(jogador, new Inimigo("Goblin", 40, 8, 5));
@@ -216,7 +214,7 @@ public class Jogo {
 
                         if (evento >= 15) {
                             System.out.println("Você encontrou uma poção!");
-                            jogador.getInventario().adicionarItem(new Item("Poção de Força", "FORCA", 10, 1));
+                            jogador.getInventario().adicionarItem(new Item("Poção de Cura (25)", Item.TipoItem.CURA, 25, 1));
                         } else if (evento >= 8) {
                             System.out.println("Você encontrou um inimigo!");
                             batalhar(jogador, new Inimigo("Lobo", 55, 15, 8));
