@@ -258,7 +258,7 @@ public class Jogo {
                     int evento = rolagem.rolar();
                     System.out.println("RESULTADO DO D20: " + evento);
 
-                    if (evento >= 5) { // fácil de acertar
+                    if (evento >= 5) {
                         int dano = jogador.ataque + (int) (Math.random() * 5);
                         System.out.println("Acertou! Dano causado: " + dano);
                         inimigo.sofrerDano(dano);
@@ -273,7 +273,7 @@ public class Jogo {
                     int evento = rolagem.rolar();
                     System.out.println("RESULTADO DO D20: " + evento);
 
-                    if (evento >= 12) { // difícil de acertar
+                    if (evento >= 12) {
                         int dano = jogador.ataque + (int) (Math.random() * 15) + 5;
                         System.out.println("Golpe devastador! Dano causado: " + dano);
                         inimigo.sofrerDano(dano);
@@ -282,13 +282,9 @@ public class Jogo {
                     }
                 }
 
-                case 3 -> {
-                    usarItem();
-                }
+                case 3 -> usarItem();
 
-                case 4 -> {
-                    jogador.inventario.listarItens();
-                }
+                case 4 -> jogador.inventario.listarItens();
 
                 default -> System.out.println("Opção inválida!");
             }
@@ -299,20 +295,25 @@ public class Jogo {
                 return;
             }
 
-            // Turno do inimigo
+            // ======= TURNO DO INIMIGO =======
             System.out.println("\nTurno do inimigo...");
-            rolagem.simulacao(inimigo);
-            int eventoInimigo = rolagem.rolar();
-            System.out.println("RESULTADO DO D20 (inimigo): " + eventoInimigo);
+            int danoBase = inimigo.ataque + (int) (Math.random() * 6); // dano natural do inimigo
+            System.out.println(inimigo.getNome() + " tenta te atacar com " + danoBase + " de dano base!");
 
-            if (eventoInimigo >= 8) {
-                int danoInimigo = inimigo.ataque + eventoInimigo / 3 - jogador.defesa / 4;
-                if (danoInimigo < 0) danoInimigo = 0;
-                jogador.sofrerDano(danoInimigo);
-                System.out.println(inimigo.getNome() + " te atinge causando " + danoInimigo + " de dano!");
-            } else {
-                System.out.println(inimigo.getNome() + " errou o ataque!");
-            }
+            // D20 pra tentar se defender
+            System.out.println("\nRole o D20 para se defender!");
+            rolagem.simulacao(jogador);
+            int defesaRolagem = rolagem.rolar();
+            System.out.println("RESULTADO DO D20 (defesa): " + defesaRolagem);
+
+            // cálculo da defesa efetiva
+            int defesaEfetiva = jogador.defesa + (defesaRolagem / 2);
+            int danoFinal = danoBase - (defesaEfetiva / 3);
+
+            if (danoFinal < 0) danoFinal = 0;
+
+            jogador.sofrerDano(danoFinal);
+            System.out.println("Você sofreu " + danoFinal + " de dano após defender!");
 
             if (!jogador.estaVivo()) {
                 jogador.tratarMorte(jogador, inimigo);
@@ -320,4 +321,5 @@ public class Jogo {
             }
         }
     }
+
 }
