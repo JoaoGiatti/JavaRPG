@@ -64,7 +64,7 @@ public class Jogo {
                 e.printStackTrace();
             }
         }
-        jogador.estaMorto(jogador, inimigo);
+        jogador.tratarMorte(jogador, inimigo);
     }
 
     private void explorar(int progressao) throws Exception {
@@ -224,14 +224,100 @@ public class Jogo {
         jogador.inventario.getItem(nome);
     }
 
-    public void batalhar(Personagem jogador, Inimigo inimigo) {
-        System.out.println("Um " + inimigo.getNome() + " aparece!");
+    public void batalhar(Personagem jogador, Inimigo inimigo) throws Exception {
+        System.out.println("\n⚔️ Batalhando contra " + inimigo.getNome() + "! ⚔️");
+        System.out.println("---------------------------------------------");
+
         while (jogador.estaVivo() && inimigo.estaVivo()) {
-            jogador.atacar(inimigo);
-            if (!inimigo.estaVivo()) break;
-            inimigo.atacar(jogador);
-            jogador.defender(inimigo);
-            if(!jogador.estaVivo()) jogador.estaMorto(jogador, inimigo);
+            System.out.println("\n======= STATUS =======");
+            System.out.println(jogador.getNome() + " (HP: " + jogador.pontosVida + ")");
+            System.out.println(inimigo.getNome() + " (HP: " + inimigo.pontosVida + ")");
+            System.out.println("======================");
+
+            System.out.println("\nO que deseja fazer?");
+            System.out.println("[1] - Ataque leve (alta chance, baixo dano)");
+            System.out.println("[2] - Ataque forte (baixa chance, alto dano)");
+            System.out.println("[3] - Usar item");
+            System.out.println("[4] - Ver inventário");
+            System.out.println("[5] - Desistir da luta");
+            System.out.print("Escolha: ");
+
+            int escolha = sc.nextInt();
+            sc.nextLine();
+            System.out.println();
+
+            if (escolha == 5) {
+                System.out.println("Você decidiu recuar da batalha!");
+                return;
+            }
+
+            switch (escolha) {
+                case 1 -> {
+                    System.out.println("Você tenta um ataque leve...");
+                    rolagem.simulacao(jogador);
+                    int evento = rolagem.rolar();
+                    System.out.println("RESULTADO DO D20: " + evento);
+
+                    if (evento >= 5) { // fácil de acertar
+                        int dano = jogador.ataque + (int) (Math.random() * 5);
+                        System.out.println("Acertou! Dano causado: " + dano);
+                        inimigo.sofrerDano(dano);
+                    } else {
+                        System.out.println("Você errou o ataque!");
+                    }
+                }
+
+                case 2 -> {
+                    System.out.println("Você tenta um ataque forte...");
+                    rolagem.simulacao(jogador);
+                    int evento = rolagem.rolar();
+                    System.out.println("RESULTADO DO D20: " + evento);
+
+                    if (evento >= 12) { // difícil de acertar
+                        int dano = jogador.ataque + (int) (Math.random() * 15) + 5;
+                        System.out.println("Golpe devastador! Dano causado: " + dano);
+                        inimigo.sofrerDano(dano);
+                    } else {
+                        System.out.println("O ataque passou longe...");
+                    }
+                }
+
+                case 3 -> {
+                    usarItem();
+                }
+
+                case 4 -> {
+                    jogador.inventario.listarItens();
+                }
+
+                default -> System.out.println("Opção inválida!");
+            }
+
+            // Verifica se o inimigo morreu
+            if (!inimigo.estaVivo()) {
+                System.out.println("\n💀 " + inimigo.getNome() + " foi derrotado!");
+                return;
+            }
+
+            // Turno do inimigo
+            System.out.println("\nTurno do inimigo...");
+            rolagem.simulacao(inimigo);
+            int eventoInimigo = rolagem.rolar();
+            System.out.println("RESULTADO DO D20 (inimigo): " + eventoInimigo);
+
+            if (eventoInimigo >= 8) {
+                int danoInimigo = inimigo.ataque + eventoInimigo / 3 - jogador.defesa / 4;
+                if (danoInimigo < 0) danoInimigo = 0;
+                jogador.sofrerDano(danoInimigo);
+                System.out.println(inimigo.getNome() + " te atinge causando " + danoInimigo + " de dano!");
+            } else {
+                System.out.println(inimigo.getNome() + " errou o ataque!");
+            }
+
+            if (!jogador.estaVivo()) {
+                jogador.tratarMorte(jogador, inimigo);
+                return;
+            }
         }
     }
 }

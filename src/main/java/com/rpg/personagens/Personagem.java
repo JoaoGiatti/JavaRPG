@@ -28,7 +28,7 @@ public abstract class Personagem implements Cloneable {
 
     public boolean estaVivo() { return pontosVida > 0; }
 
-    public void estaMorto(Personagem jogador, Inimigo inimigo) {
+    public void tratarMorte(Personagem jogador, Inimigo inimigo) throws Exception{
         System.out.println("========== VOCÊ MORREU ==========\n" +
                 "    [1] - Tentar novamente\n" +
                 "    [2] - Sair\n");
@@ -43,7 +43,7 @@ public abstract class Personagem implements Cloneable {
         else if(resp == 2) System.out.println("Saindo...");
         else {
             System.out.println("Número inválido! Digite novamente.");
-            estaMorto(jogador, inimigo);
+            tratarMorte(jogador, inimigo);
         }
     }
 
