@@ -289,31 +289,41 @@ public class Jogo {
                 default -> System.out.println("Opção inválida!");
             }
 
-            // Verifica se o inimigo morreu
             if (!inimigo.estaVivo()) {
                 System.out.println("\n💀 " + inimigo.getNome() + " foi derrotado!");
                 return;
             }
 
+            // NOTA: SIMPLIFICAR OS PRINTS ⚠️
+
             // ======= TURNO DO INIMIGO =======
             System.out.println("\nTurno do inimigo...");
-            int danoBase = inimigo.ataque + (int) (Math.random() * 6); // dano natural do inimigo
+            int danoBase = inimigo.getAtaque() + (int) (Math.random() * 4); // dano variável do inimigo
             System.out.println(inimigo.getNome() + " tenta te atacar com " + danoBase + " de dano base!");
 
-            // D20 pra tentar se defender
+            // defesa do jogador com D20
             System.out.println("\nRole o D20 para se defender!");
             rolagem.simulacao(jogador);
-            int defesaRolagem = rolagem.rolar();
-            System.out.println("RESULTADO DO D20 (defesa): " + defesaRolagem);
+            int rolagemDefesa = rolagem.rolar();
+            System.out.println("RESULTADO DO D20 (defesa): " + rolagemDefesa);
 
-            // cálculo da defesa efetiva
-            int defesaEfetiva = jogador.defesa + (defesaRolagem / 2);
-            int danoFinal = danoBase - (defesaEfetiva / 3);
+            // multiplicador de bloqueio baseado na rolagem
+            double percentualBloqueio;
+            if (rolagemDefesa >= 15) {
+                percentualBloqueio = 0.15;
+            } else if (rolagemDefesa >= 8) {
+                percentualBloqueio = 0.10;
+            } else {
+                percentualBloqueio = 0.05;
+            }
 
-            if (danoFinal < 0) danoFinal = 0;
+            // bloqueio proporcional à defesa do jogador
+            double bloqueioEfetivo = jogador.getDefesa() * percentualBloqueio;
+            int danoFinal = (int) Math.max(0, danoBase - (danoBase * bloqueioEfetivo));
 
             jogador.sofrerDano(danoFinal);
-            System.out.println("Você sofreu " + danoFinal + " de dano após defender!");
+            System.out.println("Você bloqueou " + (int) (danoBase * bloqueioEfetivo) + " de dano!");
+            System.out.println("Você sofreu " + danoFinal + " de dano!");
 
             if (!jogador.estaVivo()) {
                 jogador.tratarMorte(jogador, inimigo);

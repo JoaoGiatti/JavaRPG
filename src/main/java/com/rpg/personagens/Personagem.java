@@ -104,6 +104,10 @@ public abstract class Personagem implements Cloneable {
 
     public String getNome() { return nome; }
 
+    public int getDefesa() { return defesa; }
+
+    public int getAtaque() { return ataque; }
+
     @Override
     public String toString() {
         return nome + " (HP: " + pontosVida + ", Atk: " + ataque + ", Def: " + defesa + ")";
