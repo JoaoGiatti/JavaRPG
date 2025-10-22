@@ -7,12 +7,12 @@ import com.rpg.jogo.Jogo;
 import java.util.Scanner;
 
 public abstract class Personagem implements Cloneable {
-    public String nome;
-    public int pontosVida;
-    public int ataque;
-    public int defesa;
-    public int nivel;
-    public Inventario inventario;
+    private final String nome;
+    private int pontosVida;
+    private int ataque;
+    private final int defesa;
+    private final int nivel;
+    private final Inventario inventario;
     RolagemDeDados rolagem = new RolagemDeDados();
     Jogo jogo;
     Scanner sc = new Scanner(System.in);
@@ -67,7 +67,7 @@ public abstract class Personagem implements Cloneable {
     public void defender(Inimigo inimigo) {
         int resultado = rolagem.rolar();
         int danoRecebido = 0;
-        int dano = inimigo.ataque;
+        int dano = inimigo.getAtaque();
 
         if (resultado >= 18) {
             int defesa = (int) (this.defesa * 1.5);
@@ -90,7 +90,7 @@ public abstract class Personagem implements Cloneable {
             System.out.println(this.nome + " falhou na defesa! Sofreu dano total de " + danoRecebido);
         }
         else {
-            danoRecebido = inimigo.ataque + 5;
+            danoRecebido = inimigo.getAtaque() + 5;
             System.out.println(this.nome + " falhou completamente na defesa e foi atingido em cheio! Dano: " + danoRecebido);
         }
 
@@ -102,11 +102,21 @@ public abstract class Personagem implements Cloneable {
     public boolean temAliado() { return true; }
 
 
-    public String getNome() { return nome; }
+    public String getNome() { return this.nome; }
+
+    public int getPontosVida() { return this.pontosVida; }
+
+    public int getAtaque() { return ataque; }
+
+    public int getNivel() { return nivel; }
 
     public int getDefesa() { return defesa; }
 
-    public int getAtaque() { return ataque; }
+    public Inventario getInventario() { return inventario; }
+
+    public void setAtaque(int ataque) {
+        this.ataque = ataque;
+    }
 
     @Override
     public String toString() {

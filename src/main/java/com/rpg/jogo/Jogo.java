@@ -12,7 +12,7 @@ public class Jogo {
     private Inimigo inimigo;
     private final RolagemDeDados rolagem = new RolagemDeDados();
     private int progressao = 0;
-    public int opcao = 0;
+    private int opcao = 0;
 
     public void iniciar() throws Exception {
         System.out.println("Bem-vindo ao RPG de Texto!");
@@ -21,7 +21,7 @@ public class Jogo {
 
         System.out.println("Escolha sua classe:");
         System.out.println("[1] - Guerreiro\n[2] - Mago\n[3] - Arqueiro");
-        opcao = sc.nextInt(); // adicionar exception para opções que não sejam 1, 2 e 3
+        opcao = sc.nextInt();
         sc.nextLine();
 
         switch (opcao) {
@@ -53,7 +53,7 @@ public class Jogo {
                         // subir nivel do usuario
                     }
                     case 2 -> usarItem();
-                    case 3 -> jogador.inventario.listarItens(); // criar metodo do inventario
+                    case 3 -> jogador.getInventario().listarItens(); // criar metodo do inventario
                     case 4 -> { System.out.println("Saindo..."); return; }
                     default -> {
                         System.out.println("Número inválido! Digite novamente.");
@@ -79,17 +79,17 @@ public class Jogo {
                 if(opcao == 1){
                     System.out.print("Em seu lado, há uma espada, com seu nome cravado na empunhadura: " + jogador.getNome() + ".\n");
                     Item espadaDeFerro = new Item("Espada de Ferro", "FISICO", 5, 1);
-                    jogador.inventario.adicionarItem(espadaDeFerro);
+                    jogador.getInventario().adicionarItem(espadaDeFerro);
                 } else if (opcao == 2) {
                     System.out.print("Em seu lado, há um cajado, com seu nome cravado na empunhadura: " + jogador.getNome() + ".\n");
                     Item cajado = new Item("Cajado", "CAJADO", 10, 1);
-                    jogador.inventario.adicionarItem(cajado);
+                    jogador.getInventario().adicionarItem(cajado);
                 } else if (opcao == 3) {
                     System.out.print("Em seu lado, há algumas flechas e um arco, com seu nome cravado na empunhadura: " + jogador.getNome() + ".\n");
                     Item arco = new Item("Arco", "ARCO", 5, 1);
                     Item flecha = new Item("Fecha", "FLECHA", 0, 7);
-                    jogador.inventario.adicionarItem(arco);
-                    jogador.inventario.adicionarItem(flecha);
+                    jogador.getInventario().adicionarItem(arco);
+                    jogador.getInventario().adicionarItem(flecha);
                 }
 
                 System.out.println("Leva consigo, pois algo lhe diz que vai precisar.\n" +
@@ -105,7 +105,7 @@ public class Jogo {
 
                 if (evento >= 15) {
                     System.out.println("Você encontrou uma poção!");
-                    jogador.inventario.adicionarItem(new Item("Poção de Cura", "CURA", 10, 1));
+                    jogador.getInventario().adicionarItem(new Item("Poção de Cura", "CURA", 10, 1));
                 } else if (evento >= 8) {
                     System.out.println("Você encontrou um inimigo!");
                     batalhar(jogador, new Inimigo("Goblin", 40, 8, 5));
@@ -216,7 +216,7 @@ public class Jogo {
 
                         if (evento >= 15) {
                             System.out.println("Você encontrou uma poção!");
-                            jogador.inventario.adicionarItem(new Item("Poção de Força", "FORCA", 10, 1));
+                            jogador.getInventario().adicionarItem(new Item("Poção de Força", "FORCA", 10, 1));
                         } else if (evento >= 8) {
                             System.out.println("Você encontrou um inimigo!");
                             batalhar(jogador, new Inimigo("Lobo", 55, 15, 8));
@@ -312,10 +312,10 @@ public class Jogo {
     }
 
     private void usarItem() {
-        jogador.inventario.listarItens();
+        jogador.getInventario().listarItens();
         System.out.print("Digite o nome do item para usar: ");
         String nome = sc.nextLine();
-        jogador.inventario.getItem(nome);
+        jogador.getInventario().getItem(nome);
     }
 
     public void batalhar(Personagem jogador, Inimigo inimigo) throws Exception {
@@ -324,8 +324,8 @@ public class Jogo {
 
         while (jogador.estaVivo() && inimigo.estaVivo()) {
             System.out.println("\n======= STATUS =======");
-            System.out.println(jogador.getNome() + " (HP: " + jogador.pontosVida + ")");
-            System.out.println(inimigo.getNome() + " (HP: " + inimigo.pontosVida + ")");
+            System.out.println(jogador.getNome() + " (HP: " + jogador.getPontosVida() + ")");
+            System.out.println(inimigo.getNome() + " (HP: " + inimigo.getPontosVida() + ")");
             System.out.println("======================");
 
             System.out.println("\nO que deseja fazer?");
@@ -353,7 +353,7 @@ public class Jogo {
                     System.out.println("RESULTADO DO D20: " + evento);
 
                     if (evento >= 5) {
-                        int dano = jogador.ataque + (int) (Math.random() * 5);
+                        int dano = jogador.getAtaque() + (int) (Math.random() * 5);
                         System.out.println("Acertou! Dano causado: " + dano);
                         inimigo.sofrerDano(dano);
                     } else {
@@ -368,7 +368,7 @@ public class Jogo {
                     System.out.println("RESULTADO DO D20: " + evento);
 
                     if (evento >= 12) {
-                        int dano = jogador.ataque + (int) (Math.random() * 15) + 5;
+                        int dano = jogador.getAtaque() + (int) (Math.random() * 15) + 5;
                         System.out.println("Golpe devastador! Dano causado: " + dano);
                         inimigo.sofrerDano(dano);
                     } else {
@@ -378,7 +378,7 @@ public class Jogo {
 
                 case 3 -> usarItem();
 
-                case 4 -> jogador.inventario.listarItens();
+                case 4 -> jogador.getInventario().listarItens();
 
                 default -> System.out.println("Opção inválida!");
             }
