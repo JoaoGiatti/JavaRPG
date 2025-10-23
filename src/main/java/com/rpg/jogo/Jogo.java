@@ -89,6 +89,8 @@ public class Jogo {
                     Item arco = new Item("Arco", Item.TipoItem.DISTANCIA, 5, 1);
                     jogador.getInventario().adicionarItem(arco);
                 }
+                Item pocaoDeCura = new Item("Pocao de Cura nv1", Item.TipoItem.CURA, 20, 1);
+                jogador.getInventario().adicionarItem(pocaoDeCura);
 
                 System.out.println("Leva consigo, pois algo lhe diz que vai precisar.\n" +
                         "Continua andando, buscando uma saída, até que...\n");
@@ -102,13 +104,13 @@ public class Jogo {
                 // //  ----------- EVENTOS ----------
 
                 if (evento >= 15) {
-                    System.out.println("Você encontrou uma poção!");
-                    jogador.getInventario().adicionarItem(new Item("Poção de Cura", Item.TipoItem.CURA, 10, 1));
+                    System.out.println("Você encontrou uma poção de cura no chão!");
+                    jogador.getInventario().adicionarItem(new Item("Poção de Cura nv1", Item.TipoItem.CURA, 20, 1));
                 } else if (evento >= 8) {
                     System.out.println("Você encontrou um inimigo!");
-                    batalhar(jogador, new Inimigo("Goblin", 40, 8, 5));
+                    batalhar(jogador, new Inimigo("Aranha Gigante", 20, 8, 5));
                 } else {
-                    System.out.println("Você caiu numa armadilha! Perdeu 10 de HP!");
+                    System.out.println("Você andou com tanta confiança, que caiu numa armadilha de urso óbvia no chão! Perdeu 10 de HP!");
                     jogador.sofrerDano(10);
                 }
             }
@@ -159,14 +161,14 @@ public class Jogo {
                                         Atira ela para longe, o lobo olha, mas volta a atacar a pessoa.
                                         Você não conseguiu destrair o lobo.
                                         Sua única opção é atacar.""");
-                                batalhar(jogador, new Inimigo("Lobo", 55, 16, 8));
+                                batalhar(jogador, new Inimigo("Lobo", 40, 16, 8));
                             } else {
                                 System.out.println("""
                                         Você não encontra nada ao seu redor.
                                         Mas enquanto procurava, sem prestar atenção pisou em um galho seco.
                                         O lobo escutou... e agora está em sua direção...
                                         Sua única opção é atacar.""");
-                                batalhar(jogador, new Inimigo("Lobo", 55, 16, 8));
+                                batalhar(jogador, new Inimigo("Lobo", 40, 16, 8));
                             }
                         }
                         else if (opc == 2) {
@@ -342,8 +344,11 @@ public class Jogo {
                 return;
             }
 
+            boolean jogadorAtacou = false;
+
             switch (escolha) {
                 case 1 -> {
+                    jogadorAtacou = true;
                     System.out.println("Você tenta um ataque leve...");
                     rolagem.simulacao(jogador);
                     int evento = rolagem.rolar();
@@ -359,13 +364,14 @@ public class Jogo {
                 }
 
                 case 2 -> {
+                    jogadorAtacou = true;
                     System.out.println("Você tenta um ataque forte...");
                     rolagem.simulacao(jogador);
                     int evento = rolagem.rolar();
                     System.out.println("RESULTADO DO D20: " + evento);
 
-                    if (evento >= 12) {
-                        int dano = jogador.getAtaque() + (int) (Math.random() * 15) + 5;
+                    if (evento >= 10) {
+                        int dano = jogador.getAtaque() + (int) (Math.random() * 10) + 5;
                         System.out.println("Golpe devastador! Dano causado: " + dano);
                         inimigo.sofrerDano(dano);
                     } else {
@@ -374,49 +380,46 @@ public class Jogo {
                 }
 
                 case 3 -> jogador.getInventario().usarItemEmBatalha(jogador, inimigo, sc);
-
                 case 4 -> jogador.getInventario().listarItens();
-
                 default -> System.out.println("Opção inválida!");
             }
 
-            if (!inimigo.estaVivo()) {
-                System.out.println("\n💀 " + inimigo.getNome() + " foi derrotado!");
-                return;
-            }
+            // só roda o turno do inimigo se o jogador realmente atacou
+            if (jogadorAtacou) {
+                if (!inimigo.estaVivo()) {
+                    System.out.println("\n💀 " + inimigo.getNome() + " foi derrotado!");
+                    return;
+                }
 
-            // ======= TURNO DO INIMIGO =======
-            System.out.println("\nTurno do inimigo...");
-            int danoBase = inimigo.getAtaque() + (int) (Math.random() * 4); // dano variável do inimigo
-            System.out.println(inimigo.getNome() + " tenta te atacar com " + danoBase + " de dano base!");
+                System.out.println("\nTurno do inimigo...");
+                int danoBase = inimigo.getAtaque() + (int) (Math.random() * 4);
+                System.out.println(inimigo.getNome() + " tenta te atacar com " + danoBase + " de dano base!");
 
-            // defesa do jogador com D20
-            System.out.println("\nRole o D20 para se defender!");
-            rolagem.simulacao(jogador);
-            int rolagemDefesa = rolagem.rolar();
-            System.out.println("RESULTADO DO D20 (defesa): " + rolagemDefesa);
+                System.out.println("\nRole o D20 para se defender!");
+                rolagem.simulacao(jogador);
+                int rolagemDefesa = rolagem.rolar();
+                System.out.println("RESULTADO DO D20 (defesa): " + rolagemDefesa);
 
-            // multiplicador de bloqueio baseado na rolagem
-            double percentualBloqueio;
-            if (rolagemDefesa >= 15) {
-                percentualBloqueio = 0.15;
-            } else if (rolagemDefesa >= 8) {
-                percentualBloqueio = 0.10;
-            } else {
-                percentualBloqueio = 0.05;
-            }
+                double percentualBloqueio;
+                if (rolagemDefesa >= 15) {
+                    percentualBloqueio = 0.8;
+                } else if (rolagemDefesa >= 8) {
+                    percentualBloqueio = 0.5;
+                } else {
+                    percentualBloqueio = 0.03;
+                }
 
-            // bloqueio proporcional à defesa do jogador
-            double bloqueioEfetivo = jogador.getDefesa() * percentualBloqueio;
-            int danoFinal = (int) Math.max(0, danoBase - (danoBase * bloqueioEfetivo));
+                double bloqueioEfetivo = jogador.getDefesa() * percentualBloqueio;
+                int danoFinal = (int) Math.max(0, danoBase - (danoBase * bloqueioEfetivo));
 
-            jogador.sofrerDano(danoFinal);
-            System.out.println("Você bloqueou " + (int) (danoBase * bloqueioEfetivo) + " de dano!");
-            System.out.println("Você sofreu " + danoFinal + " de dano!");
+                jogador.sofrerDano(danoFinal);
+                System.out.println("Você bloqueou " + (int) (danoBase * bloqueioEfetivo) + " de dano!");
+                System.out.println("Você sofreu " + danoFinal + " de dano!");
 
-            if (!jogador.estaVivo()) {
-                jogador.tratarMorte(jogador, inimigo);
-                return;
+                if (!jogador.estaVivo()) {
+                    jogador.tratarMorte(jogador, inimigo);
+                    return;
+                }
             }
         }
     }
