@@ -1,34 +1,23 @@
 package com.rpg.inventario;
 
+import com.rpg.personagens.Inimigo;
+import com.rpg.personagens.Personagem;
+
 import java.util.*;
 
 public class Inventario implements Cloneable {
 
+    // ATRIBUTOS
+
     private List<Item> itens;
+
+    // CONSTRUTOR
 
     public Inventario() {
         this.itens = new ArrayList<>();
     }
 
-    public Inventario(List<Item> itens) {
-        this.itens = itens;
-    }
-
-    public Inventario (Inventario modelo) throws Exception {
-        if (modelo == null) throw new Exception("Modelo ausente");
-
-        this.itens = new ArrayList<>();
-        if (modelo.itens != null) {
-            for (Item item : modelo.itens) {
-                this.itens.add(new Item(
-                        item.getNome(),
-                        item.getTipo(),
-                        item.getValor(),
-                        item.getQuantidade()
-                ));
-            }
-        }
-    }
+    // MÉTODOS
 
     public Item getItem(String nome) {
         for (Item item : itens) {
@@ -55,20 +44,6 @@ public class Inventario implements Cloneable {
         itens.add(novoItem);
     }
 
-    public void removeItem(String nome, int qtd) throws Exception {
-        if (this.itens == null)
-            throw new Exception("Inventário vazio");
-
-        for (Item item : itens) {
-            if (item.getNome().equalsIgnoreCase(nome)) {
-                if (qtd > item.getQuantidade()) throw new Exception("Quantidade a remover é maior que a existente");
-                item.setQuantidade(item.getQuantidade() - qtd);
-                if (item.getQuantidade() == 0) itens.remove(item);
-                return;
-            }
-        }
-    }
-
     public void listarItens() {
         if (itens.isEmpty()) {
             System.out.println("Inventário vazio");
@@ -80,6 +55,62 @@ public class Inventario implements Cloneable {
             System.out.println("        - " + item.getNome() + " (" + item.getQuantidade() + ")");
         }
     }
+
+    public void usarItemFora(Personagem jogador, Scanner sc) {
+        if (itens.isEmpty()) {
+            System.out.println("Você não possui itens para usar.");
+            return;
+        }
+
+        listarItens();
+        System.out.print("Digite o nome do item que deseja usar: ");
+        String nome = sc.nextLine();
+
+        Item item = getItem(nome);
+        if (item == null) {
+            System.out.println("Item não encontrado!");
+            return;
+        }
+
+        item.usar(jogador);
+        try {
+            item.setQuantidade(item.getQuantidade() - 1);
+            if (item.getQuantidade() <= 0) {
+                itens.remove(item);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar quantidade do item: " + e.getMessage());
+        }
+    }
+
+    public void usarItemEmBatalha(Personagem jogador, Inimigo inimigo, Scanner sc) {
+        if (itens.isEmpty()) {
+            System.out.println("Você não possui itens para usar.");
+            return;
+        }
+
+        listarItens();
+        System.out.print("Digite o nome do item que deseja usar: ");
+        String nome = sc.nextLine();
+
+        Item item = getItem(nome);
+        if (item == null) {
+            System.out.println("Item não encontrado!");
+            return;
+        }
+
+        item.usarBatalha(jogador, inimigo);
+        try {
+            item.setQuantidade(item.getQuantidade() - 1);
+            if (item.getQuantidade() <= 0) {
+                itens.remove(item);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar quantidade do item: " + e.getMessage());
+        }
+    }
+
+    // REIMPLEMENTAÇÕES
 
     @Override
     public String toString() {

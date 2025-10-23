@@ -52,7 +52,7 @@ public class Jogo {
                         progressao++;
                         // subir nivel do usuario
                     }
-                    case 2 -> usarItem();
+                    case 2 -> jogador.getInventario().usarItemFora(jogador, sc);
                     case 3 -> jogador.getInventario().listarItens(); // criar metodo do inventario
                     case 4 -> { System.out.println("Saindo..."); return; }
                     default -> {
@@ -315,13 +315,6 @@ public class Jogo {
         }
     }
 
-    private void usarItem() {
-        jogador.getInventario().listarItens();
-        System.out.print("Digite o nome do item para usar: ");
-        String nome = sc.nextLine();
-        jogador.getInventario().getItem(nome);
-    }
-
     public void batalhar(Personagem jogador, Inimigo inimigo) throws Exception {
         System.out.println("\n⚔️ Batalhando contra " + inimigo.getNome() + "! ⚔️");
         System.out.println("---------------------------------------------");
@@ -380,7 +373,7 @@ public class Jogo {
                     }
                 }
 
-                case 3 -> usarItem();
+                case 3 -> jogador.getInventario().usarItemEmBatalha(jogador, inimigo, sc);
 
                 case 4 -> jogador.getInventario().listarItens();
 
