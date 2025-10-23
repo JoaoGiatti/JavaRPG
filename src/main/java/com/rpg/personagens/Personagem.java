@@ -92,7 +92,7 @@ public abstract class Personagem implements Cloneable {
 
                 default -> {
                     System.out.println("Opção inválida! Escolha novamente.");
-                    tratarMorte(jogador, inimigo, jogo);
+                    tratarMorte(jogador, inimigo, jogo, progressao);
                 }
             }
         }
