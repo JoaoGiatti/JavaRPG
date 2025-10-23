@@ -2,6 +2,9 @@ package com.rpg.personagens;
 
 import com.rpg.inventario.Inventario;
 import com.rpg.inventario.Item;
+import com.rpg.jogo.Jogo;
+
+import java.util.Scanner;
 
 public abstract class Personagem implements Cloneable {
 
@@ -17,6 +20,8 @@ public abstract class Personagem implements Cloneable {
     private Item armaDistancia;
     private Item armadura;
     private boolean temAliado = false;
+    private boolean emBatalha = false;
+    Jogo jogo;
 
     // CONSTRUTOR
 
@@ -43,6 +48,12 @@ public abstract class Personagem implements Cloneable {
     public void setTemAliado(boolean temAliado) {
         this.temAliado = temAliado;
     }
+    public void setEmBatalha(boolean emBatalha) {
+        this.emBatalha = emBatalha;
+    }
+    public void setPontosVida(int pontosVida) {
+        this.pontosVida = pontosVida;
+    }
 
     // MÉTODOS
 
@@ -52,8 +63,39 @@ public abstract class Personagem implements Cloneable {
 
     public boolean estaVivo() { return pontosVida > 0; }
 
-    public void tratarMorte(Personagem jogador, Inimigo inimigo) throws Exception{
-        // TO-DO
+    public void tratarMorte(Personagem jogador, Inimigo inimigo, Jogo jogo, int progressao) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        if (!jogador.estaVivo()) {
+            System.out.println("\n======= ❌ VOCÊ MORREU ❌ =======" +
+                    "O que deseja fazer?\n" +
+                    "   [1] - Tentar novamente\n" +
+                    "   [2] - Sair do jogo");
+            System.out.print("Escolha: ");
+
+            int escolha = sc.nextInt();
+
+            switch (escolha) {
+                case 1 -> {
+                    System.out.println("\nRetomando...\n");
+                    if(jogo.opcao == 1) jogador.setPontosVida(100);
+                    if(jogo.opcao == 2) jogador.setPontosVida(70);
+                    if(jogo.opcao == 3) jogador.setPontosVida(80);
+                    System.out.println();
+                    if(jogador.emBatalha()) jogo.batalhar(jogador, inimigo);
+                    else jogo.explorar(progressao);
+                }
+
+                case 2 -> {
+                    System.out.println("\nVocê decide encerrar sua jornada. Até a próxima!");
+                    System.exit(0); // encerra o jogo
+                }
+
+                default -> {
+                    System.out.println("Opção inválida! Escolha novamente.");
+                    tratarMorte(jogador, inimigo, jogo);
+                }
+            }
+        }
     }
 
     public void sofrerDano(int dano) {
@@ -65,7 +107,9 @@ public abstract class Personagem implements Cloneable {
         return temAliado;
     }
 
-
+    public boolean emBatalha() {
+        return emBatalha;
+    }
 
     public void curar(int valor) {
         if(this.pontosVida + valor > 100){

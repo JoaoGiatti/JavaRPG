@@ -12,7 +12,7 @@ public class Jogo {
     private Inimigo inimigo;
     private final RolagemDeDados rolagem = new RolagemDeDados();
     private int progressao = 0;
-    private int opcao = 0;
+    public int opcao = 0;
 
     public void iniciar() throws Exception {
         System.out.println("Bem-vindo ao RPG de Texto!");
@@ -64,10 +64,10 @@ public class Jogo {
                 e.printStackTrace();
             }
         }
-        jogador.tratarMorte(jogador, inimigo);
+        jogador.tratarMorte(jogador, inimigo, this, progressao);
     }
 
-    private void explorar(int progressao) throws Exception {
+    public void explorar(int progressao) throws Exception {
         switch (progressao) {
             case 0 -> {
                 //  ----------- CONTEXTO DA PROGRESSÃO ----------
@@ -354,7 +354,7 @@ public class Jogo {
                             jogador.getNome() + " acorda e segue seu caminho,\n" +
                             "até que percebe algo estranho...\n" +
                             "Fumaça! Uma pessoa talvez. Uma esperança de ajuda.\n" +
-                            jogador.getNome() + "segue o rastro e, chegando mais perto, enxerga sua esperança.\n" +
+                            jogador.getNome() + " segue o rastro e, chegando mais perto, enxerga sua esperança.\n" +
                             "É mesmo uma pessoa, que tinha acabado de apagar sua fogueira.\n" +
                             jogador.getNome() + " acena, a pessoa se assusta, mas você o acalma,\n" +
                             "diz que está perdido e que seguiu o rastro de fumaça.\n" +
@@ -501,7 +501,7 @@ public class Jogo {
                 System.out.println("Você sofreu " + danoFinal + " de dano!");
 
                 if (!jogador.estaVivo()) {
-                    jogador.tratarMorte(jogador, inimigo);
+                    jogador.tratarMorte(jogador, inimigo, this, progressao);
                     return;
                 }
             }
