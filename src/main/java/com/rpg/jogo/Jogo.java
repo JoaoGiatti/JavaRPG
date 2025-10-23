@@ -480,18 +480,24 @@ public class Jogo {
 
                 double percentualBloqueio;
                 if (rolagemDefesa >= 15) {
-                    percentualBloqueio = 0.8;
+                    percentualBloqueio = 0.15;
                 } else if (rolagemDefesa >= 8) {
-                    percentualBloqueio = 0.5;
+                    percentualBloqueio = 0.10;
                 } else {
-                    percentualBloqueio = 0.03;
+                    percentualBloqueio = 0.05;
                 }
 
-                double bloqueioEfetivo = jogador.getDefesa() * percentualBloqueio;
-                int danoFinal = (int) Math.max(0, danoBase - (danoBase * bloqueioEfetivo));
+                // defesa aumenta o percentual de bloqueio, mas de forma controlada
+                double bloqueioEfetivo = percentualBloqueio + (jogador.getDefesa() / 100.0);
+
+                // nunca pode bloquear mais de 90%
+                bloqueioEfetivo = Math.min(bloqueioEfetivo, 0.9);
+
+                int danoFinal = (int) Math.max(0, danoBase * (1 - bloqueioEfetivo));
+                int danoBloqueado = danoBase - danoFinal;
 
                 jogador.sofrerDano(danoFinal);
-                System.out.println("Você bloqueou " + (int) (danoBase * bloqueioEfetivo) + " de dano!");
+                System.out.println("Você bloqueou " + danoBloqueado + " de dano!");
                 System.out.println("Você sofreu " + danoFinal + " de dano!");
 
                 if (!jogador.estaVivo()) {
