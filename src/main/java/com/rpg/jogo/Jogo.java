@@ -202,7 +202,7 @@ public class Jogo {
                         }
 
                         System.out.println("Você vai em direção a pessoa, ajuda ela a se levantar e vocês fogem daquele lugar.");
-                        jogador.temAliado();
+                        jogador.setTemAliado(true);
 
                         repetir = false;
                     }
@@ -303,10 +303,88 @@ public class Jogo {
                                 "Você percebe que André está perdido igualmente a você.\n" +
                                 jogador.getNome() + " fala para seguirem juntos, serem aliados.\n" +
                                 "André concorda e fica junto com " + jogador.getNome() + " naquela fogueira.\n");
-                        jogador.temAliado();
+                        jogador.setTemAliado(true);
                     } else {
                         System.out.println("Era uma rajada de vento forte que apagou o fogo. Perdeu 5 de HP pelo frio.");
                         jogador.sofrerDano(5);
+                    }
+                }
+            }
+
+            case 3 -> {
+                //  ----------- CONTEXTO DA PROGRESSÃO ----------
+
+                if(jogador.temAliado()) {
+                    System.out.println("A noite passou...\n" +
+                            jogador.getNome() + " acorda e André já está acordado.\n" +
+                            "Vocês seguem o caminho juntos.\n" +
+                            "Até que...");
+
+                    //  ----------- ROLAGEM DE DADO ----------
+
+                    rolagem.simulacao(jogador);
+                    int evento = rolagem.rolar();
+                    System.out.println("RESULTADO DO D20: " + evento);
+
+                    // //  ----------- EVENTOS ----------
+
+                    if (evento >= 15) {
+                        if(opcao == 1) {
+                            System.out.println("Você encontrou um escudo!");
+                            jogador.getInventario().adicionarItem(new Item("Escudo", Item.TipoItem.EQUIPAVEL, 10, 1));
+                        }
+                        if(opcao == 2) {
+                            System.out.println("Você encontrou um pergaminho de magia!");
+                            jogador.getInventario().adicionarItem(new Item("Pergaminho de Magia", Item.TipoItem.EQUIPAVEL, 10, 1));
+                        }
+                        if(opcao == 3) {
+                            System.out.println("Você encontrou um flecha incendiária!");
+                            jogador.getInventario().adicionarItem(new Item("Flecha Incendiária", Item.TipoItem.ATIRAVEL, 10, 1));
+                        }
+                    } else if (evento >= 8) {
+                        System.out.println("Você encontrou um inimigo!");
+                        batalhar(jogador, new Inimigo("Golem", 65, 20, 15));
+                    } else {
+                        System.out.println("Você tropeçou em uma pedra e se cortou. Perdeu 10 de HP!");
+                        jogador.sofrerDano(10);
+                    }
+                }
+                else{
+                    System.out.println("A noite passou...\n" +
+                            jogador.getNome() + " acorda e segue seu caminho,\n" +
+                            "até que percebe algo estranho...\n" +
+                            "Fumaça! Uma pessoa talvez. Uma esperança de ajuda.\n" +
+                            jogador.getNome() + "segue o rastro e, chegando mais perto, enxerga sua esperança.\n" +
+                            "É mesmo uma pessoa, que tinha acabado de apagar sua fogueira.\n" +
+                            jogador.getNome() + " acena, a pessoa se assusta, mas você o acalma,\n" +
+                            "diz que está perdido e que seguiu o rastro de fumaça.\n" +
+                            "O homem, fica aliviado, diz que achava que estava sozinho naquela ilha.\n" +
+                            jogador.getNome() + " pergunta seu nome e o homem diz que se chamava André\n" +
+                            "e acordou naquela ilha a dois dias atrás sem se lembrar de nada.\n" +
+                            "Você percebe que André está perdido igualmente a você.\n" +
+                            jogador.getNome() + " fala para seguirem juntos, serem aliados.\n" +
+                            "André concorda.\n" +
+                            "Vocês seguem juntos.\n");
+                    jogador.setTemAliado(true);
+                    System.out.println("Vocês continuam caminhando, até que...");
+
+                    //  ----------- ROLAGEM DE DADO ----------
+
+                    rolagem.simulacao(jogador);
+                    int evento = rolagem.rolar();
+                    System.out.println("RESULTADO DO D20: " + evento);
+
+                    // //  ----------- EVENTOS ----------
+
+                    if (evento >= 15) {
+                        System.out.println("Você encontrou uma poção!");
+                        jogador.getInventario().adicionarItem(new Item("Poção de Cura", Item.TipoItem.CURA, 15, 1));
+                    } else if (evento >= 8) {
+                        System.out.println("Você encontrou um inimigo!");
+                        batalhar(jogador, new Inimigo("Golem", 65, 20, 15));
+                    } else {
+                        System.out.println("Você se cortou em um galho quebrado de uma árvore. Perdeu 7 de HP!");
+                        jogador.sofrerDano(7);
                     }
                 }
             }

@@ -16,6 +16,7 @@ public abstract class Personagem implements Cloneable {
     private Item armaFisica;
     private Item armaDistancia;
     private Item armadura;
+    private boolean temAliado = false;
 
     // CONSTRUTOR
 
@@ -39,7 +40,9 @@ public abstract class Personagem implements Cloneable {
 
     // SETTERS -> TO-DO
 
-
+    public void setTemAliado(boolean temAliado) {
+        this.temAliado = temAliado;
+    }
 
     // MÉTODOS
 
@@ -59,8 +62,10 @@ public abstract class Personagem implements Cloneable {
     }
 
     public boolean temAliado() {
-        return true;
+        return temAliado;
     }
+
+
 
     public void curar(int valor) {
         if(this.pontosVida + valor > 100){
