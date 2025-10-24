@@ -21,7 +21,6 @@ public abstract class Personagem implements Cloneable {
     private Item armadura;
     private boolean temAliado = false;
     private boolean emBatalha = false;
-    Jogo jogo;
 
     // CONSTRUTOR
 
@@ -63,26 +62,36 @@ public abstract class Personagem implements Cloneable {
 
     public boolean estaVivo() { return pontosVida > 0; }
 
-    public void tratarMorte(Personagem jogador, Inimigo inimigo, Jogo jogo, int progressao) throws Exception {
+    public void tratarMorte(Personagem jogador, Aliado aliado, Inimigo inimigo, Jogo jogo, int progressao) throws Exception {
         Scanner sc = new Scanner(System.in);
         if (!jogador.estaVivo()) {
-            System.out.println("\n======= ❌ VOCÊ MORREU ❌ =======" +
+            System.out.println("\n======= 💀 VOCÊ MORREU 💀 =======\n" +
                     "O que deseja fazer?\n" +
                     "   [1] - Tentar novamente\n" +
                     "   [2] - Sair do jogo");
             System.out.print("Escolha: ");
 
             int escolha = sc.nextInt();
+            sc.nextLine();
 
             switch (escolha) {
                 case 1 -> {
-                    System.out.println("\nRetomando...\n");
+                    System.out.println("\nRetomando...");
                     if(jogo.opcao == 1) jogador.setPontosVida(100);
                     if(jogo.opcao == 2) jogador.setPontosVida(70);
                     if(jogo.opcao == 3) jogador.setPontosVida(80);
                     System.out.println();
-                    if(jogador.emBatalha()) jogo.batalhar(jogador, inimigo);
-                    else jogo.explorar(progressao);
+                    if(jogador.emBatalha()){
+                        if(jogador.temAliado()){
+                            jogo.batalharComAliado(jogador, aliado, inimigo);
+                        }
+                        else{
+                            jogo.batalhar(jogador, inimigo);
+                        }
+                    }
+                    else {
+                        jogo.explorar(progressao - 1);
+                    }
                 }
 
                 case 2 -> {
@@ -92,7 +101,7 @@ public abstract class Personagem implements Cloneable {
 
                 default -> {
                     System.out.println("Opção inválida! Escolha novamente.");
-                    tratarMorte(jogador, inimigo, jogo, progressao);
+                    tratarMorte(jogador, aliado, inimigo, jogo, progressao);
                 }
             }
         }
