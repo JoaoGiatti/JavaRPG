@@ -94,7 +94,7 @@ public class Jogo {
                         Item arco = new Item("Arco", Item.TipoItem.DISTANCIA, 5, 1);
                         jogador.getInventario().adicionarItem(arco);
                     }
-                    Item pocaoDeCura = new Item("Pocao de Cura nv1", Item.TipoItem.CURA, 20, 1);
+                    Item pocaoDeCura = new Item("Poção de Cura", Item.TipoItem.CURA, 20, 1);
                     jogador.getInventario().adicionarItem(pocaoDeCura);
 
                     System.out.println("Leva consigo, pois algo lhe diz que vai precisar.\n" +

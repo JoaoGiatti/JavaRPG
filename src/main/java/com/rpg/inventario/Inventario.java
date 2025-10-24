@@ -62,16 +62,21 @@ public class Inventario implements Cloneable {
             return;
         }
 
-        listarItens();
-        System.out.print("Digite o nome do item que deseja usar: ");
-        String nome = sc.nextLine();
-
-        Item item = getItem(nome);
-        if (item == null) {
-            System.out.println("Item não encontrado!");
+        listarItensComIndices();
+        System.out.print("Digite o número do item que deseja usar: ");
+        int escolha;
+        try {
+            escolha = Integer.parseInt(sc.nextLine());
+            if (escolha < 1 || escolha > itens.size()) {
+                System.out.println("Escolha inválida! Digite novamente...");
+                return;
+            }
+        } catch (Exception e) {
+            System.out.println("Entrada inválida! Digite novamente...");
             return;
         }
 
+        Item item = itens.get(escolha - 1); // índice ajustado
         item.usar(jogador);
         try {
             item.setQuantidade(item.getQuantidade() - 1);
@@ -89,17 +94,23 @@ public class Inventario implements Cloneable {
             return;
         }
 
-        listarItens();
-        System.out.print("Digite o nome do item que deseja usar: ");
-        String nome = sc.nextLine();
-
-        Item item = getItem(nome);
-        if (item == null) {
-            System.out.println("Item não encontrado!");
+        listarItensComIndices();
+        System.out.print("Digite o número do item que deseja usar: ");
+        int escolha;
+        try {
+            escolha = Integer.parseInt(sc.nextLine());
+            if (escolha < 1 || escolha > itens.size()) {
+                System.out.println("Escolha inválida! Digite novamente...");
+                return;
+            }
+        } catch (Exception e) {
+            System.out.println("Entrada inválida! Digite novamente...");
             return;
         }
 
+        Item item = itens.get(escolha - 1); // índice ajustado
         item.usarBatalha(jogador, inimigo);
+
         try {
             item.setQuantidade(item.getQuantidade() - 1);
             if (item.getQuantidade() <= 0) {
@@ -107,6 +118,14 @@ public class Inventario implements Cloneable {
             }
         } catch (Exception e) {
             System.out.println("Erro ao atualizar quantidade do item: " + e.getMessage());
+        }
+    }
+
+    public void listarItensComIndices() {
+        System.out.println("      Inventário:");
+        for (int i = 0; i < itens.size(); i++) {
+            Item item = itens.get(i);
+            System.out.println("        [" + (i + 1) + "] - " + item.getNome() + " (" + item.getQuantidade() + ")");
         }
     }
 
