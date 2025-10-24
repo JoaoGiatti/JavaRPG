@@ -468,6 +468,8 @@ public class Jogo {
             if (jogadorAtacou) {
                 if (!inimigo.estaVivo()) {
                     System.out.println("\n💀 " + inimigo.getNome() + " foi derrotado!");
+                    getDropItem();
+                    System.out.println("\n-------------- ⚔️ Fim da Batalha ⚔️--------------\n");
                     return;
                 }
 
@@ -600,6 +602,8 @@ public class Jogo {
             if (jogadorAtacou) {
                 if (!inimigo.estaVivo()) {
                     System.out.println("\n💀 " + inimigo.getNome() + " foi derrotado!");
+                    getDropItem();
+                    System.out.println("\n-------------- ⚔️ Fim da Batalha ⚔️--------------\n");
                     return;
                 }
 
@@ -660,5 +664,34 @@ public class Jogo {
         }
         jogador.setEmBatalha(false);
     }
+    public Item droparItem(){
+        List<Item> possiveisDrops = new ArrayList<>();
+        if(opcao == 1){
+            possiveisDrops.add(new Item("Poção de Cura", Item.TipoItem.CURA, 15, 1));
+            possiveisDrops.add(new Item("Escudo", Item.TipoItem.EQUIPAVEL, 10, 1));
+            possiveisDrops.add(new Item("Armadura", Item.TipoItem.EQUIPAVEL, 20, 1));
+            possiveisDrops.add(new Item("Frasco Ígneo", Item.TipoItem.ATIRAVEL, 25, 1));
+        }
+        if(opcao == 2){
+            possiveisDrops.add(new Item("Poção de Cura", Item.TipoItem.CURA, 25, 1));
+            possiveisDrops.add(new Item("Livro das Sombras", Item.TipoItem.EQUIPAVEL, 15, 1)); // 15% a mais de dano
+            possiveisDrops.add(new Item("Essência Flamejante", Item.TipoItem.EQUIPAVEL, 10, 1));
+            possiveisDrops.add(new Item("Frasco de Veneno", Item.TipoItem.ATIRAVEL, 25, 1));
+        }
+        if(opcao == 3){
+            possiveisDrops.add(new Item("Poção de Cura", Item.TipoItem.CURA, 20, 1));
+            possiveisDrops.add(new Item("Poção de Foco", Item.TipoItem.DISTANCIA, 15, 1)); // 15% chance maior de acertar
+            possiveisDrops.add(new Item("Arco incendiário", Item.TipoItem.ATIRAVEL, 15, 1));
+            possiveisDrops.add(new Item("Frasco Congelante", Item.TipoItem.ATIRAVEL, 25, 1)); // inimigos lentos e 15 de dano por gelo
+        }
 
+        Random rand = new Random();
+        return possiveisDrops.get(rand.nextInt(possiveisDrops.size()));
+    }
+
+    public void getDropItem() throws Exception {
+        Item itemDropado = droparItem();
+        jogador.getInventario().adicionarItem(itemDropado);
+        System.out.println("⭐ Item dropado: " + itemDropado.getNome() + "!");
+    }
 }
