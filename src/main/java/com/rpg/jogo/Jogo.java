@@ -583,23 +583,24 @@ public class Jogo {
                 default -> System.out.println("Opção inválida!");
             }
 
-            // --- TURNO DO ALIADO ---
-            if (aliado.estaVivo() && inimigo.estaVivo()) {
-                System.out.println("\nTurno de " + aliado.getNome() + "!");
-                int eventoAliado = rolagem.rolar();
-                System.out.println("RESULTADO DO D20 (aliado): " + eventoAliado);
-
-                if (eventoAliado >= 6) { // chance razoável de acertar
-                    int danoAliado = aliado.getAtaque() + (int) (Math.random() * 6);
-                    System.out.println(aliado.getNome() + " ataca causando " + danoAliado + " de dano!");
-                    inimigo.sofrerDano(danoAliado);
-                } else {
-                    System.out.println(aliado.getNome() + " errou o ataque!");
-                }
-            }
-
-            // só roda o turno do inimigo se o jogador realmente atacou
+            // só roda o turno do inimigo e do aliado se o jogador realmente atacou
             if (jogadorAtacou) {
+                // --- TURNO DO ALIADO ---
+
+                if (aliado.estaVivo() && inimigo.estaVivo()) {
+                    System.out.println("\nTurno de " + aliado.getNome() + "!");
+                    int eventoAliado = rolagem.rolar();
+                    System.out.println("RESULTADO DO D20 (aliado): " + eventoAliado);
+
+                    if (eventoAliado >= 6) { // chance razoável de acertar
+                        int danoAliado = aliado.getAtaque() + (int) (Math.random() * 6);
+                        System.out.println(aliado.getNome() + " ataca causando " + danoAliado + " de dano!");
+                        inimigo.sofrerDano(danoAliado);
+                    } else {
+                        System.out.println(aliado.getNome() + " errou o ataque!");
+                    }
+                }
+
                 if (!inimigo.estaVivo()) {
                     System.out.println("\n💀 " + inimigo.getNome() + " foi derrotado!");
                     getDropItem();
@@ -664,6 +665,7 @@ public class Jogo {
         }
         jogador.setEmBatalha(false);
     }
+
     public Item droparItem(){
         List<Item> possiveisDrops = new ArrayList<>();
         if(opcao == 1){
