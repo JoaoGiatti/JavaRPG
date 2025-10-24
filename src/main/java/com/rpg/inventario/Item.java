@@ -66,6 +66,7 @@ public class Item {
         switch (tipo) {
             case CURA:
                 jogador.curar((int) valor);
+                System.out.println(jogador.getNome() + " recuperou " + valor + " de HP.");
                 break;
             case ATIRAVEL:
                 System.out.println("Esse item só pode ser usado em batalha!");
