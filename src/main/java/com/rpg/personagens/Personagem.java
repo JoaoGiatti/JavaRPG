@@ -21,35 +21,61 @@ public abstract class Personagem implements Cloneable {
     private Item armadura;
     private boolean temAliado = false;
     private boolean emBatalha = false;
+    private final int vidaMaxima;
+    private Jogo jogo;
 
     // CONSTRUTOR
 
-    public Personagem(String nome, int pontosVida, int ataque, int defesa) {
+    public Personagem(String nome, int pontosVida, int ataque, int defesa, int vidaMaxima) {
         this.nome = nome;
         this.pontosVida = pontosVida;
         this.ataque = ataque;
         this.defesa = defesa;
         this.nivel = 1;
         this.inventario = new Inventario();
+        this.vidaMaxima = vidaMaxima;
     }
 
     //GETTERS
 
-    public String getNome() { return this.nome; }
-    public int getPontosVida() { return this.pontosVida; }
-    public int getAtaque() { return ataque; }
-    public int getNivel() { return nivel; }
-    public int getDefesa() { return defesa; }
-    public Inventario getInventario() { return inventario; }
+    public String getNome() {
+        return this.nome;
+    }
+
+    public int getPontosVida() {
+        return this.pontosVida;
+    }
+
+    public int getAtaque() {
+        return ataque;
+    }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public int getDefesa() {
+        return defesa;
+    }
+
+    public Inventario getInventario() {
+        return inventario;
+    }
+
+    public int getVidaMaxima() {
+        return vidaMaxima;
+    }
 
     // SETTERS -> TO-DO
 
     public void setTemAliado(boolean temAliado) {
         this.temAliado = temAliado;
     }
+
     public void setEmBatalha(boolean emBatalha) {
         this.emBatalha = emBatalha;
     }
+
     public void setPontosVida(int pontosVida) {
         this.pontosVida = pontosVida;
     }
@@ -60,7 +86,9 @@ public abstract class Personagem implements Cloneable {
         this.ataque = ataque;
     }
 
-    public boolean estaVivo() { return pontosVida > 0; }
+    public boolean estaVivo() {
+        return pontosVida > 0;
+    }
 
     public void tratarMorte(Personagem jogador, Aliado aliado, Inimigo inimigo, Jogo jogo, int progressao) throws Exception {
         Scanner sc = new Scanner(System.in);
@@ -77,19 +105,17 @@ public abstract class Personagem implements Cloneable {
             switch (escolha) {
                 case 1 -> {
                     System.out.println("\nRetomando...");
-                    if(jogo.opcao == 1) jogador.setPontosVida(100);
-                    if(jogo.opcao == 2) jogador.setPontosVida(70);
-                    if(jogo.opcao == 3) jogador.setPontosVida(80);
+                    jogador.restaurarVidaTotal();
+                    aliado.restaurarVidaTotal();
+                    inimigo.restaurarVidaTotal();
                     System.out.println();
-                    if(jogador.emBatalha()){
-                        if(jogador.temAliado()){
+                    if (jogador.emBatalha()) {
+                        if (jogador.temAliado()) {
                             jogo.batalharComAliado(jogador, aliado, inimigo);
-                        }
-                        else{
+                        } else {
                             jogo.batalhar(jogador, inimigo);
                         }
-                    }
-                    else {
+                    } else {
                         jogo.explorar(progressao - 1);
                     }
                 }
@@ -107,6 +133,10 @@ public abstract class Personagem implements Cloneable {
         }
     }
 
+    public void restaurarVidaTotal() {
+        this.pontosVida = this.vidaMaxima;
+    }
+
     public void sofrerDano(int dano) {
         this.pontosVida -= dano;
         if (this.pontosVida < 0) this.pontosVida = 0;
@@ -120,13 +150,35 @@ public abstract class Personagem implements Cloneable {
         return emBatalha;
     }
 
-    public void curar(int valor) {
-        if(this.pontosVida + valor > 100){
-            this.pontosVida = 100;
+    public boolean curar(int valor) {
+        Scanner sc = new Scanner(System.in);
+
+        if (this.pontosVida + valor > vidaMaxima) {
+            System.out.println("⚠️ Você passará dos seus pontos máximos de vida e perderá parte da cura! ⚠️\n" +
+                    "Deseja usar mesmo assim?\n" +
+                    "   [1] - Sim\n" +
+                    "   [2] - Não\n" +
+                    "Escolha: ");
+            int escolha = sc.nextInt();
+            sc.nextLine();
+
+            if (escolha == 1) {
+                this.pontosVida = vidaMaxima;
+                System.out.println(getNome() + " recuperou até o máximo de HP.\n" +
+                        "Pontos de vida: " + getPontosVida());
+                return true;
+            } else {
+                System.out.println("Item não usado.");
+                return false;
+            }
         } else {
             this.pontosVida += valor;
+            System.out.println(getNome() + " recuperou " + valor + " de HP.\n" +
+                    "Pontos de vida: " + getPontosVida());
+            return true;
         }
     }
+
 
     public void equipar(Item item) throws Exception {
         switch (item.getTipo()) {

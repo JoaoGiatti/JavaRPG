@@ -4,11 +4,9 @@ import com.rpg.dados.RolagemDeDados;
 
 public class Dragao extends Inimigo {
     private int danoFogo;
-    RolagemDeDados rolagem;
-    Personagem personagem;
 
-    public Dragao(String nome,  int pontosVida, int ataque, int defesa, int danoFogo) {
-        super("Dragão", 300, 70, 80);
+    public Dragao(int danoFogo) {
+        super("Dragão", 300, 70, 80, 300);
         this.danoFogo = danoFogo;
     }
 

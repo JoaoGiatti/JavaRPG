@@ -29,9 +29,9 @@ public class Jogo {
             case 1 -> jogador = new Guerreiro(nome);
             case 2 -> jogador = new Mago(nome);
             case 3 -> jogador = new Arqueiro(nome);
-            default -> jogador = new Guerreiro(nome);
+            default -> System.out.println("Opção inválida! Digite novamente.");
         }
-        aliado = new Aliado("André", jogador.getPontosVida(), jogador.getAtaque(), jogador.getDefesa());
+        aliado = new Aliado("André", jogador.getPontosVida(), jogador.getAtaque(), jogador.getDefesa(), jogador.getVidaMaxima());
 
         loopPrincipal();
     }
@@ -110,10 +110,10 @@ public class Jogo {
 
                     if (evento >= 15) {
                         System.out.println("Você encontrou uma poção de cura no chão!");
-                        jogador.getInventario().adicionarItem(new Item("Poção de Cura nv1", Item.TipoItem.CURA, 20, 1));
+                        jogador.getInventario().adicionarItem(new Item("Poção de Cura", Item.TipoItem.CURA, 20, 1));
                     } else if (evento >= 8) {
                         System.out.println("Você encontrou um inimigo!");
-                        batalhar(jogador, new Inimigo("Aranha Gigante", 20, 8, 5));
+                        batalhar(jogador, new Inimigo("Aranha Gigante", 20, 8, 5, 20));
                     } else {
                         System.out.println("Você andou com tanta confiança, que caiu numa armadilha de urso óbvia no chão! Perdeu 10 de HP!");
                         jogador.sofrerDano(10);
@@ -166,14 +166,14 @@ public class Jogo {
                                             Atira ela para longe, o lobo olha, mas volta a atacar a pessoa.
                                             Você não conseguiu destrair o lobo.
                                             Sua única opção é atacar.""");
-                                    batalhar(jogador, new Inimigo("Lobo", 40, 16, 8));
+                                    batalhar(jogador, new Inimigo("Lobo", 40, 16, 8, 40));
                                 } else {
                                     System.out.println("""
                                             Você não encontra nada ao seu redor.
                                             Mas enquanto procurava, sem prestar atenção pisou em um galho seco.
                                             O lobo escutou... e agora está em sua direção...
                                             Sua única opção é atacar.""");
-                                    batalhar(jogador, new Inimigo("Lobo", 40, 16, 8));
+                                    batalhar(jogador, new Inimigo("Lobo", 40, 16, 8, 40));
                                 }
                             } else if (opc == 2) {
                                 if (evento >= 15) {
@@ -182,7 +182,7 @@ public class Jogo {
                                             Ele está muito destraído atacando a pessoa, então não sente sua presença ali.
                                             Você consegue chegar atrás do lobo.
                                             Sua única opção é atacar.""");
-                                    batalhar(jogador, new Inimigo("Lobo", 55, 16, 8));
+                                    batalhar(jogador, new Inimigo("Lobo", 55, 16, 8, 55));
 
                                 } else if (evento >= 8) {
                                     System.out.println("""
@@ -191,14 +191,14 @@ public class Jogo {
                                             Mas o lobo está tão focado em atacar a pessoa, que não escuta.
                                             Você chega atrás do lobo.
                                             Sua única opção é atacar.""");
-                                    batalhar(jogador, new Inimigo("Lobo", 55, 16, 8));
+                                    batalhar(jogador, new Inimigo("Lobo", 55, 16, 8, 55));
 
                                 } else {
                                     System.out.println("Você tenta andar furtivamente para trás do lobo.\n" +
                                             "Mas você não prestou atenção em um galho seco que estava bem na sua frente.\n" +
                                             "Pisa, o lobo escuta, e agora ele está indo em sua direção...\n" +
                                             "Sua única opção é atacar.");
-                                    batalhar(jogador, new Inimigo("Lobo", 55, 16, 8));
+                                    batalhar(jogador, new Inimigo("Lobo", 55, 16, 8, 55));
                                 }
                             } else {
                                 System.out.println("Número inválido! Retornando...\n");
@@ -227,7 +227,7 @@ public class Jogo {
                                 jogador.getInventario().adicionarItem(new Item("Poção de Cura (25)", Item.TipoItem.CURA, 25, 1));
                             } else if (evento >= 8) {
                                 System.out.println("Você encontrou um inimigo!");
-                                batalhar(jogador, new Inimigo("Lobo", 55, 15, 8));
+                                batalhar(jogador, new Inimigo("Lobo", 55, 15, 8, 55));
                             } else {
                                 System.out.println("Você caiu em um buraco! Perdeu 10 de HP!");
                                 jogador.sofrerDano(10);
@@ -272,7 +272,7 @@ public class Jogo {
                             jogador.sofrerDano(3);
                         } else {
                             System.out.println("Vocês encontraram um inimigo!");
-                            batalharComAliado(jogador, aliado, new Inimigo("Ogro", 60, 18, 10));
+                            batalharComAliado(jogador, aliado, new Inimigo("Ogro", 60, 18, 10, 60));
                         }
                     } else {
                         System.out.println("Continua andando e encontra um lugar calmo.\n" +
@@ -343,7 +343,7 @@ public class Jogo {
                             }
                         } else if (evento >= 8) {
                             System.out.println("Vocês encontraram um inimigo!");
-                            batalharComAliado(jogador, aliado, new Inimigo("Golem", 65, 20, 15));
+                            batalharComAliado(jogador, aliado, new Inimigo("Golem", 65, 20, 15, 65));
                         } else {
                             System.out.println("Você tropeçou em uma pedra e se cortou. Perdeu 10 de HP!");
                             jogador.sofrerDano(10);
@@ -380,7 +380,7 @@ public class Jogo {
                             jogador.getInventario().adicionarItem(new Item("Poção de Cura", Item.TipoItem.CURA, 15, 1));
                         } else if (evento >= 8) {
                             System.out.println("Vocês encontraram um inimigo!");
-                            batalharComAliado(jogador, aliado, new Inimigo("Golem", 65, 20, 15));
+                            batalharComAliado(jogador, aliado, new Inimigo("Golem", 65, 20, 15, 65));
                         } else {
                             System.out.println("Você se cortou em um galho quebrado de uma árvore. Perdeu 7 de HP!");
                             jogador.sofrerDano(7);

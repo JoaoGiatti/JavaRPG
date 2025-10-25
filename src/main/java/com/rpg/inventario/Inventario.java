@@ -56,7 +56,7 @@ public class Inventario implements Cloneable {
         }
     }
 
-    public void usarItemFora(Personagem jogador, Scanner sc) {
+    public void usarItemFora(Personagem jogador, Scanner sc) throws Exception {
         if (itens.isEmpty()) {
             System.out.println("Você não possui itens para usar.");
             return;
@@ -77,18 +77,16 @@ public class Inventario implements Cloneable {
         }
 
         Item item = itens.get(escolha - 1); // índice ajustado
-        item.usar(jogador);
-        try {
+        boolean usado = item.usar(jogador);
+        if (usado) {
             item.setQuantidade(item.getQuantidade() - 1);
             if (item.getQuantidade() <= 0) {
                 itens.remove(item);
             }
-        } catch (Exception e) {
-            System.out.println("Erro ao atualizar quantidade do item: " + e.getMessage());
         }
     }
 
-    public void usarItemEmBatalha(Personagem jogador, Inimigo inimigo, Scanner sc) {
+    public void usarItemEmBatalha(Personagem jogador, Inimigo inimigo, Scanner sc) throws Exception {
         if (itens.isEmpty()) {
             System.out.println("Você não possui itens para usar.");
             return;
@@ -109,15 +107,12 @@ public class Inventario implements Cloneable {
         }
 
         Item item = itens.get(escolha - 1); // índice ajustado
-        item.usarBatalha(jogador, inimigo);
-
-        try {
+        boolean usado = item.usarBatalha(jogador, inimigo);
+        if (usado) {
             item.setQuantidade(item.getQuantidade() - 1);
             if (item.getQuantidade() <= 0) {
                 itens.remove(item);
             }
-        } catch (Exception e) {
-            System.out.println("Erro ao atualizar quantidade do item: " + e.getMessage());
         }
     }
 

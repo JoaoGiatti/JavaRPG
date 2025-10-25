@@ -48,34 +48,31 @@ public class Item {
 
     // MÉTODOS
 
-    public void usarBatalha(Personagem jogador, Inimigo inimigo) {
+    public boolean usarBatalha(Personagem jogador, Inimigo inimigo) {
         switch (tipo) {
             case CURA:
-                jogador.curar((int) valor);
-                System.out.println(jogador.getNome() + " recuperou " + valor + " de HP.");
-                break;
+                return jogador.curar((int) valor);
             case ATIRAVEL:
                 inimigo.sofrerDano((int) valor);
-                break;
+                return true;
             default:
                 System.out.println("Esse item precisa ser equipado.");
+                return false;
         }
     }
 
-    public void usar(Personagem jogador) {
+    public boolean usar(Personagem jogador) {
         switch (tipo) {
             case CURA:
-                jogador.curar((int) valor);
-                System.out.println(jogador.getNome() + " recuperou " + valor + " de HP.");
-                break;
+                return jogador.curar((int) valor);
             case ATIRAVEL:
                 System.out.println("Esse item só pode ser usado em batalha!");
-                break;
+                return false;
             default:
                 System.out.println("Esse item precisa ser equipado.");
+                return false;
         }
     }
-
 
     // REIMPLEMENTAÇÕES
 
