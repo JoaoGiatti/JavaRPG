@@ -676,15 +676,15 @@ public class Jogo {
         }
         if(opcao == 2){
             possiveisDrops.add(new Item("Poção de Cura", Item.TipoItem.CURA, 25, 1));
-            possiveisDrops.add(new Item("Livro das Sombras", Item.TipoItem.EQUIPAVEL, 15, 1)); // 15% a mais de dano
-            possiveisDrops.add(new Item("Essência Flamejante", Item.TipoItem.EQUIPAVEL, 10, 1));
+            possiveisDrops.add(new Item("Livro das Sombras", Item.TipoItem.EQUIPAVEL, 15, 1)); // 15 a mais de dano
+            possiveisDrops.add(new Item("Essência Flamejante", Item.TipoItem.DISTANCIA, 10, 1));
             possiveisDrops.add(new Item("Frasco de Veneno", Item.TipoItem.ATIRAVEL, 25, 1));
         }
         if(opcao == 3){
             possiveisDrops.add(new Item("Poção de Cura", Item.TipoItem.CURA, 20, 1));
-            possiveisDrops.add(new Item("Poção de Foco", Item.TipoItem.DISTANCIA, 15, 1)); // 15% chance maior de acertar
-            possiveisDrops.add(new Item("Arco incendiário", Item.TipoItem.ATIRAVEL, 15, 1));
-            possiveisDrops.add(new Item("Frasco Congelante", Item.TipoItem.ATIRAVEL, 25, 1)); // inimigos lentos e 15 de dano por gelo
+            possiveisDrops.add(new Item("Luva de Precisão", Item.TipoItem.EQUIPAVEL, 10, 1));
+            possiveisDrops.add(new Item("Arco incendiário", Item.TipoItem.DISTANCIA, 15, 1));
+            possiveisDrops.add(new Item("Frasco Congelante", Item.TipoItem.ATIRAVEL, 15, 1)); // inimigos lentos e 15 de dano por gelo
         }
 
         Random rand = new Random();
