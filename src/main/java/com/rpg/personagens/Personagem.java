@@ -4,6 +4,8 @@ import com.rpg.inventario.Inventario;
 import com.rpg.inventario.Item;
 import com.rpg.jogo.Jogo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public abstract class Personagem implements Cloneable {
@@ -22,7 +24,6 @@ public abstract class Personagem implements Cloneable {
     private boolean temAliado = false;
     private boolean emBatalha = false;
     private final int vidaMaxima;
-    private Jogo jogo;
 
     // CONSTRUTOR
 
@@ -38,57 +39,24 @@ public abstract class Personagem implements Cloneable {
 
     //GETTERS
 
-    public String getNome() {
-        return this.nome;
-    }
-
-    public int getPontosVida() {
-        return this.pontosVida;
-    }
-
-    public int getAtaque() {
-        return ataque;
-    }
-
-    public int getNivel() {
-        return nivel;
-    }
-
-    public int getDefesa() {
-        return defesa;
-    }
-
-    public Inventario getInventario() {
-        return inventario;
-    }
-
-    public int getVidaMaxima() {
-        return vidaMaxima;
-    }
+    public String getNome() { return this.nome; }
+    public int getPontosVida() { return this.pontosVida; }
+    public int getAtaque() { return ataque; }
+    public int getNivel() { return nivel; }
+    public int getDefesa() { return defesa; }
+    public Inventario getInventario() { return inventario; }
+    public int getVidaMaxima() { return vidaMaxima; }
 
     // SETTERS -> TO-DO
 
-    public void setTemAliado(boolean temAliado) {
-        this.temAliado = temAliado;
-    }
-
-    public void setEmBatalha(boolean emBatalha) {
-        this.emBatalha = emBatalha;
-    }
-
-    public void setPontosVida(int pontosVida) {
-        this.pontosVida = pontosVida;
-    }
+    public void setTemAliado(boolean temAliado) { this.temAliado = temAliado; }
+    public void setEmBatalha(boolean emBatalha) { this.emBatalha = emBatalha; }
+    public void setPontosVida(int pontosVida) { this.pontosVida = pontosVida; }
+    public void setAtaque(int ataque) { this.ataque = ataque; }
 
     // MÉTODOS
 
-    public void setAtaque(int ataque) {
-        this.ataque = ataque;
-    }
-
-    public boolean estaVivo() {
-        return pontosVida > 0;
-    }
+    public boolean estaVivo() { return pontosVida > 0; }
 
     public void tratarMorte(Personagem jogador, Aliado aliado, Inimigo inimigo, Jogo jogo, int progressao) throws Exception {
         Scanner sc = new Scanner(System.in);
@@ -106,11 +74,11 @@ public abstract class Personagem implements Cloneable {
                 case 1 -> {
                     System.out.println("\nRetomando...");
                     jogador.restaurarVidaTotal();
-                    aliado.restaurarVidaTotal();
                     inimigo.restaurarVidaTotal();
                     System.out.println();
                     if (jogador.emBatalha()) {
                         if (jogador.temAliado()) {
+                            aliado.restaurarVidaTotal();
                             jogo.batalharComAliado(jogador, aliado, inimigo);
                         } else {
                             jogo.batalhar(jogador, inimigo);
@@ -179,7 +147,6 @@ public abstract class Personagem implements Cloneable {
         }
     }
 
-
     public void equipar(Item item) throws Exception {
         switch (item.getTipo()) {
             case FISICO:
@@ -206,6 +173,51 @@ public abstract class Personagem implements Cloneable {
             default:
                 throw new Exception("Esse item não é equipável!");
         }
+    }
+
+    public void desequipar(Item item) throws Exception {
+        switch (item.getTipo()) {
+            case FISICO:
+                if (this.armaFisica == null)
+                    throw new Exception("Você não tem uma arma física equipada!");
+                this.ataque -= (int) this.armaFisica.getValor();
+                this.armaFisica = null;
+                break;
+
+            case DISTANCIA:
+                if (this.armaDistancia == null)
+                    throw new Exception("Você não tem uma arma de distância equipada!");
+                this.ataque -= (int) this.armaDistancia.getValor();
+                this.armaDistancia = null;
+                break;
+
+            case EQUIPAVEL:
+                if (this.armadura == null)
+                    throw new Exception("Você não tem uma armadura equipada!");
+                this.defesa -= (int) this.armadura.getValor();
+                this.armadura = null;
+                break;
+
+            default:
+                throw new Exception("Esse tipo de item não pode ser desequipado!");
+        }
+    }
+
+    public Item getItemEquipadoDoTipo(Item.TipoItem tipo) {
+        switch (tipo) {
+            case FISICO: return armaFisica;
+            case DISTANCIA: return armaDistancia;
+            case EQUIPAVEL: return armadura;
+            default: return null;
+        }
+    }
+
+    public List<Item> getItensEquipados() {
+        List<Item> equipados = new ArrayList<>();
+        if (armaFisica != null) equipados.add(armaFisica);
+        if (armaDistancia != null) equipados.add(armaDistancia);
+        if (armadura != null) equipados.add(armadura);
+        return equipados;
     }
 
     @Override

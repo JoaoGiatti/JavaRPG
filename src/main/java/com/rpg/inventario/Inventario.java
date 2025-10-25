@@ -1,5 +1,6 @@
 package com.rpg.inventario;
 
+import com.rpg.jogo.Jogo;
 import com.rpg.personagens.Inimigo;
 import com.rpg.personagens.Personagem;
 
@@ -44,7 +45,7 @@ public class Inventario implements Cloneable {
         itens.add(novoItem);
     }
 
-    public void listarItens() {
+    public void listarItens(Personagem jogador) {
         if (itens.isEmpty()) {
             System.out.println("Inventário vazio");
             return;
@@ -54,75 +55,259 @@ public class Inventario implements Cloneable {
         for (Item item : itens) {
             System.out.println("        - " + item.getNome() + " (" + item.getQuantidade() + ")");
         }
+        listarItensEquipados(jogador);
     }
 
-    public void usarItemFora(Personagem jogador, Scanner sc) throws Exception {
-        if (itens.isEmpty()) {
-            System.out.println("Você não possui itens para usar.");
-            return;
-        }
-
-        listarItensComIndices();
-        System.out.print("Digite o número do item que deseja usar: ");
-        int escolha;
-        try {
-            escolha = Integer.parseInt(sc.nextLine());
-            if (escolha < 1 || escolha > itens.size()) {
-                System.out.println("Escolha inválida! Digite novamente...");
-                return;
-            }
-        } catch (Exception e) {
-            System.out.println("Entrada inválida! Digite novamente...");
-            return;
-        }
-
-        Item item = itens.get(escolha - 1); // índice ajustado
-        boolean usado = item.usar(jogador);
-        if (usado) {
-            item.setQuantidade(item.getQuantidade() - 1);
-            if (item.getQuantidade() <= 0) {
-                itens.remove(item);
-            }
-        }
-    }
-
-    public void usarItemEmBatalha(Personagem jogador, Inimigo inimigo, Scanner sc) throws Exception {
-        if (itens.isEmpty()) {
-            System.out.println("Você não possui itens para usar.");
-            return;
-        }
-
-        listarItensComIndices();
-        System.out.print("Digite o número do item que deseja usar: ");
-        int escolha;
-        try {
-            escolha = Integer.parseInt(sc.nextLine());
-            if (escolha < 1 || escolha > itens.size()) {
-                System.out.println("Escolha inválida! Digite novamente...");
-                return;
-            }
-        } catch (Exception e) {
-            System.out.println("Entrada inválida! Digite novamente...");
-            return;
-        }
-
-        Item item = itens.get(escolha - 1); // índice ajustado
-        boolean usado = item.usarBatalha(jogador, inimigo);
-        if (usado) {
-            item.setQuantidade(item.getQuantidade() - 1);
-            if (item.getQuantidade() <= 0) {
-                itens.remove(item);
-            }
-        }
-    }
-
-    public void listarItensComIndices() {
+    public void listarItensComIndices(Personagem jogador) {
         System.out.println("      Inventário:");
         for (int i = 0; i < itens.size(); i++) {
             Item item = itens.get(i);
             System.out.println("        [" + (i + 1) + "] - " + item.getNome() + " (" + item.getQuantidade() + ")");
         }
+
+        // Passa o tamanho do inventário para começar a numeração corretamente
+        listarItensEquipadosComIndices(jogador, itens.size());
     }
+
+    public void usarItemFora(Personagem jogador, Scanner sc) throws Exception {
+        if (itens.isEmpty() && jogador.getItensEquipados().isEmpty()) {
+            System.out.println("Você não possui itens para usar.");
+            return;
+        }
+
+        listarItensComIndices(jogador);
+        System.out.print("Digite o número do item que deseja usar: ");
+        int escolha;
+        try {
+            escolha = Integer.parseInt(sc.nextLine());
+
+            // VALIDAÇÃO USANDO totalItens
+            int totalItens = itens.size() + jogador.getItensEquipados().size();
+            if (escolha < 1 || escolha > totalItens) {
+                System.out.println("Escolha inválida!");
+                return;
+            }
+
+            // SELECIONANDO O ITEM CORRETO
+            Item item;
+            boolean jaEquipado = false;
+            if (escolha <= itens.size()) {
+                item = itens.get(escolha - 1); // vem do inventário
+            } else {
+                item = jogador.getItensEquipados().get(escolha - itens.size() - 1); // vem dos equipados
+                jaEquipado = true;
+            }
+
+            // Lógica de equipar itens, só para itens do inventário
+            if ((item.getTipo() == Item.TipoItem.FISICO ||
+                    item.getTipo() == Item.TipoItem.DISTANCIA ||
+                    item.getTipo() == Item.TipoItem.EQUIPAVEL)) {
+
+                if(jaEquipado) {
+                    System.out.print("Item já equipado! Deseja desequipar" + item.getNome() + "?\n" +
+                            "   [1] - Sim\n" +
+                            "   [2] - Não\n" +
+                            "Escolha: ");
+                    int trocar = sc.nextInt();
+                    sc.nextLine();
+
+                    if (trocar == 1) {
+                        jogador.desequipar(item);
+                        itens.add(item);
+                        System.out.println("Você desequipou " + item.getNome() + "!");
+                    } else if (trocar == 2) {
+                        System.out.println("Você manteve " + item.getNome() + " equipado.");
+                    } else{
+                        System.out.println("Número inválido! Digite novamente.");
+                    }
+                } else {
+                    System.out.print("Deseja equipar " + item.getNome() + "?\n" +
+                            "   [1] - Sim\n" +
+                            "   [2] - Não\n" +
+                            "Escolha: ");
+                    int resp = sc.nextInt();
+                    sc.nextLine();
+
+                    if (resp == 1) {
+                        Item jaEquipadoDoTipo = jogador.getItemEquipadoDoTipo(item.getTipo());
+                        if (jaEquipadoDoTipo != null) {
+                            System.out.print("Você já possui " + jaEquipadoDoTipo.getNome() + " equipado. Deseja trocar?\n" +
+                                    "   [1] - Sim\n" +
+                                    "   [2] - Não\n" +
+                                    "Escolha: ");
+                            int trocar = sc.nextInt();
+                            sc.nextLine();
+
+                            if (trocar == 1) {
+                                jogador.desequipar(jaEquipadoDoTipo);
+                                itens.add(jaEquipadoDoTipo); // volta para inventário
+                                jogador.equipar(item);
+                                itens.remove(item);
+                                System.out.println("Você equipou " + item.getNome() + "!");
+                            } else {
+                                System.out.println("Você manteve o equipamento atual.");
+                            }
+                        } else {
+                            jogador.equipar(item);
+                            itens.remove(item);
+                            System.out.println("Você equipou " + item.getNome() + "!");
+                        }
+                    } else if (resp == 2) {
+                        System.out.println("Você decidiu não equipar o item.");
+                    } else{
+                        System.out.println("Número inválido! Digite novamente.");
+                    }
+                }
+
+                return;
+            } else{
+                boolean usado = item.usar(jogador);
+                if (usado) {
+                    item.setQuantidade(item.getQuantidade() - 1);
+                    if (item.getQuantidade() <= 0) itens.remove(item);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Entrada inválida!");
+        }
+    }
+
+    public void usarItemEmBatalha(Personagem jogador, Inimigo inimigo, Scanner sc) throws Exception {
+        if (itens.isEmpty() && jogador.getItensEquipados().isEmpty()) {
+            System.out.println("Você não possui itens para usar.");
+            return;
+        }
+
+        listarItensComIndices(jogador);
+        System.out.print("Digite o número do item que deseja usar: ");
+        int escolha;
+        try {
+            escolha = Integer.parseInt(sc.nextLine());
+
+            // VALIDAÇÃO USANDO totalItens
+            int totalItens = itens.size() + jogador.getItensEquipados().size();
+            if (escolha < 1 || escolha > totalItens) {
+                System.out.println("Escolha inválida!");
+                return;
+            }
+
+            // SELECIONANDO O ITEM CORRETO
+            Item item;
+            boolean jaEquipado = false;
+            if (escolha <= itens.size()) {
+                item = itens.get(escolha - 1); // vem do inventário
+            } else {
+                item = jogador.getItensEquipados().get(escolha - itens.size() - 1); // vem dos equipados
+                jaEquipado = true;
+            }
+
+            // Lógica de equipar itens, só para itens do inventário
+            if ((item.getTipo() == Item.TipoItem.FISICO ||
+                    item.getTipo() == Item.TipoItem.DISTANCIA ||
+                    item.getTipo() == Item.TipoItem.EQUIPAVEL)) {
+
+                if(jaEquipado) {
+                    System.out.print("Item já equipado! Deseja desequipar" + item.getNome() + "?\n" +
+                            "   [1] - Sim\n" +
+                            "   [2] - Não\n" +
+                            "Escolha: ");
+                    int trocar = sc.nextInt();
+                    sc.nextLine();
+
+                    if (trocar == 1) {
+                        jogador.desequipar(item);
+                        itens.add(item);
+                        System.out.println("Você desequipou " + item.getNome() + "!");
+                    } else if (trocar == 2) {
+                        System.out.println("Você manteve " + item.getNome() + " equipado.");
+                    } else{
+                        System.out.println("Número inválido! Digite novamente.");
+                    }
+                } else {
+                    System.out.print("Deseja equipar " + item.getNome() + "?\n" +
+                            "   [1] - Sim\n" +
+                            "   [2] - Não\n" +
+                            "Escolha: ");
+                    int resp = sc.nextInt();
+                    sc.nextLine();
+
+                    if (resp == 1) {
+                        Item jaEquipadoDoTipo = jogador.getItemEquipadoDoTipo(item.getTipo());
+                        if (jaEquipadoDoTipo != null) {
+                            System.out.print("Você já possui " + jaEquipadoDoTipo.getNome() + " equipado. Deseja trocar?\n" +
+                                    "   [1] - Sim\n" +
+                                    "   [2] - Não\n" +
+                                    "Escolha: ");
+                            int trocar = sc.nextInt();
+                            sc.nextLine();
+
+                            if (trocar == 1) {
+                                jogador.desequipar(jaEquipadoDoTipo);
+                                itens.add(jaEquipadoDoTipo); // volta para inventário
+                                jogador.equipar(item);
+                                itens.remove(item);
+                                System.out.println("Você equipou " + item.getNome() + "!");
+                            } else {
+                                System.out.println("Você manteve o equipamento atual.");
+                            }
+                        } else {
+                            jogador.equipar(item);
+                            itens.remove(item);
+                            System.out.println("Você equipou " + item.getNome() + "!");
+                        }
+                    } else if (resp == 2) {
+                        System.out.println("Você decidiu não equipar o item.");
+                    } else{
+                        System.out.println("Número inválido! Digite novamente.");
+                    }
+                }
+
+                return;
+            } else{
+                boolean usado = item.usarBatalha(jogador, inimigo);
+                if (usado) {
+                    item.setQuantidade(item.getQuantidade() - 1);
+                    if (item.getQuantidade() <= 0) itens.remove(item);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Entrada inválida!");
+        }
+    }
+
+    public void listarItensEquipados(Personagem jogador) {
+        List<Item> equipados = jogador.getItensEquipados();
+
+        if (equipados.isEmpty()) {
+            return;
+        }
+
+        System.out.println("------------------------------");
+        System.out.println("      Itens Equipados:");
+        for (int i = 0; i < equipados.size(); i++) {
+            Item item = equipados.get(i);
+            System.out.println("        - " + item.getNome() + " (" + item.getQuantidade() + ")");
+        }
+
+    }
+
+    public void listarItensEquipadosComIndices(Personagem jogador, int startIndex) {
+        List<Item> equipados = jogador.getItensEquipados();
+
+        if (equipados.isEmpty()) {
+            return;
+        }
+
+        System.out.println("------------------------------");
+        System.out.println("      Itens Equipados:");
+        for (int i = 0; i < equipados.size(); i++) {
+            Item item = equipados.get(i);
+            System.out.println("        [" + (startIndex + i + 1) + "] - " + item.getNome());
+        }
+    }
+
 
     // REIMPLEMENTAÇÕES
 

@@ -55,7 +55,7 @@ public class Jogo {
                         // subir nivel do usuario
                     }
                     case 2 -> jogador.getInventario().usarItemFora(jogador, sc);
-                    case 3 -> jogador.getInventario().listarItens(); // criar metodo do inventario
+                    case 3 -> jogador.getInventario().listarItens(jogador); // criar metodo do inventario
                     case 4 -> { System.out.println("Saindo..."); return; }
                     default -> {
                         System.out.println("Número inválido! Digite novamente.");
@@ -224,7 +224,7 @@ public class Jogo {
 
                             if (evento >= 15) {
                                 System.out.println("Você encontrou uma poção!");
-                                jogador.getInventario().adicionarItem(new Item("Poção de Cura (25)", Item.TipoItem.CURA, 25, 1));
+                                jogador.getInventario().adicionarItem(new Item("Poção de Cura", Item.TipoItem.CURA, 25, 1));
                             } else if (evento >= 8) {
                                 System.out.println("Você encontrou um inimigo!");
                                 batalhar(jogador, new Inimigo("Lobo", 55, 15, 8, 55));
@@ -460,7 +460,7 @@ public class Jogo {
                 }
 
                 case 3 -> jogador.getInventario().usarItemEmBatalha(jogador, inimigo, sc);
-                case 4 -> jogador.getInventario().listarItens();
+                case 4 -> jogador.getInventario().listarItens(jogador);
                 default -> System.out.println("Opção inválida!");
             }
 
@@ -579,7 +579,7 @@ public class Jogo {
                 }
 
                 case 3 -> jogador.getInventario().usarItemEmBatalha(jogador, inimigo, sc);
-                case 4 -> jogador.getInventario().listarItens();
+                case 4 -> jogador.getInventario().listarItens(jogador);
                 default -> System.out.println("Opção inválida!");
             }
 
