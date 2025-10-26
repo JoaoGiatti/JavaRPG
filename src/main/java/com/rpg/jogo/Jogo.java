@@ -418,8 +418,138 @@ public class Jogo {
                 }
 
                 case 4 -> {
+                    // ----------- CONTEXTO DA PROGRESSÃO ----------
+                    System.out.println("""
+                            A manhã nasce fria e enevoada. André caminha à frente, calado.
+                            Vocês sobem uma trilha estreita que serpenteia a montanha, até que do alto,
+                            avistam um vilarejo coberto por neblina, escondido entre vales e árvores antigas.
+                            [ANDRÉ] >> Um vilarejo... talvez encontremos respostas lá.
+                            """);
 
+                    System.out.println("""
+                            Ao chegarem ao vilarejo, há sons de martelos, vozes, e cheiro de pão fresco.
+                            Pessoas sorriem, há crianças correndo e comerciantes chamando pelos produtos.
+                            """);
+
+                    System.out.println("   [1] - Explorar o comércio local\n" +
+                            "   [2] - Interagir com as crianças\n" +
+                            "   [3] - Procurar alguma taverna\n");
+
+                    int escolha = sc.nextInt();
+                    sc.nextLine();
+
+                    switch (escolha) {
+                        case 1 -> {
+                            System.out.println("""
+                    Você caminha até um ferreiro de barba longa.
+                    [FERREIRO] >> Estrangeiro, hein? Você tem cara de quem precisa de algo forte.
+                    Ele te mostra uma caixa de itens antigos...
+                    """);
+                            rolagem.simulacao(jogador);
+                            int evento = rolagem.rolar();
+                            System.out.println("RESULTADO DO D20: " + evento);
+                            if (evento >= 15) {
+                                System.out.println("Um ferreiro te deu 2 facas de arremesso como presente de boas-vindas!");
+                                jogador.getInventario().adicionarItem(new Item("Faca de Arremesso", Item.TipoItem.ATIRAVEL, 12, 1));
+                            } else if (evento >= 8) {
+                                System.out.println("Você consegue barganhar uns pãezinhos de amostra grátis.");
+                                jogador.getInventario().adicionarItem(new Item("Pãezinhos", Item.TipoItem.CURA, 5, 3));
+                            } else {
+                                System.out.println("Você tropeça numa pilha de ferro velho e o ferreiro ri de você. Nada encontrado.");
+                            }
+                        }
+                        case 2 -> {
+                            System.out.println("""
+                                    Você se aproxima de um grupo de crianças brincando com pedras coloridas.
+                                    Uma delas te desafia a acertar o alvo mais distante.
+                                    """);
+                            rolagem.simulacao(jogador);
+                            int evento = rolagem.rolar();
+                            System.out.println("RESULTADO DO D20: " + evento);
+                            if (evento >= 15) {
+                                System.out.println("""
+                                        Você acerta o alvo com precisão!
+                                        As crianças gritam empolgadas e te dão uma pedrinha brilhante.
+                                        """);
+                                jogador.getInventario().adicionarItem(new Item("Pedrinha Brilhante", Item.TipoItem.ATIRAVEL, 8, 1));
+                            } else if (evento >= 8) {
+                                System.out.println("Quase acerta! As crianças riem, mas te entregam uma flor como prêmio de consolação.");
+                            } else {
+                                System.out.println("Você erra feio e uma criança debocha: 'Aposto que nem sabe segurar uma pedra!'");
+                            }
+                        }
+                        case 3 -> {
+                            System.out.println("""
+                                    Você entra em uma taverna lotada, o cheiro de bebida forte e lenha queimada preenche o ar.
+                                    O taverneiro te encara e diz:
+                                    [TAVERNEIRO] >> Forasteiros... há tempos não vemos nenhum. Cuidado por onde andam à noite.
+                                    """);
+                            rolagem.simulacao(jogador);
+                            int evento = rolagem.rolar();
+                            System.out.println("RESULTADO DO D20: " + evento);
+                            if (evento >= 10) {
+                                System.out.println("Você conversa com um velho bêbado que fala sobre uma 'bruxa da cabana negra' nas colinas da aldeia...");
+                            } else {
+                                System.out.println("Você ouve murmúrios, mas nada de útil.");
+                            }
+                        }
+                        default -> System.out.println("Você prefere apenas observar o vilarejo e seguir André.");
+                    }
+
+                    System.out.println("""
+                            Após algum tempo explorando, algo chama sua atenção.
+                            Um sussurro distante, quase inaudível, ecoa de uma cabana isolada no alto do vilarejo.
+                            André te olha e franze a testa.
+                            [ANDRÉ] >> Eu... vou esperar aqui fora. Algo nesse lugar me incomoda
+                            """);
+
+                    for (int i = 0; i < 3; i++) {
+                        try {
+                            Thread.sleep(500);
+                            System.out.print(".");
+                        } catch (Exception erro) {}
+                    }
+
+                    System.out.println("""
+                            Você entra na cabana. O ar é pesado, cheio de fumaça e cheiro de ervas queimadas.
+                            Uma mulher encapuzada surge das sombras.
+                            [BRUXA] >> Você... não deveria estar vivo.
+                            Ela parece surpresa.
+                            [BRUXA] >> Eu senti quando você caiu na caverna. E também... quando enfrentou o MALIGNO.
+                            """);
+
+                    System.out.println("""
+                            [BRUXA] >> Sua missão ainda não acabou. Há algo obscuro em seu caminho... algo próximo
+                            """);
+
+                    for (int i = 0; i < 3; i++) {
+                        try {
+                            Thread.sleep(500);
+                            System.out.print(".");
+                        } catch (Exception erro) {}
+                    }
+
+                    System.out.println("""
+                            De repente, o chão treme. Do lado de fora, ouvem-se gritos e o som de asas batendo no ar.
+                            A bruxa olha pela janela — chamas azuis tomam o vilarejo.
+                            [BRUXA] >> Um dragão espectral! Corra! Não... lute!
+                            """);
+
+                    System.out.println("""
+                            A bruxa empunha um cajado antigo e se coloca ao seu lado.
+                            [BRUXA] >> Que os ventos antigos nos protejam!
+                            """);
+                    aliado = new Aliado("Bruxa", 85, 20, 20, 85);
+                    batalharComAliado(jogador, aliado, new Inimigo("Dragão Espectral", 130, 28, 20, 130));
+
+                    System.out.println("""
+                        As chamas se apagam lentamente, restando apenas cinzas e gritos de desespero.
+                        A bruxa, ofegante, olha para você.
+                        [BRUXA] >> Ele está próximo... o mal que carrega... está entre vocês.
+                        Você olha para fora — André não está mais lá.
+                        """);
                 }
+
 
                 default -> System.err.println("Algo deu errado na progressão!");
 
