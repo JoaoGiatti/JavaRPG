@@ -159,7 +159,8 @@ public class Jogo {
                                     System.out.println("""
                                             Você encontra uma pedra relativamente grande no chão.
                                             Atira ela para longe, o lobo escuta e vai em direção ao som.
-                                            Você conseguiu destrair o lobo!""");
+                                            Você conseguiu destrair o lobo, que deixou cair algo no chão!""");
+                                    getDropItem();
                                 } else if (evento >= 8) {
                                     System.out.println("""
                                             Você só encontra uma pequena pedra no chão.
@@ -265,9 +266,12 @@ public class Jogo {
 
                         // //  ----------- EVENTOS ----------
 
-                        if (evento >= 15) {
-                            System.out.println("Era apenas um animal pequeno correndo entre as folhas dos arbustos.");
-                        } else if (evento >= 8) {
+                        if (evento >= 14) {
+                            System.out.println("""
+                                    Era uma criatura baixa de meio metro, que passou correndo sem dizer nada.
+                                    Ela deixou uma caixa cintilante, embrulhada as pressas, parece um presente. Você abre...""");
+                                    getDropItem();
+                        } else if (evento >= 10) {
                             System.out.println("Era uma rajada de vento forte que apagou o fogo. Perdeu 3 de HP pelo frio.");
                             jogador.sofrerDano(3);
                         } else {
@@ -290,9 +294,9 @@ public class Jogo {
 
                         // //  ----------- EVENTOS ----------
 
-                        if (evento >= 15) {
+                        if (evento >= 10) {
                             System.out.println("Era apenas um animal pequeno correndo entre as folhas.");
-                        } else if (evento >= 8) {
+                        } else {
                             System.out.println("Era uma... pessoa! Um homem vindo em sua direção.\n" +
                                     jogador.getNome() + " se assusta, mas o homem chega o acalmando,\n" +
                                     "diz que seu nome é André, que viu a claridade do fogo\n" +
@@ -304,9 +308,6 @@ public class Jogo {
                                     jogador.getNome() + " fala para seguirem juntos, serem aliados.\n" +
                                     "André concorda e fica junto com " + jogador.getNome() + " naquela fogueira.\n");
                             jogador.setTemAliado(true);
-                        } else {
-                            System.out.println("Era uma rajada de vento forte que apagou o fogo. Perdeu 5 de HP pelo frio.");
-                            jogador.sofrerDano(5);
                         }
                     }
                 }
@@ -315,10 +316,12 @@ public class Jogo {
                     //  ----------- CONTEXTO DA PROGRESSÃO ----------
 
                     if (jogador.temAliado()) {
-                        System.out.println("A noite passou...\n" +
-                                jogador.getNome() + " acorda e André já está acordado.\n" +
-                                "Vocês seguem o caminho juntos.\n" +
-                                "Até que...");
+                        System.out.println("""
+                                    A noite passou, e você acorda
+                                    André já estava ao seu lado afiando sua adaga na brasa da fogueira
+                                    [ANDRÉ] >> Já acordou? Estive sem sono esta noite, então dei uma vasculhada ao redor...
+                                    [ANDRÉ] >> Devemos seguir ao norte, há uma escuridão assolando a praia, e me parece que está vindo até nós
+                                    Vocês empacotam suas coisas e seguem uma trilha marcada por desgaste.""");
 
                         //  ----------- ROLAGEM DE DADO ----------
 
@@ -328,25 +331,33 @@ public class Jogo {
 
                         // //  ----------- EVENTOS ----------
 
+                        System.out.println("""
+                                A trilha ao norte os-leva a uma montanha cercada por uma floresta densa
+                                Onde acham um acampamento abandonado, com caixas quebradas ao chão
+                                Vocês vasculham e...""");
+
                         if (evento >= 15) {
                             if (opcao == 1) {
-                                System.out.println("Você encontrou um escudo!");
+                                System.out.println("Encontram um Escudo!");
                                 jogador.getInventario().adicionarItem(new Item("Escudo", Item.TipoItem.EQUIPAVEL, 10, 1));
                             }
                             if (opcao == 2) {
-                                System.out.println("Você encontrou um pergaminho de magia!");
-                                jogador.getInventario().adicionarItem(new Item("Pergaminho de Magia", Item.TipoItem.EQUIPAVEL, 10, 1));
+                                System.out.println("Encontram um Amuleto de Defesa");
+                                jogador.getInventario().adicionarItem(new Item("Amuleto de defesa", Item.TipoItem.EQUIPAVEL, 10, 1));
                             }
                             if (opcao == 3) {
-                                System.out.println("Você encontrou um flecha incendiária!");
-                                jogador.getInventario().adicionarItem(new Item("Flecha Incendiária", Item.TipoItem.ATIRAVEL, 10, 1));
+                                System.out.println("Encontram uma Flecha Incendiária!");
+                                jogador.getInventario().adicionarItem(new Item("Flecha Incendiária", Item.TipoItem.ATIRAVEL, 15, 1));
                             }
-                        } else if (evento >= 8) {
-                            System.out.println("Vocês encontraram um inimigo!");
+                        } else if (evento >= 5) {
+                            System.out.println("""
+                                tum... tum... TUM... TUM...
+                                Passos de algo imenso se aproxima com muita raiva""");
                             batalharComAliado(jogador, aliado, new Inimigo("Golem", 65, 20, 15, 65));
                         } else {
-                            System.out.println("Você tropeçou em uma pedra e se cortou. Perdeu 10 de HP!");
+                            System.out.println(jogador.getNome() + " Se aproxima de umas caixas e... É PEGO EM UMA ARMADILHA, (-10 de HP)");
                             jogador.sofrerDano(10);
+                            System.out.println("Por sorte André estava lá para solta-lo");
                         }
                     } else {
                         System.out.println("A noite passou...\n" +
@@ -360,10 +371,10 @@ public class Jogo {
                                 "O homem, fica aliviado, diz que achava que estava sozinho naquela ilha.\n" +
                                 jogador.getNome() + " pergunta seu nome e o homem diz que se chamava André\n" +
                                 "e acordou naquela ilha a dois dias atrás sem se lembrar de nada.\n" +
-                                "Você percebe que André está perdido igualmente a você.\n" +
+                                "André parecia desesperado, fugindo de algo desconhecido, assim como você\n" +
                                 jogador.getNome() + " fala para seguirem juntos, serem aliados.\n" +
-                                "André concorda.\n" +
-                                "Vocês seguem juntos.\n");
+                                "André concorda, e diz para se apressarem ao norte, algo de ruim os assolaria ao sul da ilha.\n" +
+                                "Vocês seguem juntos em direção a uma montanha, por uma trilha desgastada.\n");
                         jogador.setTemAliado(true);
                         System.out.println("Vocês continuam caminhando, até que...");
 
@@ -375,17 +386,39 @@ public class Jogo {
 
                         // //  ----------- EVENTOS ----------
 
+                        System.out.println("""
+                                A trilha ao norte os-leva a uma montanha cercada por uma floresta densa
+                                Onde acham um acampamento abandonado, com caixas quebradas ao chão
+                                Vocês vasculham e...""");
+
                         if (evento >= 15) {
-                            System.out.println("Você encontrou uma poção!");
-                            jogador.getInventario().adicionarItem(new Item("Poção de Cura", Item.TipoItem.CURA, 15, 1));
-                        } else if (evento >= 8) {
-                            System.out.println("Vocês encontraram um inimigo!");
+                            if (opcao == 1) {
+                                System.out.println("Encontram um Escudo!");
+                                jogador.getInventario().adicionarItem(new Item("Escudo", Item.TipoItem.EQUIPAVEL, 10, 1));
+                            }
+                            if (opcao == 2) {
+                                System.out.println("Encontram um Amuleto de Defesa");
+                                jogador.getInventario().adicionarItem(new Item("Amuleto de defesa", Item.TipoItem.EQUIPAVEL, 10, 1));
+                            }
+                            if (opcao == 3) {
+                                System.out.println("Encontram uma Flecha Incendiária!");
+                                jogador.getInventario().adicionarItem(new Item("Flecha Incendiária", Item.TipoItem.ATIRAVEL, 15, 1));
+                            }
+                        } else if (evento >= 5) {
+                            System.out.println("""
+                                tum... tum... TUM... TUM...
+                                Passos de algo imenso se aproxima com muita raiva""");
                             batalharComAliado(jogador, aliado, new Inimigo("Golem", 65, 20, 15, 65));
                         } else {
-                            System.out.println("Você se cortou em um galho quebrado de uma árvore. Perdeu 7 de HP!");
-                            jogador.sofrerDano(7);
+                            System.out.println(jogador.getNome() + " Se aproxima de umas caixas e... É PEGO EM UMA ARMADILHA, (-10 de HP)");
+                            jogador.sofrerDano(10);
+                            System.out.println("Por sorte André estava lá para solta-lo");
                         }
                     }
+                }
+
+                case 4 -> {
+
                 }
 
                 default -> System.err.println("Algo deu errado na progressão!");
@@ -666,33 +699,188 @@ public class Jogo {
         jogador.setEmBatalha(false);
     }
 
-    public Item droparItem(){
+    public Item droparItem(int opcao, int progressao) {
         List<Item> possiveisDrops = new ArrayList<>();
-        if(opcao == 1){
-            possiveisDrops.add(new Item("Poção de Cura", Item.TipoItem.CURA, 15, 1));
-            possiveisDrops.add(new Item("Escudo", Item.TipoItem.EQUIPAVEL, 10, 1));
-            possiveisDrops.add(new Item("Armadura", Item.TipoItem.EQUIPAVEL, 20, 1));
-            possiveisDrops.add(new Item("Frasco Ígneo", Item.TipoItem.ATIRAVEL, 25, 1));
-        }
-        if(opcao == 2){
-            possiveisDrops.add(new Item("Poção de Cura", Item.TipoItem.CURA, 25, 1));
-            possiveisDrops.add(new Item("Livro das Sombras", Item.TipoItem.EQUIPAVEL, 15, 1)); // 15 a mais de dano
-            possiveisDrops.add(new Item("Essência Flamejante", Item.TipoItem.DISTANCIA, 10, 1));
-            possiveisDrops.add(new Item("Frasco de Veneno", Item.TipoItem.ATIRAVEL, 25, 1));
-        }
-        if(opcao == 3){
-            possiveisDrops.add(new Item("Poção de Cura", Item.TipoItem.CURA, 20, 1));
-            possiveisDrops.add(new Item("Luva de Precisão", Item.TipoItem.EQUIPAVEL, 10, 1));
-            possiveisDrops.add(new Item("Arco incendiário", Item.TipoItem.DISTANCIA, 15, 1));
-            possiveisDrops.add(new Item("Frasco Congelante", Item.TipoItem.ATIRAVEL, 15, 1)); // inimigos lentos e 15 de dano por gelo
+
+        if (progressao < 0) progressao = 0;
+        if (progressao > 10) progressao = 10;
+
+        // DROPS GUERREIRO
+        if (opcao == 1) {
+            switch (progressao) {
+                case 0 -> {
+                    possiveisDrops.add(new Item("Espada Enferrujada", Item.TipoItem.FISICO, 5, 1));
+                    possiveisDrops.add(new Item("Escudo de Madeira", Item.TipoItem.EQUIPAVEL, 5, 1));
+                    possiveisDrops.add(new Item("Frasco de Cura", Item.TipoItem.CURA, 15, 1));
+                }
+                case 1 -> {
+                    possiveisDrops.add(new Item("Machado Simples", Item.TipoItem.FISICO, 8, 1));
+                    possiveisDrops.add(new Item("Cota de Couro", Item.TipoItem.EQUIPAVEL, 10, 1));
+                    possiveisDrops.add(new Item("Bomba Improvisada", Item.TipoItem.ATIRAVEL, 10, 1));
+                }
+                case 2 -> {
+                    possiveisDrops.add(new Item("Espada Curta", Item.TipoItem.FISICO, 12, 1));
+                    possiveisDrops.add(new Item("Escudo de Ferro", Item.TipoItem.EQUIPAVEL, 15, 1));
+                }
+                case 3 -> {
+                    possiveisDrops.add(new Item("Espada Longa", Item.TipoItem.FISICO, 18, 1));
+                    possiveisDrops.add(new Item("Poção de Cura", Item.TipoItem.CURA, 25, 1));
+                    possiveisDrops.add(new Item("Bomba Improvisada", Item.TipoItem.ATIRAVEL, 10, 1));
+                }
+                case 4 -> {
+                    possiveisDrops.add(new Item("Machado Duplo", Item.TipoItem.FISICO, 22, 1));
+                    possiveisDrops.add(new Item("Armadura de Ferro", Item.TipoItem.EQUIPAVEL, 20, 1));
+                }
+                case 5 -> {
+                    possiveisDrops.add(new Item("Espada Flamejante", Item.TipoItem.FISICO, 28, 1));
+                    possiveisDrops.add(new Item("Escudo Dourado", Item.TipoItem.EQUIPAVEL, 25, 1));
+                    possiveisDrops.add(new Item("Bomba Incendiadora", Item.TipoItem.ATIRAVEL, 20, 1));
+                }
+                case 6 -> {
+                    possiveisDrops.add(new Item("Lâmina Real", Item.TipoItem.FISICO, 34, 1));
+                    possiveisDrops.add(new Item("Poção Reforçada", Item.TipoItem.CURA, 40, 1));
+                }
+                case 7 -> {
+                    possiveisDrops.add(new Item("Espada do Destino", Item.TipoItem.FISICO, 40, 1));
+                    possiveisDrops.add(new Item("Armadura de Aço Negro", Item.TipoItem.EQUIPAVEL, 35, 1));
+                    possiveisDrops.add(new Item("Runa de Sangue", Item.TipoItem.ATIRAVEL, 28, 1));
+                }
+                case 8 -> {
+                    possiveisDrops.add(new Item("Martelo dos Titãs", Item.TipoItem.FISICO, 50, 1));
+                    possiveisDrops.add(new Item("Escudo Mítico", Item.TipoItem.EQUIPAVEL, 45, 1));
+                }
+                case 9 -> {
+                    possiveisDrops.add(new Item("Lâmina Divina", Item.TipoItem.FISICO, 60, 1));
+                    possiveisDrops.add(new Item("Poção Suprema", Item.TipoItem.CURA, 60, 1));
+                }
+                case 10 -> {
+                    possiveisDrops.add(new Item("Espada dos Deuses", Item.TipoItem.FISICO, 75, 1));
+                    possiveisDrops.add(new Item("Armadura Eterna", Item.TipoItem.EQUIPAVEL, 70, 1));
+                }
+            }
         }
 
-        Random rand = new Random();
-        return possiveisDrops.get(rand.nextInt(possiveisDrops.size()));
+        // DROPS MAGO
+        if (opcao == 2) {
+            switch (progressao) {
+                case 0 -> {
+                    possiveisDrops.add(new Item("Cajado de Galho", Item.TipoItem.DISTANCIA, 5, 1));
+                    possiveisDrops.add(new Item("Livro de Aprendiz", Item.TipoItem.EQUIPAVEL, 5, 1));
+                    possiveisDrops.add(new Item("Essência Bruta", Item.TipoItem.ATIRAVEL, 10, 1));
+                }
+                case 1 -> {
+                    possiveisDrops.add(new Item("Cajado Simples", Item.TipoItem.DISTANCIA, 8, 1));
+                    possiveisDrops.add(new Item("Poção de Mana", Item.TipoItem.CURA, 30, 1));
+                    possiveisDrops.add(new Item("Pergaminho de fogo", Item.TipoItem.ATIRAVEL, 12, 1));
+                }
+                case 2 -> {
+                    possiveisDrops.add(new Item("Cajado Elemental", Item.TipoItem.DISTANCIA, 14, 1));
+                    possiveisDrops.add(new Item("Livro das Sombras", Item.TipoItem.EQUIPAVEL, 12, 1));
+                }
+                case 3 -> {
+                    possiveisDrops.add(new Item("Cajado das Chamas", Item.TipoItem.DISTANCIA, 20, 1));
+                    possiveisDrops.add(new Item("Poção de Cura Arcana", Item.TipoItem.CURA, 25, 2));
+                    possiveisDrops.add(new Item("Pergaminho do Tornado", Item.TipoItem.ATIRAVEL, 21, 1));
+                }
+                case 4 -> {
+                    possiveisDrops.add(new Item("Cajado do Gelo", Item.TipoItem.DISTANCIA, 25, 1));
+                    possiveisDrops.add(new Item("Manto Místico", Item.TipoItem.EQUIPAVEL, 18, 1));
+                }
+                case 5 -> {
+                    possiveisDrops.add(new Item("Cajado Tempestuoso", Item.TipoItem.DISTANCIA, 30, 1));
+                    possiveisDrops.add(new Item("Capa de Defesa Arcana", Item.TipoItem.EQUIPAVEL, 25, 1));
+                    possiveisDrops.add(new Item("Pergaminho da Cura Sagrada ", Item.TipoItem.CURA, 100, 1));
+                }
+                case 6 -> {
+                    possiveisDrops.add(new Item("Cajado de Runas", Item.TipoItem.DISTANCIA, 36, 1));
+                    possiveisDrops.add(new Item("Essência Flamejante", Item.TipoItem.ATIRAVEL, 30, 1));
+                    possiveisDrops.add(new Item("Runa da Maldião Proibida", Item.TipoItem.ATIRAVEL, 30, 2));
+                }
+                case 7 -> {
+                    possiveisDrops.add(new Item("Cajado das Estrelas", Item.TipoItem.DISTANCIA, 45, 1));
+                    possiveisDrops.add(new Item("Manto Etéreo", Item.TipoItem.EQUIPAVEL, 40, 1));
+                }
+                case 8 -> {
+                    possiveisDrops.add(new Item("Cajado Astral", Item.TipoItem.DISTANCIA, 55, 1));
+                    possiveisDrops.add(new Item("Poção Mística", Item.TipoItem.CURA, 50, 1));
+                    possiveisDrops.add(new Item("Feitiço Proibido da Devastação", Item.TipoItem.ATIRAVEL, 50, 1));
+                }
+                case 9 -> {
+                    possiveisDrops.add(new Item("Cajado Cósmico", Item.TipoItem.DISTANCIA, 65, 1));
+                    possiveisDrops.add(new Item("Manto da Eternidade", Item.TipoItem.EQUIPAVEL, 60, 1));
+                }
+                case 10 -> {
+                    possiveisDrops.add(new Item("Cajado do Caos", Item.TipoItem.DISTANCIA, 80, 1));
+                    possiveisDrops.add(new Item("Livro Supremo", Item.TipoItem.EQUIPAVEL, 70, 1));
+                }
+            }
+        }
+
+        // DROPS ARQUEIRO
+        if (opcao == 3) {
+            switch (progressao) {
+                case 0 -> {
+                    possiveisDrops.add(new Item("Arco Velho", Item.TipoItem.DISTANCIA, 5, 1));
+                    possiveisDrops.add(new Item("Luva Rústica", Item.TipoItem.EQUIPAVEL, 5, 1));
+                    possiveisDrops.add(new Item("Frasco Congelante", Item.TipoItem.ATIRAVEL, 10, 1));
+                }
+                case 1 -> {
+                    possiveisDrops.add(new Item("Arco de Caça", Item.TipoItem.DISTANCIA, 8, 1));
+                    possiveisDrops.add(new Item("Poção de Cura", Item.TipoItem.CURA, 20, 1));
+                    possiveisDrops.add(new Item("Bomba Improvisada", Item.TipoItem.ATIRAVEL, 10, 1));
+                }
+                case 2 -> {
+                    possiveisDrops.add(new Item("Arco Leve", Item.TipoItem.DISTANCIA, 12, 1));
+                    possiveisDrops.add(new Item("Luva de Couro", Item.TipoItem.EQUIPAVEL, 10, 1));
+                }
+                case 3 -> {
+                    possiveisDrops.add(new Item("Arco Longo", Item.TipoItem.DISTANCIA, 18, 1));
+                    possiveisDrops.add(new Item("Flecha Explosiva", Item.TipoItem.ATIRAVEL, 20, 2));
+                    possiveisDrops.add(new Item("Bomba Improvisada", Item.TipoItem.ATIRAVEL, 10, 1));
+                }
+                case 4 -> {
+                    possiveisDrops.add(new Item("Arco Incendiário", Item.TipoItem.DISTANCIA, 24, 1));
+                    possiveisDrops.add(new Item("Luvas de Precisão", Item.TipoItem.EQUIPAVEL, 20, 1));
+                }
+                case 5 -> {
+                    possiveisDrops.add(new Item("Arco das Sombras", Item.TipoItem.DISTANCIA, 30, 1));
+                    possiveisDrops.add(new Item("Flecha Envenenada", Item.TipoItem.ATIRAVEL, 35, 1));
+                    possiveisDrops.add(new Item("Konai de Sangue", Item.TipoItem.ATIRAVEL, 35, 1));
+                }
+                case 6 -> {
+                    possiveisDrops.add(new Item("Arco Rúnico", Item.TipoItem.DISTANCIA, 38, 1));
+                    possiveisDrops.add(new Item("Manto do Caçador", Item.TipoItem.EQUIPAVEL, 25, 1));
+                    possiveisDrops.add(new Item("Bomba de Micro-Flechas", Item.TipoItem.ATIRAVEL, 20, 1));
+                }
+                case 7 -> {
+                    possiveisDrops.add(new Item("Arco do Vento", Item.TipoItem.DISTANCIA, 45, 1));
+                    possiveisDrops.add(new Item("Flecha de Gelo", Item.TipoItem.ATIRAVEL, 40, 3));
+                }
+                case 8 -> {
+                    possiveisDrops.add(new Item("Arco da Tempestade", Item.TipoItem.DISTANCIA, 55, 1));
+                    possiveisDrops.add(new Item("Luvas do Caçador Supremo", Item.TipoItem.EQUIPAVEL, 45, 1));
+                    possiveisDrops.add(new Item("Konai de Sangue", Item.TipoItem.ATIRAVEL, 35, 1));
+                }
+                case 9 -> {
+                    possiveisDrops.add(new Item("Arco Sagrado", Item.TipoItem.DISTANCIA, 65, 1));
+                    possiveisDrops.add(new Item("Poção Suprema", Item.TipoItem.CURA, 55, 1));
+                }
+                case 10 -> {
+                    possiveisDrops.add(new Item("Arco Celestial", Item.TipoItem.DISTANCIA, 80, 1));
+                    possiveisDrops.add(new Item("Traje do Guardião", Item.TipoItem.EQUIPAVEL, 70, 1));
+                }
+            }
+        }
+
+        // Seleciona aleatoriamente um dos possíveis drops
+        if (possiveisDrops.isEmpty()) return null;
+        Random r = new Random();
+        return possiveisDrops.get(r.nextInt(possiveisDrops.size()));
     }
 
+
     public void getDropItem() throws Exception {
-        Item itemDropado = droparItem();
+        Item itemDropado = droparItem(opcao, progressao);
         jogador.getInventario().adicionarItem(itemDropado);
         System.out.println("⭐ Item dropado: " + itemDropado.getNome() + "!");
     }
