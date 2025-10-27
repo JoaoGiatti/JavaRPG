@@ -916,7 +916,8 @@ public class Jogo {
                     Thread.sleep(2000);
                     System.out.println("""  
                             As correntes se quebram.
-                            Vocês olham aquela muralha de vento sombrio, perdidos.
+                            Vocês olham aquela muralha de vento densa, ameaçadora.
+                            Vocês se sentem pequenos, perdidos, cercados por aquela força.
                             Então, algo atravessa a barreira... e se aproxima.
                             """);
                     Thread.sleep(3000);
