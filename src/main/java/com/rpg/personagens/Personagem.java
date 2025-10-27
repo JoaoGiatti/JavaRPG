@@ -53,6 +53,7 @@ public abstract class Personagem implements Cloneable {
     public void setEmBatalha(boolean emBatalha) { this.emBatalha = emBatalha; }
     public void setPontosVida(int pontosVida) { this.pontosVida = pontosVida; }
     public void setAtaque(int ataque) { this.ataque = ataque; }
+    public void setDefesa(int defesa) { this.defesa = defesa; }
 
     // MÉTODOS
 

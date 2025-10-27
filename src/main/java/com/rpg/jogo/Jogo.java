@@ -679,6 +679,213 @@ public class Jogo {
                     Thread.sleep(2000);
                     System.out.println("[ANDRÉ] >> Que... tolisse...");
                 }
+                case 7 -> {
+                    System.out.println("""
+                            Você desperta... suspenso em meio a um vazio pulsante.
+                            As cores não fazem sentido. O chão... se move como água.
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""
+                            Ecos de vozes se repetem ao seu redor — algumas familiares, outras completamente distorcidas.
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""
+                            [VOZ DISTORCIDA] >> ...o poder adormecido... desperte... desperte...
+                            """);
+                    Thread.sleep(1500);
+                    System.out.println("""
+                            A fenda entre mundos... foi aberta.
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""
+                            Você vê, à distância, uma figura cercada por magos ajoelhados.
+                            O corpo de André... agora tomado por energia negra.
+                            """);
+                    Thread.sleep(2500);
+                    System.out.println("""
+                            [MAGOS CORROMPIDOS] >> MΛLIGNO... MΛLIGNO... MΛLIGNO...
+                            """);
+                    Thread.sleep(1500);
+                    System.out.println("""
+                            Antes que possa se aproximar, algo rasteja das sombras da fenda.
+                            [???] >> ̷S̶i̶l̴ê̶n̶c̸i̴o̵.̶.̴.̸
+                            """);
+                    Thread.sleep(1500);
+
+                    System.out.println("Um inimigo surge do reflexo distorcido da fenda!");
+                    batalhar(jogador, new Inimigo("Sombra do Eco", 50, 18, 10, 60));
+
+                    System.out.println("""
+                            A sombra se desfaz em fragmentos luminosos.
+                            O amuleto em seu pescoço começa a flutuar e pulsar uma luz forte.
+                            Ao seu lado, uma presença surge em forma de Eco — a Bruxa.
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""
+                            [BRUXA DO ECO] >> Você não devia estar aqui, tolo... a fenda consome os vivos.
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""
+                            [VOCÊ] >> André... ele... abriu isso?
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""
+                            [BRUXA DO ECO] >> André não existe mais. O que você viu é o Arqui-Mago Maligno...
+                            O criador deste e outros feitiços proibidos. E se ele notar sua presença, será tarde demais.
+                            """);
+                    Thread.sleep(2500);
+                    System.out.println("""
+                            O solo vibra. Do horizonte partido surge um dragão negro com olhos ocos.
+                            [BRUXA DO ECO] >> Nidhogg... o guardião da passagem. Prepare-se!
+                            """);
+                    Thread.sleep(2000);
+
+                    aliado = new Aliado("Bruxa Do Eco", 85, 40, 20, 85);
+                    batalharComAliado(jogador, aliado, new Inimigo("Nidhogg, Guardião da Fenda", 200, 30, 0, 100));
+
+                    System.out.println("""
+                            Nidhogg ruge e se desfaz em névoa escura, deixando uma pedra pulsante no chão.
+                            [BRUXA DO ECO] >> Pegue isso. É a Essência da Fenda... talvez possamos usá-la contra ele.
+                            """);
+                    Thread.sleep(2500);
+                    System.out.println("""
+                            Você sente o poder da fenda pulsar dentro de si. A bruxa o encara.
+                            [BRUXA DO ECO] >> Há uma saída... mas também um caminho direto ao coração da fenda.
+                            """);
+                    Thread.sleep(2500);
+                    System.out.println("""
+                            [VOCÊ] >> E se eu quiser acabar com tudo isso?
+                            """);
+                    Thread.sleep(1500);
+                    System.out.println("""
+                            [BRUXA DO ECO] >> Então siga a luz invertida... ela o levará até Maligno.
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""
+                            A fenda se abre mais uma vez. Você dá um passo à frente... e tudo se dissolve em branco.
+                            """);
+                    Thread.sleep(2000);
+
+                    System.out.println("Algo em seu bolso é absorvido no clarão: Essência da Fenda (+10 de Ataque / +10 de Defesa)");
+                    jogador.setAtaque(jogador.getAtaque() + 10);
+                    jogador.setDefesa(jogador.getDefesa() + 10);
+                }
+                case 8 -> {
+                    System.out.println("""
+                            Sua visão se apaga... e flashes surgem.
+                            Um campo em chamas. Ecos de uma antiga batalha.
+                            """);
+                    Thread.sleep(1500);
+                    System.out.println("""
+                            Uma figura surge — capa rasgada, olhos vermelhos.
+                            [???] >> Você... ousou me desafiar.
+                            """);
+                    Thread.sleep(1500);
+                    System.out.println("""
+                            [VOCÊ] >> Eu... te conheço?
+                            """);
+                    Thread.sleep(1200);
+                    System.out.println("""
+                            [???] >> Já conheceu. Você me derrotou uma vez... e pagou o preço.
+                            """);
+                    Thread.sleep(1800);
+
+                    System.out.println("""
+                            As memórias voltam. Era ele. O mesmo inimigo do início.
+                            O verdadeiro Maligno.
+                            """);
+                    Thread.sleep(1800);
+
+                    System.out.println("""
+                            [MALIGNO] >> Apaguei quem você era. Tomei sua magia... e seu nome.
+                            """);
+                    Thread.sleep(1800);
+
+                    System.out.println("""
+                            A imagem muda.
+                            Maligno invade uma cabana — a da Bruxa.
+                            Frascos quebrados, sombras gritam.
+                            """);
+                    Thread.sleep(1500);
+                    System.out.println("""
+                            [MALIGNO] >> Feitiço de renascimento precisa de sangue e esquecimento...
+                            E ela tem ambos.
+                            """);
+                    Thread.sleep(1500);
+                    System.out.println("""
+                            O sorriso dele é calmo demais pra quem destrói tudo ao redor.
+                            """);
+                    Thread.sleep(1200);
+
+                    System.out.println("""
+                            Um símbolo surge na memória, brilhando no chão — o mesmo da Essência da Fenda.
+                            O chão começa a tremer...
+                            """);
+                    Thread.sleep(1500);
+
+                    rolagem.simulacao(jogador);
+                    int evento = rolagem.rolar();
+                    System.out.println("RESULTADO DO D20: " + evento);
+                    Thread.sleep(1000);
+
+                    if (evento >= 8) {
+                        System.out.println("""
+                                O símbolo reage à sua presença!
+                                Uma energia estranha te envolve...
+                                """);
+                        Thread.sleep(1200);
+                        getDropItem();
+                        jogador.setAtaque(jogador.getAtaque() + 5);
+                        System.out.println("Você sente um poder obscuro te fortalecendo (+5 Ataque).");
+                        jogador.restaurarVidaTotal();
+                    } else {
+                        System.out.println("""
+                                A energia explode — você sente uma queimação interna.
+                                Sua vida foi totalmente restaurada
+                                """);
+                        Thread.sleep(1200);
+                        jogador.restaurarVidaTotal();
+                    }
+
+                    System.out.println("""
+                            Tudo começa a girar. O chão se desfaz... a memória colapsa.
+                            """);
+                    Thread.sleep(1500);
+
+                    System.out.println("""
+                            Vozes sussurram ao redor...
+                            [BRUXA] >> Acorde... rápido...
+                            """);
+                    Thread.sleep(1500);
+
+                    System.out.println("""
+                            Sua visão volta.
+                            Você está sentado em uma mesa de jantar de pedra negra.
+                            Correntes prendem seus braços.
+                            """);
+                    Thread.sleep(1500);
+                    System.out.println("""
+                            À sua frente, taças cheias de um líquido vermelho brilham.
+                            A Bruxa está ao seu lado — também amarrada.
+                            """);
+                    Thread.sleep(1500);
+                    System.out.println("""
+                            [MALIGNO] >> Bem-vindos ao banquete da verdade.
+                            Vocês lutam, sangram, amam... e acham que isso tem sentido?
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""
+                            Ele levanta uma taça, sorrindo.
+                            [MALIGNO] >> Comam. É o último jantar antes do fim.
+                            """);
+                    Thread.sleep(2000);
+
+                    System.out.println("""
+                            Você sente o ar ficar pesado.
+                            As correntes vibram.
+                            Algo terrível está prestes a começar...
+                            """);
+                }
 
 
                 default -> System.err.println("Algo deu errado na progressão!");
