@@ -244,19 +244,23 @@ public class Jogo {
                     if (jogador.temAliado()) {
                         System.out.println("Quando percebem que estão longe dos perigos, param para descansar.\n" +
                                 jogador.getNome() + " pergunta ao homem se ele estava bem.\n" +
-                                "Ele diz que estava com o braço ferido, mas que um torniquete o ajudaria.\n" +
-                                jogador.getNome() + " rasga um pedaço de sua roupa e o entrega.\n" +
+                                "Ele diz que estava com o braço ferido, mas que um torniquete o ajudaria.\n");
+                        Thread.sleep(3000);
+                        System.out.println(jogador.getNome() + " rasga um pedaço de sua roupa e o entrega.\n" +
                                 "O homem, com muita dificuldade, consegue fazer o torniquete e para o sangramento.\n" +
                                 jogador.getNome() + " pergunta ao homem como ele sabia fazer aquilo\n" +
-                                "e o homem responde que já tinha passado por essa situação antes.\n" +
-                                jogador.getNome() + " pergunta seu nome e o que faz ali.\n" +
-                                "O homem se chama André e estava ali a dois dias, mas que não sabia como chegou naquela ilha.\n" +
+                                "e o homem responde que já tinha passado por essa situação antes.\n");
+                        Thread.sleep(3000);
+                        System.out.println(jogador.getNome() + " pergunta seu nome e o que faz ali.\n" +
+                                "O homem se chama André e estava ali a dois dias, mas não sabia como chegou naquela ilha.\n" +
                                 "Você percebe que André está perdido igualmente a você.\n" +
                                 jogador.getNome() + " fala para seguirem juntos, serem aliados.\n" +
-                                "André concorda.\n" +
-                                "Está escurecendo, André fala para procurarem folhas e galhos secos e fazerem uma fogueira.\n" +
+                                "André concorda.\n");
+                        Thread.sleep(3000);
+                        System.out.println("Está escurecendo, André fala para procurarem folhas e galhos secos e fazerem uma fogueira.\n" +
                                 "Vocês fazem a fogueira e se esquentam do frio da noite,\n" +
                                 "até que escutam um barulho vindo da floresta...");
+
 
                         //  ----------- ROLAGEM DE DADO ----------
 
@@ -362,17 +366,20 @@ public class Jogo {
                     } else {
                         System.out.println("A noite passou...\n" +
                                 jogador.getNome() + " acorda e segue seu caminho,\n" +
-                                "até que percebe algo estranho...\n" +
-                                "Fumaça! Uma pessoa talvez. Uma esperança de ajuda.\n" +
+                                "até que percebe algo estranho...\n");
+                        Thread.sleep(3000);
+                        System.out.println("Fumaça! Uma pessoa talvez. Uma esperança de ajuda.\n" +
                                 jogador.getNome() + " segue o rastro e, chegando mais perto, enxerga sua esperança.\n" +
                                 "É mesmo uma pessoa, que tinha acabado de apagar sua fogueira.\n" +
                                 jogador.getNome() + " acena, a pessoa se assusta, mas você o acalma,\n" +
-                                "diz que está perdido e que seguiu o rastro de fumaça.\n" +
-                                "O homem, fica aliviado, diz que achava que estava sozinho naquela ilha.\n" +
+                                "diz que está perdido e que seguiu o rastro de fumaça.\n");
+                        Thread.sleep(3000);
+                        System.out.println("O homem, fica aliviado, diz que achava que estava sozinho naquela ilha.\n" +
                                 jogador.getNome() + " pergunta seu nome e o homem diz que se chamava André\n" +
                                 "e acordou naquela ilha a dois dias atrás sem se lembrar de nada.\n" +
-                                "André parecia desesperado, fugindo de algo desconhecido, assim como você\n" +
-                                jogador.getNome() + " fala para seguirem juntos, serem aliados.\n" +
+                                "André parecia desesperado, fugindo de algo desconhecido, assim como você\n");
+                        Thread.sleep(3000);
+                        System.out.println(jogador.getNome() + " fala para seguirem juntos, serem aliados.\n" +
                                 "André concorda, e diz para se apressarem ao norte, algo de ruim os assolaria ao sul da ilha.\n" +
                                 "Vocês seguem juntos em direção a uma montanha, por uma trilha desgastada.\n");
                         jogador.setTemAliado(true);
@@ -425,15 +432,16 @@ public class Jogo {
                             avistam um vilarejo coberto por neblina, escondido entre vales e árvores antigas.
                             [ANDRÉ] >> Um vilarejo... talvez encontremos respostas lá.
                             """);
-
+                    Thread.sleep(3000);
                     System.out.println("""
                             Ao chegarem ao vilarejo, há sons de martelos, vozes, e cheiro de pão fresco.
                             Pessoas sorriem, há crianças correndo e comerciantes chamando pelos produtos.
                             """);
-
-                    System.out.println("   [1] - Explorar o comércio local\n" +
+                    Thread.sleep(3000);
+                    System.out.print("   [1] - Explorar o comércio local\n" +
                             "   [2] - Interagir com as crianças\n" +
-                            "   [3] - Procurar alguma taverna\n");
+                            "   [3] - Procurar alguma taverna\n" +
+                            "Escolha: ");
 
                     int escolha = sc.nextInt();
                     sc.nextLine();
@@ -441,10 +449,10 @@ public class Jogo {
                     switch (escolha) {
                         case 1 -> {
                             System.out.println("""
-                    Você caminha até um ferreiro de barba longa.
-                    [FERREIRO] >> Estrangeiro, hein? Você tem cara de quem precisa de algo forte.
-                    Ele te mostra uma caixa de itens antigos...
-                    """);
+                                Você caminha até um ferreiro de barba longa.
+                                [FERREIRO] >> Estrangeiro, hein? Você tem cara de quem precisa de algo forte.
+                                Ele te mostra uma caixa de itens antigos...
+                                """);
                             rolagem.simulacao(jogador);
                             int evento = rolagem.rolar();
                             System.out.println("RESULTADO DO D20: " + evento);
@@ -514,14 +522,12 @@ public class Jogo {
                             Você entra na cabana. O ar é pesado, cheio de fumaça e cheiro de ervas queimadas.
                             Uma mulher encapuzada surge das sombras.
                             [BRUXA] >> Você... não deveria estar vivo.
-                            Ela parece surpresa.
-                            [BRUXA] >> Eu senti quando você caiu na caverna. E também... quando enfrentou o MALIGNO.
-                            """);
-
+                            Ela parece surpresa.""");
+                    Thread.sleep(3000);
                     System.out.println("""
-                            [BRUXA] >> Sua missão ainda não acabou. Há algo obscuro em seu caminho... algo próximo
-                            """);
-
+                           [BRUXA] >> Eu senti quando você caiu na caverna. E também... quando enfrentou o MALIGNO.
+                           [BRUXA] >> Sua missão ainda não acabou. Há algo obscuro em seu caminho... algo próximo
+                           """);
                     for (int i = 0; i < 3; i++) {
                         try {
                             Thread.sleep(500);
@@ -534,7 +540,7 @@ public class Jogo {
                             A bruxa olha pela janela — chamas azuis tomam o vilarejo.
                             [BRUXA] >> Um dragão espectral! Corra! Não... lute!
                             """);
-
+                    Thread.sleep(3000);
                     System.out.println("""
                             A bruxa empunha um cajado antigo e se coloca ao seu lado.
                             [BRUXA] >> Que os ventos antigos nos protejam!
@@ -548,6 +554,84 @@ public class Jogo {
                         [BRUXA] >> Ele está próximo... o mal que carrega... está entre vocês.
                         Você olha para fora — André não está mais lá.
                         """);
+                    Thread.sleep(3000);
+                }
+
+                case 5 -> {
+                    // ----------- CONTEXTO DA PROGRESSÃO ----------
+                    System.out.println("""
+                        Vocês seguem até o local onde André estava — mas não há nada.
+                        Nenhum rastro. Nenhum sinal.
+                        André simplesmente... desapareceu.
+                        """);
+                    Thread.sleep(3000);
+                    System.out.println("""
+                        Pelas ruas do vilarejo, vocês o procuram em meio ao caos.
+                        As casas estão destruídas, e uma multidão tenta conter o fogo
+                        e salvar o que restou dos destroços deixados pelo Dragão.
+                        """);
+                    Thread.sleep(3000);
+                    System.out.println("""
+                        De repente, uma criança corre até vocês, ofegante.
+                        [CRIANÇA] >> Eu... eu vi ele! O homem que vocês procuram! Ele entrou lá...
+                        Ela aponta para a cabana da bruxa.
+                        """);
+                    Thread.sleep(3000);
+                    System.out.println(jogador.getNome() + """ 
+                         olha para a Bruxa, que permanece imóvel por um instante.
+                        [BRUXA] >> MALIGNO está a caminho...
+                        O silêncio que se segue é pesado.
+                        Mas vão em direção a cabana.
+                        """);
+                    Thread.sleep(3000);
+                    System.out.println(""" 
+                        Ao chegarem, entram e André está lá, sentado em uma cadeira de madeira,
+                        com as mãos cobrindo as orelhas e os olhos arregalados de medo.
+                        [ANDRÉ] >> Me desculpem! Eu estava com muito medo!
+                        Você o acalma, diz que já passou.
+                        A Bruxa está prestando atenção em outra coisa, parece estar sentindo
+                        que tem algo lá fora ainda...
+                        """);
+                    Thread.sleep(3000);
+                    System.out.println("""
+                           Ela segue em direção a porta e você vai atrás. De repente...
+                           Surge, de trás da cabana, uma criatura colossal.
+                           Um ser com cabeça de touro e chifres afiados como lâminas.
+                           Era um Minotauro em extrema fúria.
+                           """);
+                    Thread.sleep(3000);
+                    System.out.println("""
+                           Você olha pra Bruxa.
+                           [BRUXA] >> Fase dois...
+                           Você volta seu olhar à criatura e empunha, com mãos trêmulas, sua arma.
+                           """);
+                    aliado = new Aliado("Bruxa", aliado.getPontosVida(), 20, 20, 85);
+                    batalharComAliado(jogador, aliado, new Inimigo("Minotauro", 135, 30, 25, 135));
+
+                    System.out.println("""
+                        No meio da batalha, o Minotauro dá alguns passos para trás e, de repente, desvia o olhar para a cabana.
+                        Vocês se entreolham, confusos.
+                        Sem aviso, ele dispara em direção a ela, finca o machado no chão e, com uma força brutal, ergue a cabana inteira.
+                        Sob os destroços, ele encontra André — imóvel, exatamente como o deixaram.
+                        """);
+                    Thread.sleep(3000);
+                    System.out.println("""
+                        O Minotauro o agarra com uma das mãos, como se fosse nada diante de seu tamanho,
+                        e, sem olhar para trás, desaparece entre as árvores, engolido pela escuridão.
+                        [BRUXA] >> Minha cabana!!!
+                        Ela caminha até a cabana destruída e pega algumas coisas que sobreviveram à destruição e te encara.
+                        [BRUXA] >> Olha rapaz, você não sabe o que acontece aqui...
+                        Ela estende a mão e te entrega um pequeno amuleto, frio ao toque.
+                        """);
+                    jogador.getInventario().adicionarItem(new Item("Amuleto de Proteção", Item.TipoItem.EQUIPAVEL, 10, 1));
+                    Thread.sleep(3000);
+                    System.out.println("""                       
+                        Antes que ela possa dizer mais, gritos estridentes ecoam pela floresta.
+                        [BRUXA] >> Não vá.
+                        Ela diz com um olhar cortante.
+                        Você a ignora e corre em direção aos gritos que rasgam a escuridão da floresta.
+                        """);
+
                 }
 
 
@@ -683,6 +767,9 @@ public class Jogo {
         System.out.println("---------------------------------------------");
 
         while (jogador.estaVivo() && inimigo.estaVivo()) {
+            if(inimigo.getNome().equals("Minotauro") && inimigo.getPontosVida() <= 30) {
+                jogador.setEmBatalha(false);
+            }
             System.out.println("\n======= STATUS =======");
             System.out.println(jogador.getNome() + " (HP: " + jogador.getPontosVida() + ")");
             System.out.println(aliado.getNome() + " (HP: " + aliado.getPontosVida() + ")");
