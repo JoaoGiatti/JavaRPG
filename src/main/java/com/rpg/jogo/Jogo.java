@@ -299,7 +299,10 @@ public class Jogo {
                         // //  ----------- EVENTOS ----------
 
                         if (evento >= 10) {
-                            System.out.println("Era apenas um animal pequeno correndo entre as folhas.");
+                            System.out.println("""
+                                    Era uma criatura baixa de meio metro, que passou correndo sem dizer nada.
+                                    Ela deixou uma caixa cintilante, embrulhada as pressas, parece um presente. Você abre...""");
+                            getDropItem();
                         } else {
                             System.out.println("Era uma... pessoa! Um homem vindo em sua direção.\n" +
                                     jogador.getNome() + " se assusta, mas o homem chega o acalmando,\n" +
@@ -865,7 +868,7 @@ public class Jogo {
                             """);
                     Thread.sleep(1500);
                     System.out.println("""
-                            À sua frente, taças cheias de um líquido vermelho brilham.
+                            À sua frente, taças, cheias de um líquido vermelho, brilham.
                             A Bruxa está ao seu lado — também amarrada.
                             """);
                     Thread.sleep(1500);
@@ -888,6 +891,50 @@ public class Jogo {
                             """);
                 }
 
+                case 9 -> {
+                    System.out.println("""
+                            VUOSH! Um vendaval ensandecido arrebenta as janelas,
+                            trazendo uma nuvem negra com raios fulminantes
+                            e trovões ensurdecedores que os cobrem por completo.
+                            """);
+                    Thread.sleep(3000);
+                    System.out.println("""
+                            Vocês escutam ecoando pela escuridão...
+                            [MALIGNO] >> HA HA HA! QUE COMEÇE A DIVERSÃO!!!
+                            """);
+                    Thread.sleep(2500);
+                    System.out.println("""     
+                            Vocês sentem que estão flutuando, como se não existisse gravidade.
+                            As correntes começam a esquentar como lava fervente.
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""  
+                            Até que aquele manto sombrio se dispersa violentamente,
+                            formando um vórtice.
+                            Vocês estão bem no centro, presos, sem saída.
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""  
+                            As correntes se quebram.
+                            Vocês olham aquela muralha de vento sombrio, perdidos.
+                            Então, algo atravessa a barreira... e se aproxima.
+                            """);
+                    Thread.sleep(3000);
+                    System.out.println("[MALIGNO] >> Sejam muito bem-vindos ao meu lugar favorito...");
+                    Thread.sleep(1500);
+                    System.out.println("[MALIGNO] >> ARENA DO CAOS!");
+                    Thread.sleep(1000);
+                    System.out.println("[MALIGNO] >> HA HA HA!");
+                    Thread.sleep(2000);
+                    System.out.println(jogador.getNome() + """
+                             olha para a Bruxa.
+                            Vocês trocam um aceno curto, carregado de confiança, e avançam juntos contra MALIGNO.
+                            """);
+                    Thread.sleep(1500);
+
+                    aliado = new Aliado("Bruxa", 85, 40, 20, 85);
+                    batalhaFinal(jogador, aliado, maligno);
+                }
 
                 default -> System.err.println("Algo deu errado na progressão!");
 
