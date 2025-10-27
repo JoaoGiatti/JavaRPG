@@ -519,7 +519,7 @@ public class Jogo {
                     Thread.sleep(3000);
                     System.out.println("""
                            [BRUXA] >> Eu senti quando você caiu na caverna. E também... quando enfrentou o MALIGNO.
-                           [BRUXA] >> Sua missão ainda não acabou. Há algo obscuro em seu caminho... algo próximo
+                           [BRUXA] >> Sua missão ainda não acabou. Há algo obscuro em seu caminho... algo próximo.
                            """);
 
                     rolagem.simulacao(jogador);
@@ -534,7 +534,7 @@ public class Jogo {
                     Thread.sleep(3000);
                     System.out.println("""
                             A bruxa empunha um cajado antigo e se coloca ao seu lado.
-                            [BRUXA] >> Que os ventos antigos nos protejam!
+                            [BRUXA] >> Primeira fase. Que os ventos antigos nos protejam!
                             """);
                     aliado = new Aliado("Bruxa", 85, 20, 20, 85);
                     batalharComAliado(jogador, aliado, new Inimigo("Dragão Espectral", 130, 28, 20, 130));
@@ -593,7 +593,7 @@ public class Jogo {
                     Thread.sleep(3000);
                     System.out.println("""
                            Você olha pra Bruxa.
-                           [BRUXA] >> Essa energia... Eu a conheço.
+                           [BRUXA] >> Fase dois...
                            Você volta seu olhar à criatura e empunha, com mãos trêmulas, sua arma.
                            """);
                     aliado = new Aliado("Bruxa", aliado.getPontosVida(), 20, 20, 85);
@@ -883,7 +883,8 @@ public class Jogo {
                     System.out.println("""
                             Você sente o ar ficar pesado.
                             As correntes vibram.
-                            Algo terrível está prestes a começar...
+                            A Bruxa te olha.
+                            [BRUXA] >> Fase três... E última.
                             """);
                 }
 
