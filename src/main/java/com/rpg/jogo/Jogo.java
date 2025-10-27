@@ -511,13 +511,6 @@ public class Jogo {
                             [ANDRÉ] >> Eu... vou esperar aqui fora. Algo nesse lugar me incomoda
                             """);
 
-                    for (int i = 0; i < 3; i++) {
-                        try {
-                            Thread.sleep(500);
-                            System.out.print(".");
-                        } catch (Exception erro) {}
-                    }
-
                     System.out.println("""
                             Você entra na cabana. O ar é pesado, cheio de fumaça e cheiro de ervas queimadas.
                             Uma mulher encapuzada surge das sombras.
@@ -528,12 +521,10 @@ public class Jogo {
                            [BRUXA] >> Eu senti quando você caiu na caverna. E também... quando enfrentou o MALIGNO.
                            [BRUXA] >> Sua missão ainda não acabou. Há algo obscuro em seu caminho... algo próximo
                            """);
-                    for (int i = 0; i < 3; i++) {
-                        try {
-                            Thread.sleep(500);
-                            System.out.print(".");
-                        } catch (Exception erro) {}
-                    }
+
+                    rolagem.simulacao(jogador);
+                    int evento = rolagem.rolar();
+                    System.out.println("RESULTADO DO D20: " + evento);
 
                     System.out.println("""
                             De repente, o chão treme. Do lado de fora, ouvem-se gritos e o som de asas batendo no ar.
@@ -560,7 +551,7 @@ public class Jogo {
                 case 5 -> {
                     // ----------- CONTEXTO DA PROGRESSÃO ----------
                     System.out.println("""
-                        Vocês seguem até o local onde André estava — mas não há nada.
+                        Vocês seguem procurando por sobreviventes e André.
                         Nenhum rastro. Nenhum sinal.
                         André simplesmente... desapareceu.
                         """);
@@ -602,7 +593,7 @@ public class Jogo {
                     Thread.sleep(3000);
                     System.out.println("""
                            Você olha pra Bruxa.
-                           [BRUXA] >> Fase dois...
+                           [BRUXA] >> Essa energia... Eu a conheço.
                            Você volta seu olhar à criatura e empunha, com mãos trêmulas, sua arma.
                            """);
                     aliado = new Aliado("Bruxa", aliado.getPontosVida(), 20, 20, 85);
@@ -623,7 +614,7 @@ public class Jogo {
                         [BRUXA] >> Olha rapaz, você não sabe o que acontece aqui...
                         Ela estende a mão e te entrega um pequeno amuleto, frio ao toque.
                         """);
-                    jogador.getInventario().adicionarItem(new Item("Amuleto de Proteção", Item.TipoItem.EQUIPAVEL, 10, 1));
+                    jogador.getInventario().adicionarItem(new Item("Amuleto de Proteção", Item.TipoItem.EQUIPAVEL, 15, 1));
                     Thread.sleep(3000);
                     System.out.println("""                       
                         Antes que ela possa dizer mais, gritos estridentes ecoam pela floresta.
@@ -632,6 +623,61 @@ public class Jogo {
                         Você a ignora e corre em direção aos gritos que rasgam a escuridão da floresta.
                         """);
 
+                }
+                case 6 -> {
+                    // ----------- CONTEXTO DA PROGRESSÃO ----------
+                    System.out.println("""
+                            A floresta está fria e silenciosa.
+                            O amuleto da bruxa brilha fraco, guiando você até vozes distantes.
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""
+                            Você se aproxima e vê um acampamento da Guilda dos Magos Negros.
+                            No centro do círculo mágico... André, preso e gritando.
+                            """);
+                    Thread.sleep(2000);
+                    String[] falasCorrompidas = {
+                            "[MAGOS NEGROS] >> ʍɨʐʐɨɴɢ ȶɦɛ ɛռɛཞɠʏ...",
+                            "[MAGOS NEGROS] >> ᚹᛁᛋᛋᛁᚾᚷ ᚨᚾᛞ ᛗᚨᚷᛁᚲ...",
+                            "[MAGOS NEGROS] >> ✶ ☍ ☌ Ϟ ϟ Ϯ ᚾᚨᛗᛖ ᚣᚩᚢ..."
+                    };
+                    for (String f : falasCorrompidas) {
+                        System.out.print("\r" + f);
+                        Thread.sleep(600);
+                    }
+                    System.out.println("\n");
+
+                    rolagem.simulacao(jogador);
+                    int evento = rolagem.rolar();
+                    System.out.println("RESULTADO DO D20: " + evento);
+
+                    System.out.println("Um vento sombrio e corvos começam a rodiar " + jogador.getNome());
+                    System.out.println("De repente tudo em sua volta escurece, " + jogador.getNome() + " olha em sua volta, até que sente um sussuro em sua retaguarda...");
+                    System.out.println("[MAGO NEGRO] >> Espiando, forasteiro?");
+                    Thread.sleep(1500);
+
+                    // ----------- BATALHA ----------
+                    batalhar(jogador, new Inimigo("Mago Negro", 85, 24, 15, 85));
+
+                    System.out.println("O mago cai em fumaça escura. Você corre até André.");
+                    Thread.sleep(2000);
+                    System.out.println("[ANDRÉ] >> Saia daqui... AGORA!");
+                    Thread.sleep(2000);
+                    System.out.println("Você tenta atravessar a barreira mágica...");
+                    rolagem.simulacao(jogador);
+                    int resultado = rolagem.rolar();
+                    System.out.println("RESULTADO DO D20: " + resultado);
+
+                    if (resultado >= 15) {
+                        System.out.println("Você atravessa parte da barreira, mas é atingido por uma magia e cai inconsciente.");
+                    } else if (resultado >= 8) {
+                        System.out.println("A energia te repele com força. Antes de reagir, é imobilizado por trás.");
+                    } else {
+                        System.out.println("A barreira te lança longe. Sua visão escurece.");
+                    }
+
+                    Thread.sleep(2000);
+                    System.out.println("[ANDRÉ] >> Que... tolisse...");
                 }
 
 
