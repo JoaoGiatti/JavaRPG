@@ -1011,7 +1011,7 @@ public class Jogo {
                         } catch (Exception erro) {}
                     }
                     Thread.sleep(2000);
-                    
+
                 }
 
                 default -> System.err.println("Algo deu errado na progressão!");
