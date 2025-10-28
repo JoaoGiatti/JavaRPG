@@ -339,4 +339,29 @@ public class Inventario implements Cloneable {
     public int hashCode() {
         return (this.itens == null) ? 0 : this.itens.hashCode();
     }
+
+    //contrutor de cópia
+    public Inventario (Inventario modelo) throws Exception {
+        if (modelo == null) throw new Exception("Modelo ausente");
+
+        this.itens = new ArrayList<>();
+        if (modelo.itens != null) {
+            for (Item item : modelo.itens) {
+                this.itens.add(new Item(
+                        item.getNome(),
+                        item.getTipo(),
+                        item.getValor(),
+                        item.getQuantidade()
+                ));
+            }
+        }
+    }
+    @Override
+    public Object clone() {
+        Inventario ret = null;
+        try {
+            ret = new Inventario(this);
+        } catch (Exception e) {}
+        return ret;
+    }
 }
