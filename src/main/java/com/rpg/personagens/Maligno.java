@@ -70,4 +70,17 @@ public class Maligno extends Inimigo {
         return ret;
     }
 
+    public Maligno(Maligno modelo) throws Exception {
+        super(modelo); // chama o construtor de cópia da classe Personagem
+    }
+
+    @Override
+    public Object clone() {
+        Maligno ret = null;
+        try {
+            ret = new Maligno(this);
+        } catch (Exception e) {}
+        return ret;
+    }
+
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public abstract class Personagem implements Cloneable {
+public abstract class Personagem {
 
     // ATRIBUTOS
 
@@ -241,5 +241,18 @@ public abstract class Personagem implements Cloneable {
         ret = ret * 2 + this.nome.hashCode();
         if(ret < 0) ret=-ret;
         return ret;
+    }
+
+    //contrutor de cópia
+    public Personagem (Personagem modelo) throws Exception {
+        if (modelo == null) throw new Exception("Modelo ausente");
+        this.nome = modelo.nome;
+        this.pontosVida = modelo.pontosVida;
+        this.ataque = modelo.ataque;
+        this.defesa = modelo.defesa;
+        this.nivel = modelo.nivel;
+        this.inventario = new Inventario();
+        this.vidaMaxima = modelo.vidaMaxima;
+
     }
 }
