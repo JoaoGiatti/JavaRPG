@@ -133,13 +133,13 @@ public class Jogo {
                     // //  ----------- EVENTOS ----------
 
                     if (evento >= 15) {
-                        System.out.println("Você encontrou uma poção de cura no chão!");
+                        System.out.println("Você encontrou uma poção de cura no chão!\n");
                         jogador.getInventario().adicionarItem(new Item("Poção de Cura", Item.TipoItem.CURA, 20, 1));
                     } else if (evento >= 8) {
                         System.out.println("Você encontrou um inimigo!");
                         batalhar(jogador, new Inimigo("Aranha Gigante", 20, 8, 5, 20));
                     } else {
-                        System.out.println("Você andou com tanta confiança, que caiu numa armadilha de urso óbvia no chão! Perdeu 10 de HP!");
+                        System.out.println("Você andou com tanta confiança, que caiu numa armadilha de urso óbvia no chão! Perdeu 10 de HP!\n");
                         jogador.sofrerDano(10);
                     }
                 }
@@ -155,7 +155,8 @@ public class Jogo {
                                 "Porém, ao sair, ouve um barulho diferente ao fundo.\n" +
                                 "Correr em direção ao barulho?\n" +
                                 "   [1] - Sim\n" +
-                                "   [2] - Não\n");
+                                "   [2] - Não\n" +
+                                "Escolha: ");
 
                         int escolha = sc.nextInt();
                         sc.nextLine();
@@ -183,7 +184,7 @@ public class Jogo {
                                     System.out.println("""
                                             Você encontra uma pedra relativamente grande no chão.
                                             Atira ela para longe, o lobo escuta e vai em direção ao som.
-                                            Você conseguiu destrair o lobo, que deixou cair algo no chão!""");
+                                            Você conseguiu destrair o lobo, que deixou cair algo no chão!\n""");
                                     getDropItem();
                                 } else if (evento >= 8) {
                                     System.out.println("""
@@ -229,7 +230,7 @@ public class Jogo {
                                 System.out.println("Número inválido! Retornando...\n");
                             }
 
-                            System.out.println("Você vai em direção a pessoa, ajuda ela a se levantar e vocês fogem daquele lugar.");
+                            System.out.println("Você vai em direção a pessoa, ajuda ela a se levantar e vocês fogem daquele lugar.\n");
                             jogador.setTemAliado(true);
 
                             repetir = false;
@@ -248,13 +249,13 @@ public class Jogo {
                             // //  ----------- EVENTOS ----------
 
                             if (evento >= 15) {
-                                System.out.println("Você encontrou uma poção!");
+                                System.out.println("Você encontrou uma poção!\n");
                                 jogador.getInventario().adicionarItem(new Item("Poção de Cura", Item.TipoItem.CURA, 25, 1));
                             } else if (evento >= 8) {
                                 System.out.println("Você encontrou um inimigo!");
                                 batalhar(jogador, new Inimigo("Lobo", 55, 15, 8, 55));
                             } else {
-                                System.out.println("Você caiu em um buraco! Perdeu 10 de HP!");
+                                System.out.println("Você caiu em um buraco! Perdeu 10 de HP!\n");
                                 jogador.sofrerDano(10);
                             }
                             repetir = false;
@@ -283,7 +284,7 @@ public class Jogo {
                         Thread.sleep(3000);
                         System.out.println("Está escurecendo, André fala para procurarem folhas e galhos secos e fazerem uma fogueira.\n" +
                                 "Vocês fazem a fogueira e se esquentam do frio da noite,\n" +
-                                "até que escutam um barulho vindo da floresta...");
+                                "até que escutam um barulho vindo da floresta...\n");
 
 
                         //  ----------- ROLAGEM DE DADO ----------
@@ -297,10 +298,10 @@ public class Jogo {
                         if (evento >= 14) {
                             System.out.println("""
                                     Era uma criatura baixa de meio metro, que passou correndo sem dizer nada.
-                                    Ela deixou uma caixa cintilante, embrulhada as pressas, parece um presente. Você abre...""");
+                                    Ela deixou uma caixa cintilante, embrulhada as pressas, parece um presente. Você abre...\n""");
                                     getDropItem();
                         } else if (evento >= 10) {
-                            System.out.println("Era uma rajada de vento forte que apagou o fogo. Perdeu 3 de HP pelo frio.");
+                            System.out.println("Era uma rajada de vento forte que apagou o fogo. Perdeu 3 de HP pelo frio.\n");
                             jogador.sofrerDano(3);
                         } else {
                             System.out.println("Vocês encontraram um inimigo!");
@@ -326,7 +327,7 @@ public class Jogo {
                         if (evento >= 10) {
                             System.out.println("""
                                     Era uma criatura baixa de meio metro, que passou correndo sem dizer nada.
-                                    Ela deixou uma caixa cintilante, embrulhada as pressas, parece um presente. Você abre...""");
+                                    Ela deixou uma caixa cintilante, embrulhada as pressas, parece um presente. Você abre...\n""");
                             getDropItem();
                         } else {
                             System.out.println("Era uma... pessoa! Um homem vindo em sua direção.\n" +
@@ -354,7 +355,7 @@ public class Jogo {
                                     André já estava ao seu lado afiando sua adaga na brasa da fogueira
                                     [ANDRÉ] >> Já acordou? Estive sem sono esta noite, então dei uma vasculhada ao redor...
                                     [ANDRÉ] >> Devemos seguir ao norte, há uma escuridão assolando a praia, e me parece que está vindo até nós
-                                    Vocês empacotam suas coisas e seguem uma trilha marcada por desgaste.""");
+                                    Vocês empacotam suas coisas e seguem uma trilha marcada por desgaste.\n""");
 
                         //  ----------- ROLAGEM DE DADO ----------
 
@@ -367,19 +368,19 @@ public class Jogo {
                         System.out.println("""
                                 A trilha ao norte os-leva a uma montanha cercada por uma floresta densa
                                 Onde acham um acampamento abandonado, com caixas quebradas ao chão
-                                Vocês vasculham e...""");
+                                Vocês vasculham e...\n""");
 
                         if (evento >= 15) {
                             if (opcao == 1) {
-                                System.out.println("Encontram um Escudo!");
+                                System.out.println("Encontram um Escudo!\n");
                                 jogador.getInventario().adicionarItem(new Item("Escudo", Item.TipoItem.EQUIPAVEL, 10, 1));
                             }
                             if (opcao == 2) {
-                                System.out.println("Encontram um Amuleto de Defesa");
+                                System.out.println("Encontram um Amuleto de Defesa\n");
                                 jogador.getInventario().adicionarItem(new Item("Amuleto de defesa", Item.TipoItem.EQUIPAVEL, 10, 1));
                             }
                             if (opcao == 3) {
-                                System.out.println("Encontram uma Flecha Incendiária!");
+                                System.out.println("Encontram uma Flecha Incendiária!\n");
                                 jogador.getInventario().adicionarItem(new Item("Flecha Incendiária", Item.TipoItem.ATIRAVEL, 15, 1));
                             }
                         } else if (evento >= 5) {
@@ -389,9 +390,9 @@ public class Jogo {
                             aliado = new Aliado("André", 100, jogador.getAtaque(), jogador.getDefesa(), 100);
                             batalharComAliado(jogador, aliado, new Inimigo("Golem", 65, 20, 15, 65));
                         } else {
-                            System.out.println(jogador.getNome() + " Se aproxima de umas caixas e... É PEGO EM UMA ARMADILHA, (-10 de HP)");
+                            System.out.println(jogador.getNome() + " Se aproxima de umas caixas e... É PEGO EM UMA ARMADILHA, (-10 de HP)\n");
                             jogador.sofrerDano(10);
-                            System.out.println("Por sorte André estava lá para solta-lo");
+                            System.out.println("Por sorte André estava lá para solta-lo.\n");
                         }
                     } else {
                         System.out.println("A noite passou...\n" +
@@ -413,7 +414,7 @@ public class Jogo {
                                 "André concorda, e diz para se apressarem ao norte, algo de ruim os assolaria ao sul da ilha.\n" +
                                 "Vocês seguem juntos em direção a uma montanha, por uma trilha desgastada.\n");
                         jogador.setTemAliado(true);
-                        System.out.println("Vocês continuam caminhando, até que...");
+                        System.out.println("Vocês continuam caminhando, até que...\n");
 
                         //  ----------- ROLAGEM DE DADO ----------
 
@@ -426,19 +427,19 @@ public class Jogo {
                         System.out.println("""
                                 A trilha ao norte os-leva a uma montanha cercada por uma floresta densa
                                 Onde acham um acampamento abandonado, com caixas quebradas ao chão
-                                Vocês vasculham e...""");
+                                Vocês vasculham e...\n""");
 
                         if (evento >= 15) {
                             if (opcao == 1) {
-                                System.out.println("Encontram um Escudo!");
+                                System.out.println("Encontram um Escudo!\n");
                                 jogador.getInventario().adicionarItem(new Item("Escudo", Item.TipoItem.EQUIPAVEL, 10, 1));
                             }
                             if (opcao == 2) {
-                                System.out.println("Encontram um Amuleto de Defesa");
+                                System.out.println("Encontram um Amuleto de Defesa\n");
                                 jogador.getInventario().adicionarItem(new Item("Amuleto de defesa", Item.TipoItem.EQUIPAVEL, 10, 1));
                             }
                             if (opcao == 3) {
-                                System.out.println("Encontram uma Flecha Incendiária!");
+                                System.out.println("Encontram uma Flecha Incendiária!\n");
                                 jogador.getInventario().adicionarItem(new Item("Flecha Incendiária", Item.TipoItem.ATIRAVEL, 15, 1));
                             }
                         } else if (evento >= 5) {
@@ -448,9 +449,9 @@ public class Jogo {
                             aliado = new Aliado("André", 100, jogador.getAtaque(), jogador.getDefesa(), 100);
                             batalharComAliado(jogador, aliado, new Inimigo("Golem", 65, 20, 15, 65));
                         } else {
-                            System.out.println(jogador.getNome() + " Se aproxima de umas caixas e... É PEGO EM UMA ARMADILHA, (-10 de HP)");
+                            System.out.println(jogador.getNome() + " Se aproxima de umas caixas e... É PEGO EM UMA ARMADILHA, (-10 de HP)\n");
                             jogador.sofrerDano(10);
-                            System.out.println("Por sorte André estava lá para solta-lo");
+                            System.out.println("Por sorte André estava lá para solta-lo.\n");
                         }
                     }
                 }
@@ -461,12 +462,12 @@ public class Jogo {
                             A manhã nasce fria e enevoada. André caminha à frente, calado.
                             Vocês sobem uma trilha estreita que serpenteia a montanha, até que do alto,
                             avistam um vilarejo coberto por neblina, escondido entre vales e árvores antigas.
-                            [ANDRÉ] >> Um vilarejo... talvez encontremos respostas lá.
+                            [ANDRÉ] >> Um vilarejo... talvez encontremos respostas lá.\n
                             """);
                     Thread.sleep(3000);
                     System.out.println("""
                             Ao chegarem ao vilarejo, há sons de martelos, vozes, e cheiro de pão fresco.
-                            Pessoas sorriem, há crianças correndo e comerciantes chamando pelos produtos.
+                            Pessoas sorriem, há crianças correndo e comerciantes chamando pelos produtos.\n
                             """);
                     Thread.sleep(2500);
                     System.out.print("   [1] - Explorar o comércio local\n" +
@@ -482,25 +483,25 @@ public class Jogo {
                             System.out.println("""
                                 Você caminha até um ferreiro de barba longa.
                                 [FERREIRO] >> Estrangeiro, hein? Você tem cara de quem precisa de algo forte.
-                                Ele te mostra uma caixa de itens antigos...
+                                Ele te mostra uma caixa de itens antigos...\n
                                 """);
                             rolagem.simulacao(jogador);
                             int evento = rolagem.rolar();
                             System.out.println("RESULTADO DO D20: " + evento);
                             if (evento >= 15) {
-                                System.out.println("Um ferreiro te deu 2 facas de arremesso como presente de boas-vindas!");
+                                System.out.println("Um ferreiro te deu 2 facas de arremesso como presente de boas-vindas!\n");
                                 jogador.getInventario().adicionarItem(new Item("Faca de Arremesso", Item.TipoItem.ATIRAVEL, 12, 1));
                             } else if (evento >= 8) {
-                                System.out.println("Você consegue barganhar uns pãezinhos de amostra grátis.");
+                                System.out.println("Você consegue barganhar uns pãezinhos de amostra grátis.\n");
                                 jogador.getInventario().adicionarItem(new Item("Pãezinhos", Item.TipoItem.CURA, 5, 3));
                             } else {
-                                System.out.println("Você tropeça numa pilha de ferro velho e o ferreiro ri de você. Nada encontrado.");
+                                System.out.println("Você tropeça numa pilha de ferro velho e o ferreiro ri de você. Nada encontrado.\n");
                             }
                         }
                         case 2 -> {
                             System.out.println("""
                                     Você se aproxima de um grupo de crianças brincando com pedras coloridas.
-                                    Uma delas te desafia a acertar o alvo mais distante.
+                                    Uma delas te desafia a acertar o alvo mais distante.\n
                                     """);
                             rolagem.simulacao(jogador);
                             int evento = rolagem.rolar();
@@ -508,55 +509,55 @@ public class Jogo {
                             if (evento >= 15) {
                                 System.out.println("""
                                         Você acerta o alvo com precisão!
-                                        As crianças gritam empolgadas e te dão uma pedrinha brilhante.
+                                        As crianças gritam empolgadas e te dão uma pedrinha brilhante.\n
                                         """);
                                 jogador.getInventario().adicionarItem(new Item("Pedrinha Brilhante", Item.TipoItem.ATIRAVEL, 8, 1));
                             } else if (evento >= 8) {
-                                System.out.println("Quase acerta! As crianças riem, mas te entregam uma flor como prêmio de consolação.");
+                                System.out.println("Quase acerta! As crianças riem, mas te entregam uma flor como prêmio de consolação.\n");
                             } else {
-                                System.out.println("Você erra feio e uma criança debocha: 'Aposto que nem sabe segurar uma pedra!'");
+                                System.out.println("Você erra feio e uma criança debocha: 'Aposto que nem sabe segurar uma pedra!'\n");
                             }
                         }
                         case 3 -> {
                             System.out.println("""
                                     Você entra em uma taverna lotada, o cheiro de bebida forte e lenha queimada preenche o ar.
                                     O taverneiro te encara e diz:
-                                    [TAVERNEIRO] >> Forasteiros... há tempos não vemos nenhum. Cuidado por onde andam à noite.
+                                    [TAVERNEIRO] >> Forasteiros... há tempos não vemos nenhum. Cuidado por onde andam à noite.\n
                                     """);
                             rolagem.simulacao(jogador);
                             int evento = rolagem.rolar();
                             System.out.println("RESULTADO DO D20: " + evento);
                             if (evento >= 10) {
-                                System.out.println("Você conversa com um velho bêbado que fala sobre uma 'bruxa da cabana negra' nas colinas da aldeia...");
+                                System.out.println("Você conversa com um velho bêbado que fala sobre uma 'bruxa da cabana negra' nas colinas da aldeia...\n");
                             } else {
-                                System.out.println("Você ouve murmúrios, mas nada de útil.");
+                                System.out.println("Você ouve murmúrios, mas nada de útil.\n");
                             }
                         }
-                        default -> System.out.println("Você prefere apenas observar o vilarejo e seguir André.");
+                        default -> System.out.println("Você prefere apenas observar o vilarejo e seguir André.\n");
                     }
                     Thread.sleep(2500);
                     System.out.println("""
                             Após algum tempo explorando, algo chama sua atenção.
                             Um sussurro distante, quase inaudível, ecoa de uma cabana isolada no alto do vilarejo.
                             André te olha e franze a testa.
-                            [ANDRÉ] >> Eu... vou esperar aqui fora. Algo nesse lugar me incomoda
+                            [ANDRÉ] >> Eu... vou esperar aqui fora. Algo nesse lugar me incomoda\n
                             """);
                     Thread.sleep(2500);
                     System.out.println("""
                             Você entra na cabana. O ar é pesado, cheio de fumaça e cheiro de ervas queimadas.
                             Uma mulher encapuzada surge das sombras.
                             [BRUXA] >> Você... não deveria estar vivo.
-                            Ela parece surpresa.""");
+                            Ela parece surpresa.\n""");
                     Thread.sleep(2500);
                     System.out.println("""
                            [BRUXA] >> Eu senti quando você caiu na caverna. E também... quando enfrentou o MALIGNO.
-                           [BRUXA] >> Sua missão ainda não acabou. Há algo obscuro em seu caminho... algo próximo.
+                           [BRUXA] >> Sua missão ainda não acabou. Há algo obscuro em seu caminho... algo próximo.\n
                            """);
                     Thread.sleep(2500);
                     System.out.println("""
                             De repente, o chão treme. Do lado de fora, ouvem-se gritos e o som de asas batendo no ar.
                             A bruxa olha pela janela — chamas azuis tomam o vilarejo.
-                            [BRUXA] >> Um dragão espectral! Corra! Não... lute!
+                            [BRUXA] >> Um dragão espectral! Corra! Não... lute!\n
                             """);
                     Thread.sleep(2500);
                     System.out.println("""
@@ -571,7 +572,7 @@ public class Jogo {
                         As chamas se apagam lentamente, restando apenas cinzas e gritos de desespero.
                         A bruxa, ofegante, olha para você.
                         [BRUXA] >> Ele está próximo... o mal que carrega... está entre vocês.
-                        Você olha para fora — André não está mais lá.
+                        Você olha para fora — André não está mais lá.\n
                         """);
                     Thread.sleep(3000);
                 }
@@ -581,26 +582,26 @@ public class Jogo {
                     System.out.println("""
                         Vocês seguem procurando por sobreviventes e André.
                         Nenhum rastro. Nenhum sinal.
-                        André simplesmente... desapareceu.
+                        André simplesmente... desapareceu.\n
                         """);
                     Thread.sleep(3000);
                     System.out.println("""
                         Pelas ruas do vilarejo, vocês o procuram em meio ao caos.
                         As casas estão destruídas, e uma multidão tenta conter o fogo
-                        e salvar o que restou dos destroços deixados pelo Dragão.
+                        e salvar o que restou dos destroços deixados pelo Dragão.\n
                         """);
                     Thread.sleep(3000);
                     System.out.println("""
                         De repente, uma criança corre até vocês, ofegante.
                         [CRIANÇA] >> Eu... eu vi ele! O homem que vocês procuram! Ele entrou lá...
-                        Ela aponta para a cabana da bruxa.
+                        Ela aponta para a cabana da bruxa.\n
                         """);
                     Thread.sleep(3000);
                     System.out.println(jogador.getNome() + """ 
                          olha para a Bruxa, que permanece imóvel por um instante.
                         [BRUXA] >> MALIGNO está a caminho...
                         O silêncio que se segue é pesado.
-                        Mas vão em direção a cabana.
+                        Mas vão em direção a cabana.\n
                         """);
                     Thread.sleep(3000);
                     System.out.println(""" 
@@ -609,14 +610,14 @@ public class Jogo {
                         [ANDRÉ] >> Me desculpem! Eu estava com muito medo!
                         Você o acalma, diz que já passou.
                         A Bruxa está prestando atenção em outra coisa, parece estar sentindo
-                        que tem algo lá fora ainda...
+                        que tem algo lá fora ainda...\n
                         """);
                     Thread.sleep(3000);
                     System.out.println("""
                            Ela segue em direção a porta e você vai atrás. De repente...
                            Surge, de trás da cabana, uma criatura colossal.
                            Um ser com cabeça de touro e chifres afiados como lâminas.
-                           Era um Minotauro em extrema fúria.
+                           Era um Minotauro em extrema fúria.\n
                            """);
                     Thread.sleep(3000);
                     System.out.println("""
@@ -631,7 +632,7 @@ public class Jogo {
                         No meio da batalha, o Minotauro dá alguns passos para trás e, de repente, desvia o olhar para a cabana.
                         Vocês se entreolham, confusos.
                         Sem aviso, ele dispara em direção a ela, finca o machado no chão e, com uma força brutal, ergue a cabana inteira.
-                        Sob os destroços, ele encontra André — imóvel, exatamente como o deixaram.
+                        Sob os destroços, ele encontra André — imóvel, exatamente como o deixaram.\n
                         """);
                     Thread.sleep(3000);
                     System.out.println("""
@@ -640,7 +641,7 @@ public class Jogo {
                         [BRUXA] >> Minha cabana!!!
                         Ela caminha até a cabana destruída e pega algumas coisas que sobreviveram à destruição e te encara.
                         [BRUXA] >> Olha rapaz, você não sabe o que acontece aqui...
-                        Ela estende a mão e te entrega um pequeno amuleto, frio ao toque.
+                        Ela estende a mão e te entrega um pequeno amuleto, frio ao toque.\n
                         """);
                     jogador.getInventario().adicionarItem(new Item("Amuleto de Proteção", Item.TipoItem.EQUIPAVEL, 15, 1));
                     Thread.sleep(3000);
@@ -648,7 +649,7 @@ public class Jogo {
                         Antes que ela possa dizer mais, gritos estridentes ecoam pela floresta.
                         [BRUXA] >> Não vá.
                         Ela diz com um olhar cortante.
-                        Você a ignora e corre em direção aos gritos que rasgam a escuridão da floresta.
+                        Você a ignora e corre em direção aos gritos que rasgam a escuridão da floresta.\n
                         """);
 
                 }
@@ -656,12 +657,12 @@ public class Jogo {
                     // ----------- CONTEXTO DA PROGRESSÃO ----------
                     System.out.println("""
                             A floresta está fria e silenciosa.
-                            O amuleto da bruxa brilha fraco, guiando você até vozes distantes.
+                            O amuleto da bruxa brilha fraco, guiando você até vozes distantes.\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""
                             Você se aproxima e vê um acampamento da Guilda dos Magos Negros.
-                            No centro do círculo mágico... André, preso e gritando.
+                            No centro do círculo mágico... André, preso e gritando.\n
                             """);
                     Thread.sleep(2000);
                     String[] falasCorrompidas = {
@@ -687,56 +688,57 @@ public class Jogo {
                     // ----------- BATALHA ----------
                     batalhar(jogador, new Inimigo("Mago Negro", 85, 24, 15, 85));
 
-                    System.out.println("O mago cai em fumaça escura. Você corre até André.");
+                    System.out.println("O mago cai em fumaça escura. Você corre até André.\n");
                     Thread.sleep(2000);
-                    System.out.println("[ANDRÉ] >> Saia daqui... AGORA!");
+                    System.out.println("[ANDRÉ] >> Saia daqui... AGORA!\n");
                     Thread.sleep(2000);
-                    System.out.println("Você tenta atravessar a barreira mágica...");
+                    System.out.println("Você tenta atravessar a barreira mágica...\n");
                     rolagem.simulacao(jogador);
                     int resultado = rolagem.rolar();
                     System.out.println("RESULTADO DO D20: " + resultado);
 
                     if (resultado >= 15) {
-                        System.out.println("Você atravessa parte da barreira, mas é atingido por uma magia e cai inconsciente.");
+                        System.out.println("Você atravessa parte da barreira, mas é atingido por uma magia e cai inconsciente.\n");
                     } else if (resultado >= 8) {
-                        System.out.println("A energia te repele com força. Antes de reagir, é imobilizado por trás.");
+                        System.out.println("A energia te repele com força. Antes de reagir, é imobilizado por trás.\n");
                     } else {
-                        System.out.println("A barreira te lança longe. Sua visão escurece.");
+                        System.out.println("A barreira te lança longe. Sua visão escurece.\n");
                     }
 
                     Thread.sleep(2000);
-                    System.out.println("[ANDRÉ] >> Que... tolisse...");
+                    System.out.println("[ANDRÉ] >> Que... tolisse...\n");
+                    Thread.sleep(2000);
                 }
                 case 7 -> {
                     System.out.println("""
                             Você desperta... suspenso em meio a um vazio pulsante.
-                            As cores não fazem sentido. O chão... se move como água.
+                            As cores não fazem sentido. O chão... se move como água.\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""
-                            Ecos de vozes se repetem ao seu redor — algumas familiares, outras completamente distorcidas.
+                            Ecos de vozes se repetem ao seu redor — algumas familiares, outras completamente distorcidas.\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""
-                            [VOZ DISTORCIDA] >> ...o poder adormecido... desperte... desperte...
+                            [VOZ DISTORCIDA] >> ...o poder adormecido... desperte... desperte...\n
                             """);
                     Thread.sleep(1500);
                     System.out.println("""
-                            A fenda entre mundos... foi aberta.
+                            A fenda entre mundos... foi aberta.\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""
                             Você vê, à distância, uma figura cercada por magos ajoelhados.
-                            O corpo de André... agora tomado por energia negra.
+                            O corpo de André... agora tomado por energia negra.\n
                             """);
                     Thread.sleep(2500);
                     System.out.println("""
-                            [MAGOS CORROMPIDOS] >> MΛLIGNO... MΛLIGNO... MΛLIGNO...
+                            [MAGOS CORROMPIDOS] >> MΛLIGNO... MΛLIGNO... MΛLIGNO...\n
                             """);
                     Thread.sleep(1500);
                     System.out.println("""
                             Antes que possa se aproximar, algo rasteja das sombras da fenda.
-                            [???] >> ̷S̶i̶l̴ê̶n̶c̸i̴o̵.̶.̴.̸
+                            [???] >> ̷S̶i̶l̴ê̶n̶c̸i̴o̵.̶.̴.̸\n
                             """);
                     Thread.sleep(1500);
 
@@ -746,20 +748,20 @@ public class Jogo {
                     System.out.println("""
                             A sombra se desfaz em fragmentos luminosos.
                             O amuleto em seu pescoço começa a flutuar e pulsar uma luz forte.
-                            Ao seu lado, uma presença surge em forma de Eco — a Bruxa.
+                            Ao seu lado, uma presença surge em forma de Eco — a Bruxa.\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""
-                            [BRUXA DO ECO] >> Você não devia estar aqui, tolo... a fenda consome os vivos.
+                            [BRUXA DO ECO] >> Você não devia estar aqui, tolo... a fenda consome os vivos.\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""
-                            [VOCÊ] >> André... ele... abriu isso?
+                            [VOCÊ] >> André... ele... abriu isso?\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""
                             [BRUXA DO ECO] >> André não existe mais. O que você viu é o Arqui-Mago Maligno...
-                            O criador deste e outros feitiços proibidos. E se ele notar sua presença, será tarde demais.
+                            O criador deste e outros feitiços proibidos. E se ele notar sua presença, será tarde demais.\n
                             """);
                     Thread.sleep(2500);
                     System.out.println("""
@@ -773,24 +775,24 @@ public class Jogo {
 
                     System.out.println("""
                             Nidhogg ruge e se desfaz em névoa escura, deixando uma pedra pulsante no chão.
-                            [BRUXA DO ECO] >> Pegue isso. É a Essência da Fenda... talvez possamos usá-la contra ele.
+                            [BRUXA DO ECO] >> Pegue isso. É a Essência da Fenda... talvez possamos usá-la contra ele.\n
                             """);
                     Thread.sleep(2500);
                     System.out.println("""
                             Você sente o poder da fenda pulsar dentro de si. A bruxa o encara.
-                            [BRUXA DO ECO] >> Há uma saída... mas também um caminho direto ao coração da fenda.
+                            [BRUXA DO ECO] >> Há uma saída... mas também um caminho direto ao coração da fenda.\n
                             """);
                     Thread.sleep(2500);
                     System.out.println("""
-                            [VOCÊ] >> E se eu quiser acabar com tudo isso?
+                            [VOCÊ] >> E se eu quiser acabar com tudo isso?\n
                             """);
                     Thread.sleep(1500);
                     System.out.println("""
-                            [BRUXA DO ECO] >> Então siga a luz invertida... ela o levará até Maligno.
+                            [BRUXA DO ECO] >> Então siga a luz invertida... ela o levará até Maligno.\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""
-                            A fenda se abre mais uma vez. Você dá um passo à frente... e tudo se dissolve em branco.
+                            A fenda se abre mais uma vez. Você dá um passo à frente... e tudo se dissolve em branco.\n
                             """);
                     Thread.sleep(2000);
 
@@ -801,53 +803,53 @@ public class Jogo {
                 case 8 -> {
                     System.out.println("""
                             Sua visão se apaga... e flashes surgem.
-                            Um campo em chamas. Ecos de uma antiga batalha.
+                            Um campo em chamas. Ecos de uma antiga batalha.\n
                             """);
                     Thread.sleep(1500);
                     System.out.println("""
                             Uma figura surge — capa rasgada, olhos vermelhos.
-                            [???] >> Você... ousou me desafiar.
+                            [???] >> Você... ousou me desafiar.\n
                             """);
                     Thread.sleep(1500);
                     System.out.println("""
-                            [VOCÊ] >> Eu... te conheço?
+                            [VOCÊ] >> Eu... te conheço?\n
                             """);
                     Thread.sleep(1200);
                     System.out.println("""
-                            [???] >> Já conheceu. Você me derrotou uma vez... e pagou o preço.
+                            [???] >> Já conheceu. Você me derrotou uma vez... e pagou o preço.\n
                             """);
                     Thread.sleep(1800);
 
                     System.out.println("""
                             As memórias voltam. Era ele. O mesmo inimigo do início.
-                            O verdadeiro Maligno.
+                            O verdadeiro Maligno.\n
                             """);
                     Thread.sleep(1800);
 
                     System.out.println("""
-                            [MALIGNO] >> Apaguei quem você era. Tomei sua magia... e seu nome.
+                            [MALIGNO] >> Apaguei quem você era. Tomei sua magia... e seu nome.\n
                             """);
                     Thread.sleep(1800);
 
                     System.out.println("""
                             A imagem muda.
                             Maligno invade uma cabana — a da Bruxa.
-                            Frascos quebrados, sombras gritam.
+                            Frascos quebrados, sombras gritam.\n
                             """);
                     Thread.sleep(1500);
                     System.out.println("""
                             [MALIGNO] >> Feitiço de renascimento precisa de sangue e esquecimento...
-                            E ela tem ambos.
+                            E ela tem ambos.\n
                             """);
                     Thread.sleep(1500);
                     System.out.println("""
-                            O sorriso dele é calmo demais pra quem destrói tudo ao redor.
+                            O sorriso dele é calmo demais pra quem destrói tudo ao redor.\n
                             """);
                     Thread.sleep(1200);
 
                     System.out.println("""
                             Um símbolo surge na memória, brilhando no chão — o mesmo da Essência da Fenda.
-                            O chão começa a tremer...
+                            O chão começa a tremer...\n
                             """);
                     Thread.sleep(1500);
 
@@ -859,52 +861,52 @@ public class Jogo {
                     if (evento >= 8) {
                         System.out.println("""
                                 O símbolo reage à sua presença!
-                                Uma energia estranha te envolve...
+                                Uma energia estranha te envolve...\n
                                 """);
                         Thread.sleep(1200);
                         getDropItem();
                         jogador.setAtaque(jogador.getAtaque() + 5);
-                        System.out.println("Você sente um poder obscuro te fortalecendo (+5 Ataque).");
+                        System.out.println("Você sente um poder obscuro te fortalecendo (+5 Ataque).\n");
                         jogador.restaurarVidaTotal();
                     } else {
                         System.out.println("""
                                 A energia explode — você sente uma queimação interna.
-                                Sua vida foi totalmente restaurada
+                                Sua vida foi totalmente restaurada\n
                                 """);
                         Thread.sleep(1200);
                         jogador.restaurarVidaTotal();
                     }
 
                     System.out.println("""
-                            Tudo começa a girar. O chão se desfaz... a memória colapsa.
+                            Tudo começa a girar. O chão se desfaz... a memória colapsa.\n
                             """);
                     Thread.sleep(1500);
 
                     System.out.println("""
                             Vozes sussurram ao redor...
-                            [BRUXA] >> Acorde... rápido...
+                            [BRUXA] >> Acorde... rápido...\n
                             """);
                     Thread.sleep(1500);
 
                     System.out.println("""
                             Sua visão volta.
                             Você está sentado em uma mesa de jantar de pedra negra.
-                            Correntes prendem seus braços.
+                            Correntes prendem seus braços.\n
                             """);
                     Thread.sleep(1500);
                     System.out.println("""
                             À sua frente, taças, cheias de um líquido vermelho, brilham.
-                            A Bruxa está ao seu lado — também amarrada.
+                            A Bruxa está ao seu lado — também amarrada.\n
                             """);
                     Thread.sleep(1500);
                     System.out.println("""
                             [MALIGNO] >> Bem-vindos ao banquete da verdade.
-                            Vocês lutam, sangram, amam... e acham que isso tem sentido?
+                            Vocês lutam, sangram, amam... e acham que isso tem sentido?\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""
                             Ele levanta uma taça, sorrindo.
-                            [MALIGNO] >> Comam. É o último jantar antes do fim.
+                            [MALIGNO] >> Comam. É o último jantar antes do fim.\n
                             """);
                     Thread.sleep(2000);
 
@@ -912,7 +914,7 @@ public class Jogo {
                             Você sente o ar ficar pesado.
                             As correntes vibram.
                             A Bruxa te olha.
-                            [BRUXA] >> Fase três... E última.
+                            [BRUXA] >> Fase três... E última.\n
                             """);
                 }
 
@@ -920,30 +922,30 @@ public class Jogo {
                     System.out.println("""
                             VUOSH! Um vendaval ensandecido arrebenta as janelas,
                             trazendo uma nuvem negra com raios fulminantes
-                            e trovões ensurdecedores que os cobrem por completo.
+                            e trovões ensurdecedores que os cobrem por completo.\n
                             """);
                     Thread.sleep(3000);
                     System.out.println("""
                             Vocês escutam ecoando pela escuridão...
-                            [MALIGNO] >> HA HA HA! QUE COMEÇE A DIVERSÃO!!!
+                            [MALIGNO] >> HA HA HA! QUE COMEÇE A DIVERSÃO!!!\n
                             """);
                     Thread.sleep(2500);
                     System.out.println("""     
                             Vocês sentem que estão flutuando, como se não existisse gravidade.
-                            As correntes começam a esquentar como lava fervente.
+                            As correntes começam a esquentar como lava fervente.\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""  
                             Até que aquele manto sombrio se dispersa violentamente,
                             formando um vórtice.
-                            Vocês estão bem no centro, presos, sem saída.
+                            Vocês estão bem no centro, presos, sem saída.\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""  
                             As correntes se quebram.
                             Vocês olham aquela muralha de vento densa, ameaçadora.
                             Vocês se sentem pequenos, perdidos, cercados por aquela força.
-                            Então, algo atravessa a barreira... e se aproxima.
+                            Então, algo atravessa a barreira... e se aproxima.\n
                             """);
                     Thread.sleep(3000);
                     System.out.println("[MALIGNO] >> Sejam muito bem-vindos ao meu lugar favorito...");
@@ -954,7 +956,7 @@ public class Jogo {
                     Thread.sleep(2000);
                     System.out.println(jogador.getNome() + """
                              olha para a Bruxa.
-                            Vocês trocam um aceno curto, carregado de confiança, e avançam juntos contra MALIGNO.
+                            Vocês trocam um aceno curto, carregado de confiança, e avançam juntos contra MALIGNO.\n
                             """);
                     Thread.sleep(1500);
 
@@ -970,37 +972,37 @@ public class Jogo {
                     // ENCERRAMENTO
                     System.out.println("""
                             A arena silencia.
-                            O chão rachado começa a se desfazer em poeira brilhante, subindo lentamente ao céu.
+                            O chão rachado começa a se desfazer em poeira brilhante, subindo lentamente ao céu.\n
                             """);
                     Thread.sleep(2500);
                     System.out.println("""
                             A Bruxa se aproxima, ofegante, apoiando-se no cajado.
-                            [BRUXA] >> Acabou... por enquanto.
+                            [BRUXA] >> Acabou... por enquanto.\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""
                             O corpo de Maligno começa a se dissolver, deixando apenas um fragmento negro pulsante.
-                            Você o encara, e sente algo... vivo... dentro dele.
+                            Você o encara, e sente algo... vivo... dentro dele.\n
                             """);
                     Thread.sleep(2500);
                     System.out.println("""
-                            [BRUXA] >> Não toque nisso! Esse poder... é o mesmo que ele te tirou.
+                            [BRUXA] >> Não toque nisso! Esse poder... é o mesmo que ele te tirou.\n
                             """);
                     Thread.sleep(2000);
                     System.out.println("""
                             A luz da fenda consome tudo ao redor.
                             Você sente seu corpo flutuar, o som se distorce, e a voz da Bruxa ecoa distante...
-                            [BRUXA] >> ...lembre-se, o esquecimento também é uma prisão...
+                            [BRUXA] >> ...lembre-se, o esquecimento também é uma prisão...\n
                             """);
                     Thread.sleep(3000);
                     System.out.println("""
                             Tudo escurece.
                             Quando abre os olhos, está sozinho, em uma floresta calma.
-                            O fragmento negro repousa em sua mão... ainda pulsando.
+                            O fragmento negro repousa em sua mão... ainda pulsando.\n
                             """);
                     Thread.sleep(2500);
                     System.out.println("""
-                            [VOZ DISTANTE] >> ...não acabou... ele ainda vive... nas sombras...
+                            [VOZ DISTANTE] >> ...não acabou... ele ainda vive... nas sombras...\n
                             """);
                     Thread.sleep(2500);
                     System.out.println("FIM.");
