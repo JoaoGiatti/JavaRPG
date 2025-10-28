@@ -1,10 +1,19 @@
 package com.rpg.jogo;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+
 import com.rpg.dados.RolagemDeDados;
 import com.rpg.inventario.Item;
-import com.rpg.personagens.*;
-
-import java.util.*;
+import com.rpg.personagens.Aliado;
+import com.rpg.personagens.Arqueiro;
+import com.rpg.personagens.Guerreiro;
+import com.rpg.personagens.Inimigo;
+import com.rpg.personagens.Mago;
+import com.rpg.personagens.Maligno;
+import com.rpg.personagens.Personagem;
 
 public class Jogo {
     private final Scanner sc = new Scanner(System.in);
@@ -933,8 +942,55 @@ public class Jogo {
                             """);
                     Thread.sleep(1500);
 
+                    // CHAMADA DA BATALHA FINAL
+
+                    Item pocaoDeCuraReforcada = new Item("Poção de Cura Reforçada", Item.TipoItem.CURA, 35, 3);
+                    jogador.getInventario().adicionarItem(pocaoDeCuraReforcada);
+                    
                     aliado = new Aliado("Bruxa", 85, 40, 20, 85);
+                    Maligno maligno = new Maligno("Maligno");
                     batalhaFinal(jogador, aliado, maligno);
+
+                    // ENCERRAMENTO
+                    System.out.println("""
+                            A arena silencia.
+                            O chão rachado começa a se desfazer em poeira brilhante, subindo lentamente ao céu.
+                            """);
+                    Thread.sleep(2500);
+                    System.out.println("""
+                            A Bruxa se aproxima, ofegante, apoiando-se no cajado.
+                            [BRUXA] >> Acabou... por enquanto.
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""
+                            O corpo de Maligno começa a se dissolver, deixando apenas um fragmento negro pulsante.
+                            Você o encara, e sente algo... vivo... dentro dele.
+                            """);
+                    Thread.sleep(2500);
+                    System.out.println("""
+                            [BRUXA] >> Não toque nisso! Esse poder... é o mesmo que ele te tirou.
+                            """);
+                    Thread.sleep(2000);
+                    System.out.println("""
+                            A luz da fenda consome tudo ao redor.
+                            Você sente seu corpo flutuar, o som se distorce, e a voz da Bruxa ecoa distante...
+                            [BRUXA] >> ...lembre-se, o esquecimento também é uma prisão...
+                            """);
+                    Thread.sleep(3000);
+                    System.out.println("""
+                            Tudo escurece.
+                            Quando abre os olhos, está sozinho, em uma floresta calma.
+                            O fragmento negro repousa em sua mão... ainda pulsando.
+                            """);
+                    Thread.sleep(2500);
+                    System.out.println("""
+                            [VOZ DISTANTE] >> ...não acabou... ele ainda vive... nas sombras...
+                            """);
+                    Thread.sleep(2500);
+                    System.out.println("""
+                            FIM.
+                            """);
+                    break;
                 }
 
                 default -> System.err.println("Algo deu errado na progressão!");
@@ -1245,6 +1301,125 @@ public class Jogo {
         }
         jogador.setEmBatalha(false);
     }
+
+    public void batalhaFinal(Personagem jogador, Aliado aliado, Maligno maligno) throws Exception {
+    boolean desistiu = false;
+    jogador.setEmBatalha(true);
+    System.out.println("\n🔥 BATALHA FINAL CONTRA " + maligno.getNome().toUpperCase() + " 🔥");
+    System.out.println("--------------------------------------------------");
+
+    while (jogador.estaVivo() && maligno.estaVivo()) {
+        System.out.println("\n======= STATUS =======");
+        System.out.println(jogador.getNome() + " (HP: " + jogador.getPontosVida() + ")");
+        System.out.println(aliado.getNome() + " (HP: " + aliado.getPontosVida() + ")");
+        System.out.println(maligno.getNome() + " (HP: " + maligno.getPontosVida() + ")");
+        System.out.println("======================");
+
+        System.out.println("""
+                Escolha sua ação:
+                [1] - Ataque leve
+                [2] - Ataque forte
+                [3] - Usar item
+                [4] - Ver inventário
+                [5] - Desistir (não recomendado)
+                """);
+        System.out.print("Escolha: ");
+        int escolha = sc.nextInt();
+        sc.nextLine();
+        System.out.println();
+
+        boolean jogadorAtacou = false;
+
+        switch (escolha) {
+            case 1 -> {
+                jogadorAtacou = true;
+                System.out.println("Você tenta um ataque leve...");
+                rolagem.simulacao(jogador);
+                int evento = rolagem.rolar();
+                System.out.println("RESULTADO DO D20: " + evento);
+                if (evento >= 6) {
+                    int dano = jogador.getAtaque() + (int)(Math.random() * 5);
+                    System.out.println("Você acerta " + dano + " de dano!");
+                    maligno.sofrerDano(dano);
+                } else System.out.println("Você errou!");
+            }
+
+            case 2 -> {
+                jogadorAtacou = true;
+                System.out.println("Você carrega um ataque forte...");
+                rolagem.simulacao(jogador);
+                int evento = rolagem.rolar();
+                System.out.println("RESULTADO DO D20: " + evento);
+                if (evento >= 10) {
+                    int dano = jogador.getAtaque() + (int)(Math.random() * 10) + 10;
+                    System.out.println("💥 GOLPE CRÍTICO! Dano causado: " + dano);
+                    maligno.sofrerDano(dano);
+                } else System.out.println("Maligno desviou!");
+            }
+
+            case 3 -> jogador.getInventario().usarItemEmBatalha(jogador, maligno, sc);
+            case 4 -> jogador.getInventario().listarItens(jogador);
+
+            case 5 -> {
+                System.out.println("Você tenta fugir...");
+                rolagem.simulacao(jogador);
+                int evento = rolagem.rolar();
+                System.out.println("RESULTADO DO D20: " + evento);
+                if (evento >= 19) {
+                    System.out.println("Você escapa por um portal instável... mas algo te puxa de volta!");
+                    Thread.sleep(1000);
+                    System.out.println("[MALIGNO] >> \"A fuga... não existe aqui.\"");
+                } else {
+                    System.out.println("As correntes da arena o prendem. Não há saída.");
+                }
+            }
+
+            default -> System.out.println("Opção inválida!");
+        }
+
+        // turno da bruxa (aliada)
+        if (jogadorAtacou && aliado.estaVivo() && maligno.estaVivo()) {
+            System.out.println("\nTurno de " + aliado.getNome() + "!");
+            int eventoAliado = rolagem.rolar();
+            if (eventoAliado >= 8) {
+                int danoAliado = aliado.getAtaque() + (int)(Math.random() * 10);
+                System.out.println(aliado.getNome() + " conjura um feitiço e causa " + danoAliado + " de dano!");
+                maligno.sofrerDano(danoAliado);
+            } else {
+                System.out.println(aliado.getNome() + " erra o feitiço — a fenda distorce sua magia!");
+            }
+        }
+
+        if (!maligno.estaVivo()) {
+            System.out.println("\n💀 " + maligno.getNome() + " foi derrotado!");
+            System.out.println("[BRUXA] >> \"Finalmente... a fenda se fecha.\"");
+            System.out.println("✨ A luz consome tudo. Você sente o peso da magia desaparecer.");
+            getDropItem();
+            System.out.println("\n-------------- ⚔️ Fim da História ⚔️--------------\n");
+            return;
+        }
+
+        // turno do maligno
+        System.out.println("\nTurno do Maligno...");
+        if (Math.random() < 0.35) {
+            maligno.ataqueEspecial(jogador, aliado);
+        } else {
+            int danoBase = maligno.getAtaque() + (int)(Math.random() * 8);
+            boolean atacarJogador = Math.random() < 0.6;
+            Personagem alvo = atacarJogador ? jogador : aliado;
+            System.out.println("Maligno ataca " + alvo.getNome() + "!");
+            alvo.sofrerDano(danoBase);
+            System.out.println(alvo.getNome() + " sofreu " + danoBase + " de dano!");
+        }
+
+        if (!jogador.estaVivo()) {
+            jogador.tratarMorte(jogador, aliado, maligno, this, progressao);
+            return;
+        }
+    }
+
+    jogador.setEmBatalha(false);
+}
 
     public Item droparItem(int opcao, int progressao) {
         List<Item> possiveisDrops = new ArrayList<>();
