@@ -89,7 +89,8 @@ public class Item implements Comparable<Item> {
         if (obj == this) { return true; }
         if (obj == null || obj.getClass() != this.getClass()) { return false; }
         Item item = (Item)obj;
-        return this.nome.compareTo(item.nome) == 0;
+        if(this.nome.compareTo(item.nome) != 0) { return false; }
+        return true;
     }
 
     @Override

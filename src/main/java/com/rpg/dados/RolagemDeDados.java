@@ -28,4 +28,26 @@ public class RolagemDeDados {
         }
         System.out.println();
     }
+
+    @Override
+    public String toString() {
+        return "Resultado: " + rand;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        RolagemDeDados r = (RolagemDeDados) obj;
+        if(!this.rand.equals(r.rand)) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int ret = 1;
+        ret = ret * 2 + this.rand.hashCode();
+        if(ret < 0) ret=-ret;
+        return ret;
+    }
 }

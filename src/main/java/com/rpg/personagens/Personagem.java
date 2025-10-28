@@ -225,4 +225,21 @@ public abstract class Personagem implements Cloneable {
     public String toString() {
         return nome + " (HP: " + pontosVida + ", Atk: " + ataque + ", Def: " + defesa + ")";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        Personagem p = (Personagem) obj;
+        if(!this.nome.equals(p.nome)) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int ret = 1;
+        ret = ret * 2 + this.nome.hashCode();
+        if(ret < 0) ret=-ret;
+        return ret;
+    }
 }

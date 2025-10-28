@@ -10,7 +10,7 @@ public class Inventario implements Cloneable {
 
     // ATRIBUTOS
 
-    private List<Item> itens;
+    private final List<Item> itens;
 
     // CONSTRUTOR
 
@@ -320,24 +320,19 @@ public class Inventario implements Cloneable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
-        if (obj == null || obj.getClass() != this.getClass())
-            return false;
-
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
         Inventario i = (Inventario) obj;
-
-        if (this.itens == null && i.itens == null)
-            return true;
-        if (this.itens == null || i.itens == null)
-            return false;
-
-        return this.itens.equals(i.itens);
+        if(!this.itens.equals(i.itens)) return false;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return (this.itens == null) ? 0 : this.itens.hashCode();
+        int ret = 1;
+        ret = ret * 2 + this.itens.hashCode();
+        if(ret < 0) ret=-ret;
+        return ret;
     }
 
     //contrutor de cópia
@@ -356,6 +351,7 @@ public class Inventario implements Cloneable {
             }
         }
     }
+
     @Override
     public Object clone() {
         Inventario ret = null;

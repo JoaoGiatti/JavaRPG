@@ -535,10 +535,11 @@ public class Jogo {
                            [BRUXA] >> Sua missão ainda não acabou. Há algo obscuro em seu caminho... algo próximo.
                            """);
                     Thread.sleep(2500);
+                    /*
                     rolagem.simulacao(jogador);
                     int evento = rolagem.rolar();
                     System.out.println("RESULTADO DO D20: " + evento);
-
+                    */
                     System.out.println("""
                             De repente, o chão treme. Do lado de fora, ouvem-se gritos e o som de asas batendo no ar.
                             A bruxa olha pela janela — chamas azuis tomam o vilarejo.
@@ -1613,5 +1614,37 @@ public class Jogo {
         System.out.println("⭐ Item dropado: " + itemDropado.getNome() + "!");
     }
 
+    @Override
+    public String toString() {
+        return "Jogador: " + jogador +
+                "Aliado: " + aliado +
+                "Inimigo: " + inimigo +
+                "Progressão: " + progressao +
+                "Opção: " + opcao;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        Jogo j = (Jogo) obj;
+        if(!this.jogador.equals(j.jogador) ||
+        !this.aliado.equals(j.aliado) ||
+        !this.inimigo.equals(j.inimigo) ||
+        this.progressao != j.progressao ||
+        this.opcao != j.opcao) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int ret = 1;
+        ret = ret * 2 + this.jogador.hashCode();
+        ret = ret * 2 + this.aliado.hashCode();
+        ret = ret * 2 + this.inimigo.hashCode();
+        ret = ret * 2 + ((Integer)this.progressao).hashCode();
+        ret = ret * 2 + ((Integer)this.opcao).hashCode();
+        if(ret < 0) ret=-ret;
+        return ret;
+    }
 }

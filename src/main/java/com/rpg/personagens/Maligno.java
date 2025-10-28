@@ -47,4 +47,27 @@ public class Maligno extends Inimigo {
             jogador.sofrerDano(40 + random.nextInt(20));
         }
     }
+
+    @Override
+    public String toString() {
+        return "Turno: " + turnos;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        Maligno m = (Maligno) obj;
+        if(this.turnos != m.turnos) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int ret = 1;
+        ret = ret * 2 + ((Integer)this.turnos).hashCode();
+        if(ret < 0) ret=-ret;
+        return ret;
+    }
+
 }
