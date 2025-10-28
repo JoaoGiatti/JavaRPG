@@ -289,6 +289,7 @@ public class Jogo {
                             jogador.sofrerDano(3);
                         } else {
                             System.out.println("Vocês encontraram um inimigo!");
+
                             batalharComAliado(jogador, aliado, new Inimigo("Ogro", 60, 18, 10, 60));
                         }
                     } else {
@@ -449,7 +450,7 @@ public class Jogo {
                             Ao chegarem ao vilarejo, há sons de martelos, vozes, e cheiro de pão fresco.
                             Pessoas sorriem, há crianças correndo e comerciantes chamando pelos produtos.
                             """);
-                    Thread.sleep(3000);
+                    Thread.sleep(2500);
                     System.out.print("   [1] - Explorar o comércio local\n" +
                             "   [2] - Interagir com as crianças\n" +
                             "   [3] - Procurar alguma taverna\n" +
@@ -515,25 +516,25 @@ public class Jogo {
                         }
                         default -> System.out.println("Você prefere apenas observar o vilarejo e seguir André.");
                     }
-
+                    Thread.sleep(2500);
                     System.out.println("""
                             Após algum tempo explorando, algo chama sua atenção.
                             Um sussurro distante, quase inaudível, ecoa de uma cabana isolada no alto do vilarejo.
                             André te olha e franze a testa.
                             [ANDRÉ] >> Eu... vou esperar aqui fora. Algo nesse lugar me incomoda
                             """);
-
+                    Thread.sleep(2500);
                     System.out.println("""
                             Você entra na cabana. O ar é pesado, cheio de fumaça e cheiro de ervas queimadas.
                             Uma mulher encapuzada surge das sombras.
                             [BRUXA] >> Você... não deveria estar vivo.
                             Ela parece surpresa.""");
-                    Thread.sleep(3000);
+                    Thread.sleep(2500);
                     System.out.println("""
                            [BRUXA] >> Eu senti quando você caiu na caverna. E também... quando enfrentou o MALIGNO.
                            [BRUXA] >> Sua missão ainda não acabou. Há algo obscuro em seu caminho... algo próximo.
                            """);
-
+                    Thread.sleep(2500);
                     rolagem.simulacao(jogador);
                     int evento = rolagem.rolar();
                     System.out.println("RESULTADO DO D20: " + evento);
@@ -543,11 +544,12 @@ public class Jogo {
                             A bruxa olha pela janela — chamas azuis tomam o vilarejo.
                             [BRUXA] >> Um dragão espectral! Corra! Não... lute!
                             """);
-                    Thread.sleep(3000);
+                    Thread.sleep(2500);
                     System.out.println("""
                             A bruxa empunha um cajado antigo e se coloca ao seu lado.
                             [BRUXA] >> Primeira fase. Que os ventos antigos nos protejam!
                             """);
+                    Thread.sleep(3000);
                     aliado = new Aliado("Bruxa", 85, 20, 20, 85);
                     batalharComAliado(jogador, aliado, new Inimigo("Dragão Espectral", 130, 28, 20, 130));
 
@@ -987,10 +989,15 @@ public class Jogo {
                             [VOZ DISTANTE] >> ...não acabou... ele ainda vive... nas sombras...
                             """);
                     Thread.sleep(2500);
-                    System.out.println("""
-                            FIM.
-                            """);
-                    break;
+                    System.out.print("FIM");
+                    for (int i = 0; i < 3; i++) {
+                        try {
+                            Thread.sleep(500);
+                            System.out.print(".");
+                        } catch (Exception erro) {}
+                    }
+                    Thread.sleep(2000);
+                    return;
                 }
 
                 default -> System.err.println("Algo deu errado na progressão!");
