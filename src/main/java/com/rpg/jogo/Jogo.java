@@ -945,6 +945,7 @@ public class Jogo {
     }
 
     public void batalhar(Personagem jogador, Inimigo inimigo) throws Exception {
+        boolean desistiu = false;
         jogador.setEmBatalha(true);
 
         System.out.println("\n⚔️ Batalhando contra " + inimigo.getNome() + "! ⚔️");
@@ -967,11 +968,6 @@ public class Jogo {
             int escolha = sc.nextInt();
             sc.nextLine();
             System.out.println();
-
-            if (escolha == 5) {
-                System.out.println("Você decidiu recuar da batalha!");
-                return;
-            }
 
             boolean jogadorAtacou = false;
 
@@ -1010,6 +1006,24 @@ public class Jogo {
 
                 case 3 -> jogador.getInventario().usarItemEmBatalha(jogador, inimigo, sc);
                 case 4 -> jogador.getInventario().listarItens(jogador);
+
+                case 5 -> {
+                    while (!desistiu) {
+                        System.out.println("Você tenta sair da luta...");
+                        rolagem.simulacao(jogador);
+                        int evento = rolagem.rolar();
+                        System.out.println("RESULTADO DO D20: " + evento);
+                        if (evento >= 17) {
+                            System.out.println("Você foge, deixando " + inimigo.getNome() + " para trás.");
+                        }
+                        else{
+                            System.out.println("Você não consegue fugir e toma um golpe forte.");
+                            jogador.sofrerDano(20);
+                        }
+                        desistiu = true;
+                    }
+                }
+
                 default -> System.out.println("Opção inválida!");
             }
 
@@ -1063,6 +1077,7 @@ public class Jogo {
     }
 
     public void batalharComAliado(Personagem jogador, Aliado aliado, Inimigo inimigo) throws Exception {
+        boolean desistiu = false;
         jogador.setEmBatalha(true);
 
         System.out.println("\n⚔️ Batalhando contra " + inimigo.getNome() + "! ⚔️");
@@ -1089,11 +1104,6 @@ public class Jogo {
             int escolha = sc.nextInt();
             sc.nextLine();
             System.out.println();
-
-            if (escolha == 5) {
-                System.out.println("Você decidiu recuar da batalha!");
-                return;
-            }
 
             boolean jogadorAtacou = false;
 
@@ -1132,6 +1142,24 @@ public class Jogo {
 
                 case 3 -> jogador.getInventario().usarItemEmBatalha(jogador, inimigo, sc);
                 case 4 -> jogador.getInventario().listarItens(jogador);
+
+                case 5 -> {
+                    while (!desistiu) {
+                        System.out.println("Você tenta sair da luta...");
+                        rolagem.simulacao(jogador);
+                        int evento = rolagem.rolar();
+                        System.out.println("RESULTADO DO D20: " + evento);
+                        if (evento >= 17) {
+                            System.out.println("Você foge, deixando " + inimigo.getNome() + " para trás.");
+                        }
+                        else{
+                            System.out.println("Você não consegue fugir e toma um golpe forte.");
+                            jogador.sofrerDano(20);
+                        }
+                        desistiu = true;
+                    }
+                }
+
                 default -> System.out.println("Opção inválida!");
             }
 
@@ -1397,10 +1425,11 @@ public class Jogo {
         return possiveisDrops.get(r.nextInt(possiveisDrops.size()));
     }
 
-
     public void getDropItem() throws Exception {
         Item itemDropado = droparItem(opcao, progressao);
         jogador.getInventario().adicionarItem(itemDropado);
         System.out.println("⭐ Item dropado: " + itemDropado.getNome() + "!");
     }
+
+
 }
