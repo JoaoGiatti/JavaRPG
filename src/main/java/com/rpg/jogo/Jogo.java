@@ -26,10 +26,25 @@ public class Jogo {
 
     public void iniciar() throws Exception {
         System.out.println("Bem-vindo ao RPG de Texto!");
-        System.out.print("Escolha seu nome: ");
-        String nome = sc.nextLine();
-
-        System.out.println("Escolha sua classe:");
+        String nome = "";
+        boolean voltar = true;
+        while(voltar){
+            System.out.print("Escolha seu nome: ");
+            nome = sc.nextLine().trim();
+            if (nome.isEmpty()) {
+                System.out.println("Nome inválido! Digite novamente.");
+            }
+            else if(nome.equals("André") || nome.equals("Andre") || nome.equals("andré") ||
+                    nome.equals("andre") || nome.equals("Maligno") || nome.equals("maligno")){
+                System.out.println("Não use esse nome para o bem de nossa história :)");
+            }
+            else{
+                voltar = false;
+            }
+        }
+         
+        
+        System.out.println("\nEscolha sua classe:");
         System.out.println("[1] - Guerreiro\n[2] - Mago\n[3] - Arqueiro");
         opcao = sc.nextInt();
         sc.nextLine();
@@ -222,7 +237,7 @@ public class Jogo {
                             System.out.println("""
                                     Você finge que não ouviu, pensa que era coisa da sua cabeça,
                                     podia ser até mesmo o canto de um pássaro...
-                                    Então, você continua andando e...""");
+                                    Então, você continua andando e...\n""");
 
                             //  ----------- ROLAGEM DE DADO ----------
 
@@ -289,7 +304,7 @@ public class Jogo {
                             jogador.sofrerDano(3);
                         } else {
                             System.out.println("Vocês encontraram um inimigo!");
-
+                            aliado = new Aliado("André", 100, jogador.getAtaque(), jogador.getDefesa(), 100);
                             batalharComAliado(jogador, aliado, new Inimigo("Ogro", 60, 18, 10, 60));
                         }
                     } else {
@@ -317,8 +332,9 @@ public class Jogo {
                             System.out.println("Era uma... pessoa! Um homem vindo em sua direção.\n" +
                                     jogador.getNome() + " se assusta, mas o homem chega o acalmando,\n" +
                                     "diz que seu nome é André, que viu a claridade do fogo\n" +
-                                    "e sabia que era uma pessoa também.\n" +
-                                    jogador.getNome() + " fica desconfiado e pergunta como ele chegou naquele lugar\n" +
+                                    "e sabia que era uma pessoa também.\n");
+                            Thread.sleep(2500);
+                            System.out.println(jogador.getNome() + " fica desconfiado e pergunta como ele chegou naquele lugar\n" +
                                     "e André responde que não sabia, simplesmente acordou naquela ilha\n" +
                                     "a dois dias atrás, sem se lembrar de nada.\n" +
                                     "Você percebe que André está perdido igualmente a você.\n" +
@@ -370,6 +386,7 @@ public class Jogo {
                             System.out.println("""
                                 tum... tum... TUM... TUM...
                                 Passos de algo imenso se aproxima com muita raiva""");
+                            aliado = new Aliado("André", 100, jogador.getAtaque(), jogador.getDefesa(), 100);
                             batalharComAliado(jogador, aliado, new Inimigo("Golem", 65, 20, 15, 65));
                         } else {
                             System.out.println(jogador.getNome() + " Se aproxima de umas caixas e... É PEGO EM UMA ARMADILHA, (-10 de HP)");
@@ -428,6 +445,7 @@ public class Jogo {
                             System.out.println("""
                                 tum... tum... TUM... TUM...
                                 Passos de algo imenso se aproxima com muita raiva""");
+                            aliado = new Aliado("André", 100, jogador.getAtaque(), jogador.getDefesa(), 100);
                             batalharComAliado(jogador, aliado, new Inimigo("Golem", 65, 20, 15, 65));
                         } else {
                             System.out.println(jogador.getNome() + " Se aproxima de umas caixas e... É PEGO EM UMA ARMADILHA, (-10 de HP)");
@@ -535,11 +553,6 @@ public class Jogo {
                            [BRUXA] >> Sua missão ainda não acabou. Há algo obscuro em seu caminho... algo próximo.
                            """);
                     Thread.sleep(2500);
-                    /*
-                    rolagem.simulacao(jogador);
-                    int evento = rolagem.rolar();
-                    System.out.println("RESULTADO DO D20: " + evento);
-                    */
                     System.out.println("""
                             De repente, o chão treme. Do lado de fora, ouvem-se gritos e o som de asas batendo no ar.
                             A bruxa olha pela janela — chamas azuis tomam o vilarejo.
@@ -998,7 +1011,7 @@ public class Jogo {
                         } catch (Exception erro) {}
                     }
                     Thread.sleep(2000);
-                    return;
+                    
                 }
 
                 default -> System.err.println("Algo deu errado na progressão!");
@@ -1148,7 +1161,7 @@ public class Jogo {
         System.out.println("---------------------------------------------");
 
         while (jogador.estaVivo() && inimigo.estaVivo()) {
-            if(inimigo.getNome().equals("Minotauro") && inimigo.getPontosVida() <= 30) {
+            if(inimigo.getNome().equals("Minotauro") && inimigo.getPontosVida() <= 50) {
                 jogador.setEmBatalha(false);
             }
             System.out.println("\n======= STATUS =======");
@@ -1292,9 +1305,9 @@ public class Jogo {
                 } else {
                     // --- aliado não tem defesa ---
                     double variacao = 0.9 + Math.random() * 0.2; // varia entre 90% e 110% do dano base
-                    int danoFinal = (int) (danoBase * variacao * 0.6); // sofre só 60% do dano
+                    int danoFinal = (int) (danoBase * variacao * 0.4); // sofre só 60% do dano
 
-                    if (Math.random() < 0.2) { // 20% de chance de esquivar
+                    if (Math.random() < 0.3) { // 20% de chance de esquivar
                         System.out.println(aliado.getNome() + " esquivou do ataque com agilidade!");
                     } else {
                         aliado.sofrerDano(danoFinal);
