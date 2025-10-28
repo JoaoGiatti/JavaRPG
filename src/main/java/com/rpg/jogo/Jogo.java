@@ -1003,13 +1003,7 @@ public class Jogo {
                             [VOZ DISTANTE] >> ...não acabou... ele ainda vive... nas sombras...
                             """);
                     Thread.sleep(2500);
-                    System.out.print("FIM");
-                    for (int i = 0; i < 3; i++) {
-                        try {
-                            Thread.sleep(500);
-                            System.out.print(".");
-                        } catch (Exception erro) {}
-                    }
+                    System.out.println("FIM.");
                     Thread.sleep(2000);
 
                 }
