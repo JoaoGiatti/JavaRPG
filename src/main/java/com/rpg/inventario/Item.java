@@ -3,7 +3,7 @@ package com.rpg.inventario;
 import com.rpg.personagens.Inimigo;
 import com.rpg.personagens.Personagem;
 
-public class Item {
+public class Item implements Comparable<Item> {
 
     public enum TipoItem {
         FISICO,
@@ -101,5 +101,12 @@ public class Item {
         ret = ret * 2 + ((Integer)this.quantidade).hashCode();
         if(ret < 0) ret=-ret;
         return ret;
+    }
+
+    @Override
+    public int compareTo(Item i){
+        if(this.nome.compareTo(i.nome) > 0) return 1;
+        if(this.nome.compareTo(i.nome) < 0) return -1;
+        return 0;
     }
 }
